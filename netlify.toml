@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "public"
+
+# Netlify cannot execute PHP, so Laravel's dynamic routes cannot run here.
+# Any request that does not match a real static file (CSS/JS/images) is
+# served the branded 404 page below instead of Netlify's default error.
+# Deploy to Vercel (or a PHP host) for the full application.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

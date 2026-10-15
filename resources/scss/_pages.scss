@@ -1,0 +1,907 @@
+// ---------------------------------------------------------------------------
+// Page-level compositions: hero, search bar, dashboard, planner.
+// ---------------------------------------------------------------------------
+
+// Hero ---------------------------------------------------------------------
+.ts-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.32), transparent 62%),
+    radial-gradient(900px 420px at 92% 8%, rgba($ts-accent, 0.24), transparent 60%),
+    linear-gradient(160deg, $ts-brand-dark 0%, $ts-brand 58%, #0d7f83 100%);
+  color: #fff;
+  padding: 5.5rem 0 7rem;
+
+  .ts-hero-title {
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    max-width: 18ch;
+  }
+
+  .ts-hero-lede {
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    color: rgba(#fff, 0.85);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  .ts-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.25rem;
+    margin-top: 2.5rem;
+
+    strong {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    span {
+      font-size: 0.86rem;
+      color: rgba(#fff, 0.72);
+    }
+  }
+}
+
+// Hero with a real banner photo. The photo sits as the bottom background
+// layer while a brand-tinted scrim keeps the white copy legible on top.
+// Supply the asset with --ts-hero-img: url('...').
+.ts-hero.ts-hero-photo {
+  background-color: $ts-brand-dark;
+  background-image:
+    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.30), transparent 62%),
+    radial-gradient(900px 420px at 92% 8%, rgba($ts-accent, 0.22), transparent 60%),
+    linear-gradient(160deg, rgba($ts-brand-dark, 0.82) 0%, rgba($ts-brand, 0.72) 55%, rgba(#0d7f83, 0.64) 100%),
+    var(--ts-hero-img, none);
+  background-size: auto, auto, auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .ts-hero-title,
+  .ts-hero-lede {
+    text-shadow: 0 1px 16px rgba(#04171b, 0.35);
+  }
+}
+
+// Search panel overlaps the hero edge for the classic travel-search look.
+.ts-search {
+  background: rgba(#fff, 0.98);
+  border-radius: $border-radius-xl;
+  box-shadow: $box-shadow-lg;
+  padding: 1rem;
+  margin-top: -4rem;
+  position: relative;
+  z-index: 2;
+
+  .ts-search-field {
+    padding: 0.35rem 0.85rem;
+    border-right: 1px solid $ts-line;
+
+    @media (max-width: 767.98px) {
+      border-right: none;
+      border-bottom: 1px solid $ts-line;
+      padding-bottom: 0.75rem;
+    }
+
+    label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $ts-muted;
+      margin-bottom: 0.15rem;
+    }
+
+    .form-control,
+    .form-select {
+      border: none;
+      padding-left: 0;
+      background: transparent;
+      font-weight: 600;
+      color: $ts-ink;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .ts-search-submit {
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: auto;
+      min-width: 9.5rem;
+    }
+  }
+}
+
+// Auth ---------------------------------------------------------------------
+.ts-auth {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+  position: relative;
+  isolation: isolate;
+  background-color: $ts-surface-alt;
+  background-image:
+    radial-gradient(900px 400px at 80% -10%, rgba($ts-brand-tint, 0.9), transparent 60%),
+    var(--ts-auth-img, none);
+  background-size: auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  // Soft light veil over the photo so the white card stays the focus.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(120deg, rgba($ts-surface, 0.86) 0%, rgba($ts-surface, 0.62) 55%, rgba($ts-brand-tint, 0.55) 100%);
+  }
+
+  .ts-auth-card {
+    background: $ts-surface;
+    border: 1px solid $ts-line;
+    border-radius: $border-radius-xl;
+    box-shadow: $box-shadow;
+    padding: 2.25rem;
+
+    .ts-auth-title {
+      color: $ts-ink;
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 0.35rem;
+    }
+  }
+}
+
+// Dashboard ----------------------------------------------------------------
+.ts-dash {
+  padding: 2rem 0 3.5rem;
+}
+
+.ts-stat {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 1.15rem 1.25rem;
+  height: 100%;
+
+  .ts-stat-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: $ts-muted;
+  }
+
+  .ts-stat-value {
+    color: $ts-ink;
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    margin-top: 0.2rem;
+  }
+
+  .ts-stat-note {
+    font-size: 0.82rem;
+    color: $ts-muted;
+    margin-top: 0.15rem;
+  }
+}
+
+// Admin --------------------------------------------------------------------
+.ts-admin-shell {
+  display: flex;
+  min-height: 100vh;
+
+  @media (max-width: 991.98px) {
+    flex-direction: column;
+
+    .ts-admin-side {
+      width: 100%;
+      flex: 0 0 auto;
+      height: auto;
+      position: static;
+      padding-bottom: 1rem;
+    }
+
+    .ts-admin-main .ts-admin-body {
+      padding: 1.25rem 1rem 2.5rem;
+    }
+  }
+
+  .ts-admin-side {
+    width: 250px;
+    flex: 0 0 250px;
+    background: $ts-ink;
+    color: rgba(#fff, 0.7);
+    padding: 1.25rem 0.75rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+
+    .ts-admin-brand {
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+      padding: 0 0.75rem 1rem;
+      border-bottom: 1px solid rgba(#fff, 0.1);
+      margin-bottom: 1rem;
+
+      .admin-brand-logo {
+        display: inline-flex;
+        vertical-align: middle;
+        background: #fff;
+        border-radius: 0.45rem;
+        padding: 0.2rem 0.4rem;
+        margin-right: 0.5rem;
+
+        img {
+          display: block;
+          height: 26px;
+          width: auto;
+        }
+      }
+    }
+
+    .ts-admin-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+
+      a,
+      span.ts-admin-locked {
+        color: rgba(#fff, 0.72);
+        padding: 0.55rem 0.75rem;
+        border-radius: $border-radius;
+        font-size: 0.92rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        &:hover,
+        &.is-active {
+          background: rgba(#fff, 0.1);
+          color: #fff;
+        }
+      }
+
+      span.ts-admin-locked {
+        color: rgba(#fff, 0.4);
+        cursor: not-allowed;
+      }
+    }
+
+    .ts-admin-group {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(#fff, 0.4);
+      padding: 1rem 0.75rem 0.35rem;
+      font-weight: 700;
+    }
+  }
+
+  .ts-admin-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    background: $ts-surface-alt;
+
+    .ts-admin-bar {
+      background: $ts-surface;
+      border-bottom: 1px solid $ts-line;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .ts-admin-body {
+      padding: 1.75rem 1.5rem 3rem;
+    }
+  }
+}
+
+// Trip planner -------------------------------------------------------------
+.ts-planner {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 1.5rem;
+
+  @media (max-width: 991.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ts-day-column {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+
+  .ts-day-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid $ts-line;
+  }
+}
+
+.ts-trip-item {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius;
+  padding: 0.7rem 0.8rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  cursor: grab;
+
+  &:hover {
+    border-color: $ts-brand-light;
+  }
+
+  &.ts-dragging {
+    opacity: 0.4;
+  }
+}
+
+.ts-sortable-placeholder {
+  border: 2px dashed $ts-brand-light;
+  border-radius: $border-radius;
+  background: $ts-brand-tint;
+  margin-bottom: 0.6rem;
+  height: 3.25rem;
+}
+
+// Compact hero reused by every inner page so listing headers feel part of the
+// same family as the home hero without eating a full screen.
+.ts-hero.ts-hero-compact {
+  padding: 3.25rem 0 5rem;
+
+  .ts-hero-title {
+    font-size: clamp(1.85rem, 3.6vw, 2.6rem);
+    max-width: 24ch;
+  }
+
+  .ts-hero-stats {
+    gap: 1.75rem;
+    margin-top: 1.75rem;
+
+    strong {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.ts-breadcrumb-ondark {
+  --bs-breadcrumb-divider-color: rgba(#fff, 0.45);
+
+  .breadcrumb-item {
+    color: rgba(#fff, 0.72);
+
+    a {
+      color: rgba(#fff, 0.86);
+    }
+
+    &.active {
+      color: #fff;
+    }
+  }
+}
+
+// Listing shell: sticky filter rail beside a responsive card grid. ---------
+.ts-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 275px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 991.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ts-layout-side {
+  position: sticky;
+  top: 5.5rem;
+
+  @media (max-width: 991.98px) {
+    position: static;
+  }
+}
+
+.ts-filter {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 1.25rem;
+
+  .ts-filter-title {
+    color: $ts-ink;
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ts-filter-group {
+    padding: 0.9rem 0;
+    border-top: 1px solid $ts-line;
+
+    &:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    > label,
+    .ts-filter-label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: $ts-muted;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .ts-filter-actions {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 1rem;
+    border-top: 1px solid $ts-line;
+  }
+}
+
+.ts-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.ts-result-count {
+  color: $ts-muted;
+  font-size: 0.92rem;
+  margin: 0;
+
+  strong {
+    color: $ts-ink;
+  }
+}
+
+.ts-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.82rem;
+    color: $ts-muted;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .form-select {
+    min-width: 12rem;
+  }
+}
+
+.ts-card-text {
+  color: $ts-muted;
+  font-size: 0.9rem;
+  margin: 0.35rem 0 0.85rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ts-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  border-top: 1px solid $ts-line;
+  padding-top: 0.85rem;
+  margin-top: 0.85rem;
+}
+
+.ts-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+// Round save-to-wishlist control that floats over card imagery.
+.ts-wish {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 2;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid rgba(#fff, 0.6);
+  border-radius: 50%;
+  background: rgba(#fff, 0.92);
+  color: $ts-muted;
+  box-shadow: $box-shadow-sm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform $transition-speed ease, color $transition-speed ease,
+    background $transition-speed ease;
+
+  &:hover {
+    transform: scale(1.1);
+    color: $ts-danger;
+    background: #fff;
+  }
+
+  &.is-active {
+    color: $ts-danger;
+  }
+}
+
+// Featured ribbon in place of a wishlist button on non-saveable media.
+.ts-card-media-tag.is-end {
+  left: auto;
+  right: 0.7rem;
+}
+
+// Account ------------------------------------------------------------------
+.ts-account {
+  display: grid;
+  grid-template-columns: minmax(0, 265px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  padding: 2rem 0 3.5rem;
+
+  @media (max-width: 991.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ts-account-nav {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 0.5rem;
+  overflow: hidden;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: $border-radius;
+    color: $ts-ink-soft;
+    font-weight: 600;
+    font-size: 0.92rem;
+
+    i {
+      color: $ts-muted;
+      width: 1.15rem;
+      text-align: center;
+    }
+
+    &:hover {
+      background: $ts-surface-alt;
+      color: $ts-ink;
+    }
+
+    &.is-active {
+      background: $ts-brand-tint;
+      color: $ts-brand;
+
+      i {
+        color: $ts-brand;
+      }
+    }
+  }
+}
+
+.ts-account-head {
+  background: linear-gradient(135deg, $ts-brand 0%, $ts-brand-dark 100%);
+  color: #fff;
+  border-radius: $border-radius-xl;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+
+  .ts-avatar {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: rgba(#fff, 0.16);
+    border: 2px solid rgba(#fff, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    font-weight: 800;
+    flex: 0 0 auto;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    color: #fff;
+  }
+
+  p {
+    margin: 0.15rem 0 0;
+    color: rgba(#fff, 0.78);
+    font-size: 0.9rem;
+  }
+}
+
+.ts-account-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+// Tabs used by bookings / wishlist filters.
+.ts-tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+
+  a,
+  button {
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0.45rem 0.9rem;
+    border-radius: $border-radius-pill;
+    border: 1px solid $ts-line;
+    background: $ts-surface;
+    color: $ts-ink-soft;
+
+    &:hover {
+      border-color: $ts-brand-light;
+      color: $ts-brand;
+    }
+
+    &.is-active {
+      background: $ts-brand;
+      border-color: $ts-brand;
+      color: #fff;
+    }
+  }
+}
+
+// Admin --------------------------------------------------------------------
+.ts-admin-empty-note {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(#fff, 0.35);
+  margin-left: auto;
+}
+
+.ts-kpi {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 1.15rem 1.25rem;
+  height: 100%;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+
+  .ts-kpi-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: $border-radius;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    background: $ts-brand-tint;
+    color: $ts-brand;
+    flex: 0 0 auto;
+  }
+
+  .ts-kpi-label {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: $ts-muted;
+  }
+
+  .ts-kpi-value {
+    color: $ts-ink;
+    font-weight: 800;
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+}
+
+// Contact ------------------------------------------------------------------
+.ts-contact-side {
+  // Brand gradient is the fallback; --ts-contact-img layers a photo beneath a
+  // tinted scrim so the contact card keeps its identity with more depth.
+  background-color: $ts-brand-dark;
+  background-image:
+    linear-gradient(160deg, rgba($ts-brand, 0.90) 0%, rgba($ts-brand-dark, 0.94) 100%),
+    var(--ts-contact-img, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  border-radius: $border-radius-lg;
+  padding: 1.75rem;
+  height: 100%;
+
+  h3 {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .ts-contact-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(#fff, 0.16);
+
+    i {
+      color: $ts-accent;
+      font-size: 1.05rem;
+      margin-top: 0.15rem;
+    }
+
+    strong {
+      display: block;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(#fff, 0.7);
+      font-weight: 700;
+    }
+
+    span {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Reusable soft list used by dashboard panels.
+.ts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-top: 1px solid $ts-line;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+  }
+
+  .ts-list-thumb {
+    width: 3rem;
+    height: 3rem;
+    border-radius: $border-radius;
+    object-fit: cover;
+    background: $ts-brand-tint;
+    flex: 0 0 auto;
+  }
+
+  .ts-list-title {
+    color: $ts-ink;
+    font-weight: 600;
+    font-size: 0.94rem;
+    margin: 0;
+  }
+
+  .ts-list-meta {
+    color: $ts-muted;
+    font-size: 0.82rem;
+    margin: 0.1rem 0 0;
+  }
+}
+
+// Pagination ---------------------------------------------------------------
+.pagination {
+  --bs-pagination-bg: #{$ts-surface};
+  --bs-pagination-border-color: #{$ts-line};
+  --bs-pagination-color: #{$ts-ink-soft};
+  --bs-pagination-hover-bg: #{$ts-brand-tint};
+  --bs-pagination-hover-border-color: #{$ts-brand-light};
+  --bs-pagination-hover-color: #{$ts-brand};
+  --bs-pagination-focus-bg: #{$ts-brand-tint};
+  --bs-pagination-focus-border-color: #{$ts-brand-light};
+  --bs-pagination-focus-color: #{$ts-brand};
+  --bs-pagination-active-bg: #{$ts-brand};
+  --bs-pagination-active-border-color: #{$ts-brand};
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-disabled-bg: #{$ts-surface};
+  --bs-pagination-disabled-border-color: #{$ts-line};
+  --bs-pagination-disabled-color: #{$ts-muted};
+
+  .page-link {
+    border-radius: $border-radius !important;
+    margin: 0 0.15rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+
+// Document -----------------------------------------------------------------
+.ts-doc {
+  background: #fff;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 2rem;
+  max-width: 860px;
+  margin: 2.5rem auto;
+
+  h1, h2, h3 {
+    color: $ts-ink;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+
+    th, td {
+      border: 1px solid $ts-line;
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: $ts-surface-alt;
+      font-weight: 700;
+      color: $ts-ink;
+    }
+  }
+}

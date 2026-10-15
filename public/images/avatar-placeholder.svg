@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Profile">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#45555f"/>
+      <stop offset="100%" stop-color="#73838c"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="2" fill="rgba(255,255,255,.10)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <rect width="800" height="600" fill="url(#dots)"/>
+  <circle cx="640" cy="90" r="150" fill="rgba(255,255,255,.07)"/>
+  <circle cx="120" cy="520" r="180" fill="rgba(255,255,255,.06)"/>
+  <circle cx="400" cy="240" r="58" fill="rgba(255,255,255,.92)"/><path d="M286 400c0-64 52-104 114-104s114 40 114 104z" fill="rgba(255,255,255,.92)"/>
+  <text x="400" y="480" text-anchor="middle" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="44" font-weight="700" fill="rgba(255,255,255,.95)">Profile</text>
+  <text x="400" y="524" text-anchor="middle" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="24" font-weight="500" fill="rgba(255,255,255,.7)">Trip Sathi</text>
+</svg>

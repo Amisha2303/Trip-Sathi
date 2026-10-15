@@ -1,0 +1,347 @@
+// ---------------------------------------------------------------------------
+// Reusable components: buttons, badges, cards, empty states, star ratings.
+// ---------------------------------------------------------------------------
+
+// Buttons ------------------------------------------------------------------
+.btn {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+
+  &.btn-primary {
+    @include button-variant($ts-brand, $ts-brand-dark, #fff, #fff,
+      $ts-brand, $ts-brand-dark, $ts-brand-dark, $ts-brand-dark);
+  }
+
+  &.btn-accent {
+    @include button-variant($ts-accent, $ts-accent-dark, #fff, #fff,
+      $ts-accent, $ts-accent-dark, $ts-accent-dark, $ts-accent-dark);
+  }
+
+  &.btn-soft {
+    background: $ts-brand-tint;
+    color: $ts-brand;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: #d6ecee;
+      color: $ts-brand-dark;
+    }
+  }
+
+  &.btn-square {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    flex: 0 0 auto;
+  }
+}
+
+// Status badges ------------------------------------------------------------
+.ts-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: $border-radius-pill;
+  line-height: 1;
+  white-space: nowrap;
+
+  &::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  &.ts-badge-plain::before {
+    display: none;
+  }
+}
+
+$ts-badges: (
+  "pending": ($ts-accent-tint, $ts-accent-dark),
+  "confirmed": (#e4f6ee, $ts-success),
+  "processing": (#e5f1fa, #1667a8),
+  "completed": (#e4f6ee, $ts-success),
+  "cancelled": (#fdeaea, $ts-danger),
+  "failed": (#fdeaea, $ts-danger),
+  "refunded": (#efe9fb, #6246b5),
+  "paid": (#e4f6ee, $ts-success),
+  "partially-refunded": (#efe9fb, #6246b5),
+  "draft": ($ts-surface-alt, $ts-muted),
+);
+
+@each $name, $pair in $ts-badges {
+  $bg: nth($pair, 1);
+  $fg: nth($pair, 2);
+
+  &.ts-badge-#{$name} {
+    background: $bg;
+    color: $fg;
+  }
+}
+
+// Cards --------------------------------------------------------------------
+.ts-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-sm;
+  transition: box-shadow $transition-speed ease, transform $transition-speed ease,
+    border-color $transition-speed ease;
+  overflow: hidden;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: $box-shadow-lg;
+    transform: translateY(-3px);
+    border-color: rgba($ts-brand, 0.22);
+  }
+
+  .ts-card-media {
+    position: relative;
+    // Shown while the <img> loads and, thanks to the model fallback, doubles as
+    // the artwork behind a placeholder SVG. Layered tints keep it on-brand.
+    background:
+      radial-gradient(120% 90% at 15% 0%, rgba($ts-brand-light, 0.20), transparent 60%),
+      linear-gradient(135deg, $ts-brand-tint, $ts-accent-tint);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba($ts-brand, 0.5);
+    font-size: 2.5rem;
+    overflow: hidden;
+
+    // Soft bottom scrim so tags/heart read cleanly over any imagery.
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 42%;
+      background: linear-gradient(to top, rgba($ts-ink, 0.16), transparent);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity $transition-speed ease;
+    }
+
+    &:has(img)::after {
+      opacity: 1;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+
+    .ts-card-media-tag {
+      position: absolute;
+      top: 0.7rem;
+      left: 0.7rem;
+      z-index: 1;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      padding: 0.3rem 0.66rem;
+      border-radius: $border-radius-pill;
+      background: rgba(#fff, 0.95);
+      color: $ts-ink;
+      box-shadow: $box-shadow-sm;
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  // Gentle zoom on the cover only when a real image is present.
+  &:hover .ts-card-media:has(img) img {
+    transform: scale(1.05);
+  }
+
+  .ts-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 1.05rem 1.15rem 1.2rem;
+  }
+
+  .ts-card-title {
+    color: $ts-ink;
+    font-weight: 700;
+    font-size: 1.04rem;
+    line-height: 1.35;
+    margin: 0 0 0.35rem;
+    transition: color $transition-speed ease;
+  }
+
+  &:hover .ts-card-title {
+    color: $ts-brand;
+  }
+
+  .ts-card-meta {
+    color: $ts-muted;
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+
+    i {
+      color: rgba($ts-brand, 0.75);
+      margin-right: 0.15rem;
+    }
+  }
+
+  // Push the footer to the bottom so cards in a row stay aligned.
+  .ts-card-foot {
+    margin-top: auto;
+  }
+}
+
+// Price block --------------------------------------------------------------
+.ts-price {
+  color: $ts-ink;
+  font-weight: 800;
+  font-size: 1.12rem;
+
+  small {
+    color: $ts-muted;
+    font-weight: 500;
+    font-size: 0.76rem;
+  }
+}
+
+.ts-price-was {
+  color: $ts-muted;
+  text-decoration: line-through;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+// Star rating --------------------------------------------------------------
+.ts-stars {
+  color: $ts-accent;
+  letter-spacing: 0.06em;
+  font-size: 0.9rem;
+
+  .ts-stars-empty {
+    color: $ts-line;
+  }
+}
+
+// Empty state --------------------------------------------------------------
+.ts-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: $ts-surface;
+  border: 1px dashed $ts-line;
+  border-radius: $border-radius-lg;
+  color: $ts-muted;
+
+  .ts-empty-icon {
+    font-size: 2.6rem;
+    color: $ts-brand-tint;
+    margin-bottom: 0.75rem;
+    background: $ts-brand-tint;
+    border-radius: 50%;
+    width: 4.5rem;
+    height: 4.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h3 {
+    color: $ts-ink;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+}
+
+// Toasts -------------------------------------------------------------------
+.toast {
+  border-radius: $border-radius;
+  border: none;
+  box-shadow: $box-shadow-lg;
+
+  .toast-header {
+    border-bottom: 1px solid $ts-line;
+    font-weight: 600;
+  }
+}
+
+// Tables -------------------------------------------------------------------
+.table {
+  --bs-table-bg: transparent;
+
+  thead th {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $ts-muted;
+    font-weight: 700;
+    border-bottom-width: 1px;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    vertical-align: middle;
+    color: $ts-ink-soft;
+  }
+}
+
+.ts-table-card {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+}
+
+// Forms --------------------------------------------------------------------
+.form-label {
+  color: $ts-ink;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: $border-radius;
+  box-shadow: none;
+
+  &:focus {
+    border-color: $ts-brand-light;
+    box-shadow: $box-shadow-focus;
+  }
+}
+
+.input-group-text {
+  background: $ts-surface-alt;
+  border-color: $input-border-color;
+  color: $ts-muted;
+  border-radius: $border-radius 0 0 $border-radius;
+}
+
+.ts-field-error {
+  color: $ts-danger;
+  font-size: 0.82rem;
+  margin-top: 0.3rem;
+}
+
+// Alerts -------------------------------------------------------------------
+.alert {
+  border-radius: $border-radius;
+  border-width: 1px;
+}

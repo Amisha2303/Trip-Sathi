@@ -1,0 +1,230 @@
+// ---------------------------------------------------------------------------
+// Global chrome: sticky header, navigation, footer.
+// ---------------------------------------------------------------------------
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: $ts-surface-alt;
+  color: $ts-ink-soft;
+  font-family: $font-sans;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+a {
+  color: $ts-brand;
+  text-decoration: none;
+
+  &:hover {
+    color: $ts-brand-dark;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Header
+// ---------------------------------------------------------------------------
+.ts-header {
+  background: rgba($ts-surface, 0.92);
+  border-bottom: 1px solid $ts-line;
+  backdrop-filter: saturate(180%) blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: $zindex-sticky;
+
+  .navbar-brand {
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    color: $ts-ink;
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.65rem;
+      background: linear-gradient(135deg, $ts-brand, $ts-brand-light);
+      color: #fff;
+      font-size: 1rem;
+      margin-right: 0.55rem;
+      box-shadow: $box-shadow-sm;
+    }
+
+    .brand-logo {
+      display: block;
+      height: 52px;
+      width: auto;
+    }
+
+    &:hover {
+      color: $ts-brand;
+    }
+  }
+
+  .nav-link {
+    color: $ts-ink-soft;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: $border-radius-pill;
+    transition: color $transition-speed ease, background-color $transition-speed ease;
+
+    &.is-active,
+    &:hover,
+    &.active {
+      color: $ts-brand;
+      background: $ts-brand-tint;
+    }
+  }
+
+  .nav-link-cta {
+    @include button-variant($ts-accent, $ts-accent, #fff, #fff,
+      $ts-accent, $ts-accent, $ts-accent-dark, $ts-accent-dark);
+
+    &.btn:hover {
+      color: #fff;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+.ts-footer {
+  // Solid brand ink stays the fallback; when --ts-footer-img is supplied a
+  // wide photo shows through a dark scrim so the footer reads as a hero band.
+  background-color: $ts-ink;
+  background-image: var(--ts-footer-img, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  isolation: isolate;
+  color: rgba(#fff, 0.72);
+  margin-top: auto;
+  padding: 3.5rem 0 2rem;
+
+  // Dark scrim layered over the photo (but under all content).
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba($ts-ink, 0.86) 0%, rgba($ts-ink, 0.94) 100%);
+  }
+
+  a {
+    color: rgba(#fff, 0.72);
+
+    &:hover {
+      color: $ts-accent;
+    }
+  }
+
+  .footer-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 0.92rem;
+    }
+  }
+
+  .footer-brand {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-brand-logo {
+    display: inline-flex;
+    background: #fff;
+    border-radius: 0.7rem;
+    padding: 0.4rem 0.7rem;
+    margin-bottom: 1rem;
+
+    img {
+      display: block;
+      height: 42px;
+      width: auto;
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(#fff, 0.12);
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    font-size: 0.87rem;
+    color: rgba(#fff, 0.55);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Section headings shared by the home page and listings
+// ---------------------------------------------------------------------------
+.ts-section {
+  padding: 3.5rem 0;
+
+  &.ts-section-tight {
+    padding: 2.5rem 0;
+  }
+
+  background: $ts-surface;
+
+  &.ts-section-alt {
+    background: $ts-surface-alt;
+  }
+}
+
+.ts-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.ts-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $ts-accent;
+  margin-bottom: 0.4rem;
+}
+
+.ts-title {
+  color: $ts-ink;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  margin: 0;
+}
+
+.ts-subtitle {
+  color: $ts-muted;
+  margin: 0.4rem 0 0;
+  max-width: 62ch;
+}
