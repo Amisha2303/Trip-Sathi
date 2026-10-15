@@ -6,8 +6,11 @@ use App\Models\Adventure;
 use App\Models\Darshan;
 use App\Models\Destination;
 use App\Models\Event;
+use App\Models\FoodExperience;
 use App\Models\Hotel;
 use App\Models\Pooja;
+use App\Models\Restaurant;
+use App\Models\Testimonial;
 use App\Models\Trip;
 
 class HomeController extends Controller
@@ -20,11 +23,19 @@ class HomeController extends Controller
         $events = Event::where('is_active', true)->take(4)->get();
         $darshans = Darshan::where('is_active', true)->with('destination')->take(4)->get();
         $poojas = Pooja::where('is_active', true)->with('destination')->take(4)->get();
+        $restaurants = Restaurant::where('is_active', true)->with('destination')->orderByDesc('rating')->take(4)->get();
+        $experiences = FoodExperience::where('is_active', true)->with(['destination', 'restaurant'])->take(4)->get();
 
         $trips = Trip::with('user', 'destination')
             ->where('is_public', true)
             ->latest()
             ->take(3)
+            ->get();
+
+        $testimonials = Testimonial::where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderByDesc('id')
+            ->take(6)
             ->get();
 
         $counts = [
@@ -34,6 +45,7 @@ class HomeController extends Controller
             'adventures' => Adventure::where('is_active', true)->count(),
             'darshan' => Darshan::where('is_active', true)->count(),
             'pooja' => Pooja::where('is_active', true)->count(),
+            'restaurants' => Restaurant::where('is_active', true)->count(),
         ];
 
         $destinationOptions = Destination::where('is_active', true)
@@ -47,7 +59,10 @@ class HomeController extends Controller
             'events',
             'darshans',
             'poojas',
+            'restaurants',
+            'experiences',
             'trips',
+            'testimonials',
             'counts',
             'destinationOptions'
         ));

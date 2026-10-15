@@ -177,6 +177,30 @@
         </div>
     </section>
 
+    {{-- Food & Dining ------------------------------------------------------ --}}
+    @if ($restaurants->isNotEmpty())
+        <section class="ts-section">
+            <div class="container">
+                <div class="ts-section-head">
+                    <div>
+                        <span class="ts-eyebrow">Eat like a local</span>
+                        <h2 class="ts-title">Food &amp; dining</h2>
+                        <p class="ts-subtitle">Verified kitchens, honest reviews and hosted tasting experiences.</p>
+                    </div>
+                    <a class="btn btn-soft" href="{{ route('food.index') }}">View all <i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <div class="row g-4">
+                    @foreach ($restaurants as $restaurant)
+                        <div class="col-md-6 col-lg-3">
+                            @include('partials.item-card', \App\Support\Catalogue::card($restaurant, 'restaurant'))
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- Adventures --------------------------------------------------------- --}}
     <section class="ts-section">
         <div class="container">
@@ -422,6 +446,51 @@
             </div>
         </div>
     </section>
+
+    {{-- Testimonials ------------------------------------------------------- --}}
+    @if ($testimonials->isNotEmpty())
+        <section class="ts-section ts-section-alt">
+            <div class="container">
+                <div class="ts-section-head">
+                    <div>
+                        <span class="ts-eyebrow">Loved by travellers</span>
+                        <h2 class="ts-title">Stories from people we've helped</h2>
+                        <p class="ts-subtitle">Real trips, planned end to end with Trip Sathi.</p>
+                    </div>
+                </div>
+
+                <div class="ts-testimonials">
+                    @foreach ($testimonials as $testimonial)
+                        <figure class="ts-testimonial ts-reveal">
+                            <div class="ts-stars" aria-label="{{ $testimonial->rating }} out of 5">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="bi {{ $i <= $testimonial->rating ? 'bi-star-fill' : 'bi-star-fill ts-stars-empty' }}"></i>
+                                @endfor
+                            </div>
+                            <blockquote>{{ $testimonial->quote }}</blockquote>
+                            <figcaption class="ts-testimonial-who">
+                                @if ($testimonial->avatar_url)
+                                    <img class="ts-testimonial-avatar" src="{{ $testimonial->avatar_url }}" alt=""
+                                        loading="lazy">
+                                @else
+                                    <span class="ts-testimonial-avatar">{{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($testimonial->author_name, 0, 1)) }}</span>
+                                @endif
+                                <span>
+                                    <span class="ts-testimonial-name">{{ $testimonial->author_name }}</span>
+                                    <span class="ts-testimonial-meta">
+                                        {{ $testimonial->author_designation }}
+                                        @if ($testimonial->location)
+                                            · {{ $testimonial->location }}
+                                        @endif
+                                    </span>
+                                </span>
+                            </figcaption>
+                        </figure>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     {{-- Newsletter --------------------------------------------------------- --}}
     <section class="ts-hero ts-hero-photo" style="--ts-hero-img: url('{{ asset('photos/banners/banner-newsletter.jpg') }}'); padding: 3.5rem 0 4rem;">

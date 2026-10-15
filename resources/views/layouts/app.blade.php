@@ -46,6 +46,10 @@
 
     @include('layouts.partials.footer')
 
+    <button type="button" class="ts-back-top" data-ts-back-top aria-label="Back to top" tabindex="-1">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
     <script>
         window.TS_WISHLIST = {
             store: @json(route('wishlist.store')),
@@ -58,6 +62,33 @@
             document.querySelectorAll('[data-ts-toasts] .toast').forEach((el) => {
                 new bootstrap.Toast(el, { delay: 6000 }).show();
             });
+
+            // Back-to-top: appears once the visitor scrolls past the fold.
+            const backTop = document.querySelector('[data-ts-back-top]');
+            if (backTop) {
+                const toggle = () => backTop.classList.toggle('is-visible', window.scrollY > 480);
+                window.addEventListener('scroll', toggle, { passive: true });
+                toggle();
+                backTop.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Scroll reveal: fade sections in as they enter the viewport.
+            const revealables = document.querySelectorAll('.ts-reveal');
+            if (revealables.length && 'IntersectionObserver' in window) {
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-revealed');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                revealables.forEach((el) => io.observe(el));
+            } else {
+                revealables.forEach((el) => el.classList.add('is-revealed'));
+            }
         });
     </script>
 
