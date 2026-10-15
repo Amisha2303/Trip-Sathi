@@ -107,8 +107,8 @@
                             'wishType' => 'destination',
                             'wishId' => $destination->id,
                             'wished' => $wishedDestinations->contains($destination->id),
-                            'cta' => 'View hotels',
-                            'ctaUrl' => route('hotels.index', ['destination' => $destination->slug]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('destinations.show', ['slug' => $destination->slug]),
                         ])
                     </div>
                 @empty
@@ -159,8 +159,8 @@
                             'wishType' => 'hotel',
                             'wishId' => $hotel->id,
                             'wished' => $wishedHotels->contains($hotel->id),
-                            'cta' => 'Enquire',
-                            'ctaUrl' => route('contact', ['subject' => 'Hotel: ' . $hotel->name]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('hotels.show', ['slug' => $hotel->slug]),
                         ])
                     </div>
                 @empty
@@ -203,8 +203,8 @@
                             'badge' => $adventure->difficulty_label,
                             'wishType' => 'adventure',
                             'wishId' => $adventure->id,
-                            'cta' => 'Enquire',
-                            'ctaUrl' => route('contact', ['subject' => 'Adventure: ' . $adventure->name]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('adventures.show', ['slug' => $adventure->slug]),
                         ])
                     </div>
                 @empty
@@ -246,8 +246,8 @@
                             'badge' => $event->is_featured ? 'Featured' : null,
                             'wishType' => 'event',
                             'wishId' => $event->id,
-                            'cta' => 'Enquire',
-                            'ctaUrl' => route('contact', ['subject' => 'Event: ' . $event->name]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('events.show', ['slug' => $event->slug]),
                         ])
                     </div>
                 @empty
@@ -302,8 +302,8 @@
                             'wishType' => 'darshan',
                             'wishId' => $darshan->id,
                             'wished' => $wishedDarshan->contains($darshan->id),
-                            'cta' => 'Enquire',
-                            'ctaUrl' => route('contact', ['subject' => 'Darshan: ' . $darshan->name]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('darshan.show', ['slug' => $darshan->slug]),
                         ])
                     </div>
                 @empty
@@ -330,8 +330,8 @@
                             'wishType' => 'pooja',
                             'wishId' => $pooja->id,
                             'wished' => $wishedPooja->contains($pooja->id),
-                            'cta' => 'Enquire',
-                            'ctaUrl' => route('contact', ['subject' => 'Pooja: ' . $pooja->name]),
+                            'cta' => 'View details',
+                            'ctaUrl' => route('pooja.show', ['slug' => $pooja->slug]),
                         ])
                     </div>
                 @endforeach

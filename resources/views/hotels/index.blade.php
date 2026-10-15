@@ -120,8 +120,8 @@
                                     'wishType' => 'hotel',
                                     'wishId' => $hotel->id,
                                     'wished' => $wished->contains($hotel->id),
-                                    'cta' => 'Enquire',
-                                    'ctaUrl' => route('contact', ['subject' => 'Hotel: ' . $hotel->name]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('hotels.show', ['slug' => $hotel->slug]),
                                 ])
                             </div>
                         @empty

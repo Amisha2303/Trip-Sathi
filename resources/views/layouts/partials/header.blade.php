@@ -20,6 +20,9 @@
                         <a class="nav-link {{ request()->is('hotels*') ? 'active' : '' }}" href="{{ route('hotels.index') }}">Hotels</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('food*') ? 'active' : '' }}" href="{{ route('food.index') }}">Food &amp; Dining</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('events*') ? 'active' : '' }}" href="{{ route('events.index') }}">Events</a>
                     </li>
                     <li class="nav-item">
@@ -69,6 +72,11 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         <i class="bi bi-person me-2"></i>Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('profile.preferences') }}">
+                                        <i class="bi bi-sliders me-2"></i>Preferences
                                     </a>
                                 </li>
 

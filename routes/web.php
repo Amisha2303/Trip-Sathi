@@ -26,6 +26,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DarshanController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\NewsletterController;
@@ -59,7 +60,22 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/adventures', [AdventureController::class, 'index'])->name('adventures.index');
 Route::get('/darshan', [DarshanController::class, 'index'])->name('darshan.index');
 Route::get('/pooja', [PoojaController::class, 'index'])->name('pooja.index');
+Route::get('/food', [FoodController::class, 'index'])->name('food.index');
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
+
+/*
+|--------------------------------------------------------------------------
+| Catalogue detail pages
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/destinations/{slug}', [DestinationController::class, 'show'])->name('destinations.show');
+Route::get('/hotels/{slug}', [HotelController::class, 'show'])->name('hotels.show');
+Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
+Route::get('/adventures/{slug}', [AdventureController::class, 'show'])->name('adventures.show');
+Route::get('/darshan/{slug}', [DarshanController::class, 'show'])->name('darshan.show');
+Route::get('/pooja/{slug}', [PoojaController::class, 'show'])->name('pooja.show');
+Route::get('/food/{slug}', [FoodController::class, 'show'])->name('food.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +114,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    Route::get('/profile/preferences', [ProfileController::class, 'preferences'])->name('profile.preferences');
+    Route::put('/profile/preferences', [ProfileController::class, 'updatePreferences'])->name('profile.preferences.update');
 });
 
 /*

@@ -100,8 +100,8 @@
                                     'wishType' => 'event',
                                     'wishId' => $event->id,
                                     'wished' => $wished->contains($event->id),
-                                    'cta' => 'Enquire',
-                                    'ctaUrl' => route('contact', ['subject' => 'Event: ' . $event->name]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('events.show', ['slug' => $event->slug]),
                                 ])
                             </div>
                         @empty

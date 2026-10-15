@@ -8,9 +8,17 @@ use App\Models\Destination;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class HotelController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single hotel by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('hotel', $slug, $request);
+    }
     private const SORTS = [
         'recommended' => ['is_featured', 'desc', 'rating', 'desc'],
         'price_asc' => ['base_price', 'asc'],

@@ -109,8 +109,8 @@
                                     'wishType' => 'adventure',
                                     'wishId' => $adventure->id,
                                     'wished' => $wished->contains($adventure->id),
-                                    'cta' => 'Enquire',
-                                    'ctaUrl' => route('contact', ['subject' => 'Adventure: ' . $adventure->name]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('adventures.show', ['slug' => $adventure->slug]),
                                 ])
                             </div>
                         @empty

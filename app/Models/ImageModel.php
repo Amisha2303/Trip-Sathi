@@ -43,7 +43,7 @@ abstract class ImageModel extends Model
 
     public function getUrlAttribute(): string
     {
-        return self::imageUrl($this->path);
+        return BaseModel::imageUrl($this->path);
     }
 
     public function scopeOrdered($query)

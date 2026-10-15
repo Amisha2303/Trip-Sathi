@@ -29,6 +29,10 @@
                         class="{{ request()->routeIs('profile.edit') ? 'is-active' : '' }}">
                         <i class="bi bi-person"></i> Profile & security
                     </a>
+                    <a href="{{ route('profile.preferences') }}"
+                        class="{{ request()->routeIs('profile.preferences') ? 'is-active' : '' }}">
+                        <i class="bi bi-sliders"></i> Preferences
+                    </a>
 
                     @if ($isAdmin)
                         <a href="{{ route('admin.dashboard') }}">

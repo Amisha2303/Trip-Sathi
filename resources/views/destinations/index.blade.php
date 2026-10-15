@@ -82,8 +82,8 @@
                                     'wishType' => 'destination',
                                     'wishId' => $destination->id,
                                     'wished' => $wished->contains($destination->id),
-                                    'cta' => 'View hotels',
-                                    'ctaUrl' => route('hotels.index', ['destination' => $destination->slug]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('destinations.show', ['slug' => $destination->slug]),
                                 ])
                             </div>
                         @empty

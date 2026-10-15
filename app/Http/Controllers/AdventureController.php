@@ -9,9 +9,17 @@ use App\Models\Adventure;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class AdventureController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single adventure by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('adventure', $slug, $request);
+    }
     private const SORTS = [
         'popular' => ['is_featured', 'desc', 'price', 'asc'],
         'price_asc' => ['price', 'asc'],

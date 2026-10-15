@@ -89,8 +89,8 @@
                                     'wishType' => 'pooja',
                                     'wishId' => $pooja->id,
                                     'wished' => $wished->contains($pooja->id),
-                                    'cta' => 'Enquire',
-                                    'ctaUrl' => route('contact', ['subject' => 'Pooja: ' . $pooja->name]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('pooja.show', ['slug' => $pooja->slug]),
                                 ])
                             </div>
                         @empty

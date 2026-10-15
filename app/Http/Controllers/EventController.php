@@ -8,9 +8,17 @@ use App\Models\Destination;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class EventController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single event by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('event', $slug, $request);
+    }
     private const SORTS = [
         'soonest' => ['event_date', 'asc'],
         'latest' => ['event_date', 'desc'],

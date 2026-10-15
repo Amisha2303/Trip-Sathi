@@ -51,6 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'city',
         'state',
         'country',
+        'preferences',
         'is_active',
         'email_verified_at',
         'emergency_contact_name',
@@ -75,7 +76,61 @@ class User extends Authenticatable implements MustVerifyEmail
             'is_admin' => 'boolean',
             'is_active' => 'boolean',
             'must_change_password' => 'boolean',
+            'preferences' => 'array',
         ];
+    }
+
+    /**
+     * Default display + notification preferences for every account.
+     * Keys here are the full contract — the preferences form is generated
+     * from this map so a new preference is one line, not a form rewrite.
+     *
+     * @return array<string, mixed>
+     */
+    public static function defaultPreferences(): array
+    {
+        return [
+            'currency' => 'INR',
+            'language' => 'en',
+            'temperature_unit' => 'c',
+            'distance_unit' => 'km',
+            'email_notifications' => true,
+            'sms_notifications' => false,
+            'whatsapp_notifications' => true,
+            'deal_alerts' => true,
+            'trip_reminders' => true,
+        ];
+    }
+
+    /** Merge stored preferences over the defaults and return the full map. */
+    public function prefs(): array
+    {
+        return array_merge(self::defaultPreferences(), (array) ($this->attributes['preferences'] ?? []));
+    }
+
+    /** Read a single preference with a default fallback. */
+    public function pref(string $key, mixed $default = null): mixed
+    {
+        return $this->prefs()[$key] ?? $default;
+    }
+
+    /**
+     * Merge a partial preferences payload over the current values.
+     *
+     * @param  array<string, mixed>  $input
+     */
+    public function mergePreferences(array $input): array
+    {
+        $known = self::defaultPreferences();
+        $current = $this->prefs();
+
+        foreach ($input as $key => $value) {
+            if (array_key_exists($key, $known)) {
+                $current[$key] = $value;
+            }
+        }
+
+        return $current;
     }
 
     /*

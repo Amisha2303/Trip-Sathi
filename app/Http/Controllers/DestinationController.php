@@ -7,9 +7,17 @@ namespace App\Http\Controllers;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class DestinationController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single destination by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('destination', $slug, $request);
+    }
     /** Sort options exposed in the toolbar → query order. */
     private const SORTS = [
         'popular' => ['is_featured', 'desc', 'popularity', 'desc'],

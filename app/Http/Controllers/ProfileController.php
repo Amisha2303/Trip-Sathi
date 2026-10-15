@@ -58,4 +58,35 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('success', 'Password updated successfully.');
     }
+
+    public function preferences(Request $request): View
+    {
+        return view('account.preferences', [
+            'user' => $request->user(),
+            'prefs' => $request->user()->prefs(),
+        ]);
+    }
+
+    public function updatePreferences(Request $request)
+    {
+        $user = $request->user();
+
+        $data = $request->validate([
+            'currency' => ['required', Rule::in(['INR', 'USD', 'EUR', 'GBP', 'AED'])],
+            'language' => ['required', Rule::in(['en', 'hi', 'gu'])],
+            'temperature_unit' => ['required', Rule::in(['c', 'f'])],
+            'distance_unit' => ['required', Rule::in(['km', 'mi'])],
+        ]);
+
+        // Checkboxes are the only reliable signal for on/off — an absent
+        // checkbox means the user turned it off, so read them explicitly.
+        foreach (['email_notifications', 'sms_notifications', 'whatsapp_notifications', 'deal_alerts', 'trip_reminders'] as $flag) {
+            $data[$flag] = $request->boolean($flag);
+        }
+
+        $user->preferences = $user->mergePreferences($data);
+        $user->save();
+
+        return Redirect::route('profile.preferences')->with('success', 'Preferences saved.');
+    }
 }

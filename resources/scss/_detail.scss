@@ -1,0 +1,651 @@
+// ---------------------------------------------------------------------------
+// Detail pages, food & dining, reviews, testimonials and small polish pieces.
+// ---------------------------------------------------------------------------
+
+// Detail hero --------------------------------------------------------------
+.ts-detail-hero {
+  padding: 4rem 0 4.5rem;
+
+  .ts-hero-title {
+    max-width: 20ch;
+  }
+}
+
+.ts-detail-hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.ts-detail-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  align-items: center;
+  font-size: 0.95rem;
+  color: rgba(#fff, 0.88);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
+
+.ts-detail-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ts-detail-price {
+  .ts-price {
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 800;
+    background: rgba(#04171b, 0.28);
+    border: 1px solid rgba(#fff, 0.22);
+    border-radius: $border-radius-pill;
+    padding: 0.5rem 1.1rem;
+    backdrop-filter: blur(6px);
+  }
+}
+
+// Gallery ------------------------------------------------------------------
+.ts-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+
+  .ts-gallery-item {
+    margin: 0;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    border: 1px solid $ts-line;
+    background: $ts-surface;
+    position: relative;
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+
+    figcaption {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 1.5rem 0.85rem 0.7rem;
+      font-size: 0.82rem;
+      color: #fff;
+      background: linear-gradient(transparent, rgba(#04171b, 0.85));
+    }
+  }
+}
+
+// Body copy ----------------------------------------------------------------
+.ts-detail-copy {
+  color: $ts-ink-soft;
+  font-size: 1.02rem;
+  line-height: 1.7;
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.ts-detail-block {
+  margin-top: 2.25rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid $ts-line;
+}
+
+.ts-detail-copy,
+.ts-detail-block {
+  .ts-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: $ts-ink;
+    letter-spacing: -0.01em;
+  }
+}
+
+// Fact grid ----------------------------------------------------------------
+.ts-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.9rem;
+}
+
+.ts-fact {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  background: $ts-surface-alt;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  padding: 0.9rem 1rem;
+
+  i {
+    color: $ts-brand;
+    font-size: 1.15rem;
+    margin-top: 0.15rem;
+    flex: 0 0 auto;
+  }
+
+  .ts-fact-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: $ts-muted;
+  }
+
+  .ts-fact-value {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $ts-ink;
+    line-height: 1.4;
+  }
+}
+
+// Checklist ----------------------------------------------------------------
+.ts-check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.55rem;
+
+  li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    color: $ts-ink-soft;
+
+    i {
+      color: $ts-success;
+      margin-top: 0.2rem;
+      flex: 0 0 auto;
+    }
+  }
+}
+
+// Sticky aside -------------------------------------------------------------
+.ts-detail-aside {
+  position: sticky;
+  top: 96px;
+}
+
+.ts-detail-card {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-xl;
+  box-shadow: $box-shadow-lg;
+  padding: 1.5rem;
+}
+
+.ts-detail-card-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $ts-line;
+
+  .ts-price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: $ts-ink;
+  }
+}
+
+.ts-detail-card-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: $ts-ink;
+
+  i {
+    color: $ts-accent;
+  }
+}
+
+.ts-detail-trust {
+  list-style: none;
+  padding: 1rem 0 0;
+  margin: 1rem 0 0;
+  border-top: 1px solid $ts-line;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: $ts-muted;
+
+  li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+  }
+
+  i {
+    color: $ts-brand;
+  }
+}
+
+.ts-detail-help {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: $ts-brand-tint;
+  border-radius: $border-radius-lg;
+  color: $ts-ink;
+}
+
+// Wishlist variants --------------------------------------------------------
+.ts-wish-hero {
+  position: static;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(#04171b, 0.28);
+  border: 1px solid rgba(#fff, 0.28);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  backdrop-filter: blur(6px);
+  transition: $btn-transition;
+
+  &:hover,
+  &.is-active {
+    background: $ts-accent;
+    border-color: $ts-accent;
+    color: #fff;
+  }
+}
+
+.ts-wish-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  color: $ts-ink-soft;
+  font-weight: 600;
+  transition: $btn-transition;
+
+  i {
+    font-size: 1.05rem;
+  }
+
+  &:hover {
+    border-color: $ts-accent;
+    color: $ts-accent;
+  }
+
+  &.is-active {
+    background: rgba($ts-accent, 0.1);
+    border-color: rgba($ts-accent, 0.4);
+    color: $ts-accent;
+  }
+}
+
+// Reviews ------------------------------------------------------------------
+.ts-review-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: $ts-ink;
+
+  i {
+    color: $ts-accent;
+  }
+}
+
+.ts-rating-bars {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ts-rating-bar {
+  display: grid;
+  grid-template-columns: 68px 1fr 32px;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: $ts-muted;
+
+  .ts-rating-bar-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+    color: $ts-ink-soft;
+
+    i {
+      color: $ts-accent;
+      font-size: 0.7rem;
+    }
+  }
+
+  .ts-rating-bar-track {
+    height: 8px;
+    background: $ts-surface-alt;
+    border-radius: $border-radius-pill;
+    overflow: hidden;
+  }
+
+  .ts-rating-bar-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, $ts-accent, darken($ts-accent, 8%));
+    border-radius: $border-radius-pill;
+  }
+
+  .ts-rating-bar-count {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.ts-review-empty {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 1.25rem;
+  background: $ts-surface-alt;
+  border: 1px dashed $ts-line;
+  border-radius: $border-radius-lg;
+  color: $ts-muted;
+
+  i {
+    font-size: 1.5rem;
+    color: $ts-brand;
+  }
+}
+
+.ts-review-list {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ts-review {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+}
+
+.ts-review-avatar {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: $ts-brand;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.ts-review-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ts-review-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.ts-review-name {
+  color: $ts-ink;
+  font-weight: 700;
+}
+
+.ts-review-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: $ts-success;
+}
+
+.ts-review-date {
+  font-size: 0.82rem;
+  color: $ts-muted;
+}
+
+.ts-review-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $ts-ink;
+  margin: 0.35rem 0 0.25rem;
+}
+
+.ts-review-text {
+  margin: 0;
+  color: $ts-ink-soft;
+  line-height: 1.6;
+}
+
+// Testimonials (home) ------------------------------------------------------
+.ts-testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.ts-testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-xl;
+  padding: 1.5rem;
+  height: 100%;
+
+  .ts-stars {
+    color: $ts-accent;
+  }
+
+  blockquote {
+    margin: 0;
+    color: $ts-ink-soft;
+    line-height: 1.65;
+    flex: 1;
+
+    &::before {
+      content: '\201C';
+      display: block;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: $ts-brand-tint;
+      font-family: Georgia, serif;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .ts-testimonial-who {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid $ts-line;
+  }
+
+  .ts-testimonial-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: $ts-brand-tint;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: $ts-brand;
+    flex: 0 0 auto;
+  }
+
+  .ts-testimonial-name {
+    display: block;
+    font-weight: 700;
+    color: $ts-ink;
+  }
+
+  .ts-testimonial-meta {
+    font-size: 0.84rem;
+    color: $ts-muted;
+  }
+}
+
+// Back to top --------------------------------------------------------------
+.ts-back-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1040;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  background: $ts-brand;
+  color: #fff;
+  font-size: 1.15rem;
+  box-shadow: $box-shadow-lg;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  &:hover {
+    background: $ts-brand-dark;
+    color: #fff;
+  }
+}
+
+// Scroll reveal ------------------------------------------------------------
+.ts-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+
+  &.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+// Preference toggles (account) ----------------------------------------------
+.ts-pref-toggles {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ts-pref-toggle {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 0.9rem 1rem;
+  background: $ts-surface-alt;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  margin: 0;
+
+  &:hover {
+    border-color: rgba($ts-brand, 0.4);
+  }
+
+  input[type='checkbox'] {
+    margin-top: 0.3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    accent-color: $ts-brand;
+    flex: 0 0 auto;
+    cursor: pointer;
+  }
+
+  &:has(input:checked) {
+    background: rgba($ts-brand, 0.06);
+    border-color: rgba($ts-brand, 0.45);
+  }
+}
+
+.ts-pref-toggle-body {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.ts-pref-toggle-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $ts-ink;
+
+  i {
+    color: $ts-brand;
+  }
+}
+
+.ts-pref-toggle-hint {
+  font-size: 0.85rem;
+  color: $ts-muted;
+  line-height: 1.45;
+}
+
+// Detail aside stacks under content on small screens ------------------------
+@media (max-width: 991.98px) {
+  .ts-detail-aside {
+    position: static;
+  }
+}

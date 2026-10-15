@@ -99,8 +99,8 @@
                                     'wishType' => 'darshan',
                                     'wishId' => $darshan->id,
                                     'wished' => $wished->contains($darshan->id),
-                                    'cta' => 'Enquire',
-                                    'ctaUrl' => route('contact', ['subject' => 'Darshan: ' . $darshan->name]),
+                                    'cta' => 'View details',
+                                    'ctaUrl' => route('darshan.show', ['slug' => $darshan->slug]),
                                 ])
                             </div>
                         @empty

@@ -8,9 +8,17 @@ use App\Models\Destination;
 use App\Models\Pooja;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class PoojaController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single pooja by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('pooja', $slug, $request);
+    }
     private const SORTS = [
         'popular' => ['is_featured', 'desc', 'price', 'asc'],
         'price_asc' => ['price', 'asc'],

@@ -8,9 +8,17 @@ use App\Models\Darshan;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Concerns\RendersCatalogueDetail;
 
 class DarshanController extends Controller
 {
+    use RendersCatalogueDetail;
+
+    /** Public detail page for a single darshan by slug. */
+    public function show(string $slug, Request $request): View
+    {
+        return $this->renderCatalogueDetail('darshan', $slug, $request);
+    }
     private const SORTS = [
         'popular' => ['is_featured', 'desc', 'price', 'asc'],
         'price_asc' => ['price', 'asc'],
