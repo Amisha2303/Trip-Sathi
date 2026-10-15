@@ -3,7 +3,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -60,6 +63,14 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "patches": {
+            "laravel/framework": [
+                {
+                    "description": "PHP 8.5 PDO MySQL SSL CA compatibility",
+                    "url": "patches/laravel-php85-pdo-ssl-ca.patch"
+                }
+            ]
         }
     },
     "config": {
@@ -68,7 +79,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "cweagans/composer-patches": true
         }
     },
     "minimum-stability": "stable",
