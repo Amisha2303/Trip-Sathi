@@ -23,14 +23,19 @@ trait RendersCatalogueDetail
         $class = Catalogue::modelClass($type);
         abort_unless($class !== null, 404);
 
+        // Destination is the root of the graph — it has no `destination()` relation.
+        $relations = [
+            'images',
+            'reviews' => fn ($q) => $q->approved()->with('user')->latest()->limit(8),
+        ];
+        if ($type !== 'destination') {
+            $relations[] = 'destination';
+        }
+
         $model = $class::query()
             ->active()
             ->where('slug', $slug)
-            ->with([
-                'images',
-                'destination',
-                'reviews' => fn ($q) => $q->approved()->with('user')->latest()->limit(8),
-            ])
+            ->with($relations)
             ->firstOrFail();
 
         $detail = Catalogue::detail($model, $type);

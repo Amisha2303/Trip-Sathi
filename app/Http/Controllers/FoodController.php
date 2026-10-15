@@ -93,6 +93,11 @@ class FoodController extends Controller
 
     public function show(string $slug, Request $request): View
     {
+        // Restaurants and food experiences share the /food/{slug} namespace.
+        if (FoodExperience::query()->active()->where('slug', $slug)->exists()) {
+            return $this->renderCatalogueDetail('food', $slug, $request);
+        }
+
         return $this->renderCatalogueDetail('restaurant', $slug, $request);
     }
 }
