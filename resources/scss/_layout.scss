@@ -41,11 +41,17 @@ a {
   top: 0;
   z-index: $zindex-sticky;
 
+  .navbar {
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
   .navbar-brand {
     font-weight: 800;
     font-size: 1.3rem;
     letter-spacing: -0.02em;
     color: $ts-ink;
+    flex-shrink: 0;
 
     .brand-mark {
       display: inline-flex;
@@ -63,7 +69,7 @@ a {
 
     .brand-logo {
       display: block;
-      height: 52px;
+      height: 46px;
       width: auto;
     }
 
@@ -72,12 +78,17 @@ a {
     }
   }
 
+  .navbar-nav {
+    align-items: center;
+  }
+
   .nav-link {
     color: $ts-ink-soft;
     font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.5rem 0.85rem;
+    font-size: 0.93rem;
+    padding: 0.5rem 0.6rem;
     border-radius: $border-radius-pill;
+    white-space: nowrap;
     transition: color $transition-speed ease, background-color $transition-speed ease;
 
     &.is-active,
@@ -85,6 +96,38 @@ a {
     &.active {
       color: $ts-brand;
       background: $ts-brand-tint;
+    }
+  }
+
+  .ts-nav-actions {
+    flex-shrink: 0;
+  }
+
+  // Below the xl breakpoint the links live in the toggler menu. Give them a
+  // comfortable tap target and clearly separate the account actions.
+  @media (max-width: 1199.98px) {
+    .navbar-collapse {
+      padding: 0.75rem 0 0.25rem;
+    }
+
+    .navbar-nav {
+      align-items: stretch;
+      gap: 0.15rem;
+    }
+
+    .nav-link {
+      padding: 0.65rem 0.85rem;
+    }
+
+    .ts-nav-actions {
+      border-top: 1px solid $ts-line;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+    }
+
+    .nav-link-cta {
+      margin-top: 0.4rem;
+      justify-content: center;
     }
   }
 

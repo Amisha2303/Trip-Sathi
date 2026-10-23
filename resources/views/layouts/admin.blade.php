@@ -52,7 +52,7 @@
                 </a>
                 <a href="{{ route('admin.adventures.index') }}"
                     class="{{ request()->routeIs('admin.adventures.*') ? 'is-active' : '' }}">
-                    <i class="bi bi-mountain"></i> Adventures
+                    <i class="bi bi-signpost-split"></i> Adventures
                 </a>
                 <a href="{{ route('admin.darshan.index') }}"
                     class="{{ request()->routeIs('admin.darshan.*') ? 'is-active' : '' }}">

@@ -89,6 +89,13 @@
                             <h2 class="ts-title mb-1">Send us a message</h2>
                             <p class="ts-subtitle mb-4">Fill in the form and we will reply to your email.</p>
 
+                            @if (session('success'))
+                                <div class="alert alert-success d-flex align-items-start gap-2" role="alert">
+                                    <i class="bi bi-check-circle-fill mt-1"></i>
+                                    <div>{{ session('success') }}</div>
+                                </div>
+                            @endif
+
                             <form method="post" action="{{ route('contact.store') }}">
                                 @csrf
 

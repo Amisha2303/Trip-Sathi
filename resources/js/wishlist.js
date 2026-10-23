@@ -34,7 +34,7 @@ function showToast(message, tone = 'info') {
     wrapper.querySelector('.toast-body').textContent = message;
     host.appendChild(wrapper);
 
-    const toast = new bootstrap.Toast(wrapper, { delay: 4000 });
+    const toast = new window.bootstrap.Toast(wrapper, { delay: 4000 });
     toast.show();
     wrapper.addEventListener('hidden.bs.toast', () => wrapper.remove());
 }
@@ -67,19 +67,24 @@ document.addEventListener('click', async (event) => {
 
         showToast(data.message, data.saved ? 'success' : 'info');
     } catch (error) {
-        if (error.status === 419) {
+        const status = error.response?.status;
+
+        if (status === 419) {
             window.location.reload();
             return;
         }
 
-        if (error.status === 401 && config.loginUrl) {
+        if (status === 401 && config.loginUrl) {
             window.location.href = config.loginUrl;
             return;
         }
 
         // Roll back the visual state we optimistically assumed.
         button.classList.toggle('is-active', saved);
-        showToast(error.message || 'Could not update your wishlist.', 'error');
+        showToast(
+            error.response?.data?.message || error.message || 'Could not update your wishlist.',
+            'error'
+        );
     } finally {
         button.disabled = false;
     }

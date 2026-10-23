@@ -208,11 +208,11 @@ class Adventure extends BaseModel
             'Trekking' => 'bi-signpost-split',
             'River Rafting' => 'bi-water',
             'Paragliding' => 'bi-airplane',
-            'Scuba Diving' => 'bi-snorkel',
+            'Scuba Diving' => 'bi-droplet-fill',
             'Camping' => 'bi-tree',
             'Wildlife Safari' => 'bi-binoculars',
             'Zipline' => 'bi-bezier2',
-            'Water Sports' => 'bi-sailboat',
+            'Water Sports' => 'bi-umbrella',
             'Cycling' => 'bi-bicycle',
             'Rock Climbing' => 'bi-bar-chart-steps',
         ];

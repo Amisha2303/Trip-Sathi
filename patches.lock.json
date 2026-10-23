@@ -1,0 +1,17 @@
+{
+    "_hash": "ee4974b39e8e8a1eade7cc1229f041530f5d8fe3c19f4007b2aec3fdfda78960",
+    "patches": {
+        "laravel/framework": [
+            {
+                "package": "laravel/framework",
+                "description": "PHP 8.5 PDO MySQL SSL CA compatibility",
+                "url": "patches/laravel-php85-pdo-ssl-ca.patch",
+                "sha256": "1859ec884c33b3998c744ff40d72c0ffadfc36b1438ddb41fb72254aa802eb57",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

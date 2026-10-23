@@ -234,7 +234,7 @@
                 @empty
                     <div class="col-12">
                         @include('partials.empty-state', [
-                            'icon' => 'bi-mountain',
+                            'icon' => 'bi-signpost-split',
                             'title' => 'Adventures are on their way',
                             'actionUrl' => route('contact'),
                             'actionLabel' => 'Suggest an activity',

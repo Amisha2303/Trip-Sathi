@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta name="description"
-        content="{{ $appSettings['meta_description'] ?? 'Trip Sathi — plan trips, book hotels, events, adventures, VIP Darshan and Pooja Vidhi, all in one place.' }}">
+        content="@yield('meta-description', $appSettings['meta_description'] ?? 'Trip Sathi — plan trips, book hotels, events, adventures, VIP Darshan and Pooja Vidhi, all in one place.')">
 
     <title>@yield('title', config('app.name', 'Trip Sathi'))</title>
 
@@ -59,9 +59,11 @@
         // Toasts rendered above are dismissed automatically; they are created
         // after page load so Vite's module script timing is irrelevant.
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[data-ts-toasts] .toast').forEach((el) => {
-                new bootstrap.Toast(el, { delay: 6000 }).show();
-            });
+            if (window.bootstrap) {
+                document.querySelectorAll('[data-ts-toasts] .toast').forEach((el) => {
+                    new window.bootstrap.Toast(el, { delay: 6000 }).show();
+                });
+            }
 
             // Back-to-top: appears once the visitor scrolls past the fold.
             const backTop = document.querySelector('[data-ts-back-top]');

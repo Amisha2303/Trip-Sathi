@@ -45,7 +45,7 @@ enum TripItemType: string
             self::Restaurant => 'bi-cup-hot',
             self::FoodExperience => 'bi-basket2',
             self::Event => 'bi-calendar-event',
-            self::Adventure => 'bi-mountain',
+            self::Adventure => 'bi-signpost-split',
             self::Darshan => 'bi-gem',
             self::Pooja => 'bi-flower1',
             self::Place => 'bi-geo-alt',

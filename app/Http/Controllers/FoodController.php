@@ -38,8 +38,9 @@ class FoodController extends Controller
             $query->search($term);
         }
 
-        if ($destination = $request->query('destination')) {
-            $query->forDestination($destination);
+        if ($slug = $request->query('destination')) {
+            $destination = Destination::query()->active()->where('slug', $slug)->first();
+            $query->when($destination, fn ($q) => $q->where('destination_id', $destination->id));
         }
 
         if ($cuisine = trim((string) $request->query('cuisine'))) {

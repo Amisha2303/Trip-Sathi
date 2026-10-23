@@ -10,9 +10,11 @@ use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BookingUpdateRequest;
 use App\Models\Booking;
+use App\Services\Payment\PaymentService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -21,7 +23,7 @@ class BookingController extends Controller
         $bookings = Booking::query()
             ->with(['user:id,name,email', 'destination:id,name'])
             ->when($request->filled('q'), function ($q) use ($request) {
-                $term = '%' . addcslashes($request->string('q')->toString(), '%_\\') . '%';
+                $term = '%'.addcslashes($request->string('q')->toString(), '%_\\').'%';
                 $q->where(fn ($inner) => $inner
                     ->where('booking_number', 'LIKE', $term)
                     ->orWhere('customer_name', 'LIKE', $term)
@@ -38,7 +40,7 @@ class BookingController extends Controller
             ->withQueryString();
 
         $statusTotals = Booking::query()
-            ->select('status', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total'))
+            ->select('status', DB::raw('COUNT(*) as total'))
             ->groupBy('status')
             ->pluck('total', 'status');
 
@@ -99,6 +101,32 @@ class BookingController extends Controller
         }
 
         return redirect()->route('admin.bookings.show', $booking)->with('success', 'Booking updated.');
+    }
+
+    public function recordPayment(Request $request, Booking $booking, PaymentService $payments): RedirectResponse
+    {
+        $data = $request->validate([
+            'amount' => ['nullable', 'numeric', 'min:0.01', 'max:10000000'],
+            'reference' => ['nullable', 'string', 'max:120'],
+            'note' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $amount = filled($data['amount'] ?? null) ? Booking::toMinor($data['amount']) : null;
+
+        try {
+            $result = $payments->recordManualPayment(
+                $booking,
+                $data['reference'] ?? null,
+                $amount,
+                $data['note'] ?? null,
+            );
+        } catch (\Throwable $e) {
+            report($e);
+
+            return back()->with('error', 'Payment could not be recorded: '.$e->getMessage());
+        }
+
+        return back()->with('success', $result->message);
     }
 
     public function destroy(Booking $booking): RedirectResponse

@@ -9,7 +9,6 @@ use App\Enums\TransactionStatus;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\PaymentTransaction;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Offline / manual-payment adapter.
@@ -38,11 +37,12 @@ class OfflineGateway implements PaymentGatewayInterface
 
     public function createOrder(Booking $booking): PaymentResult
     {
-        $reference = 'OFFLINE-' . strtoupper($booking->booking_number);
+        $reference = 'OFFLINE-'.strtoupper($booking->booking_number);
 
         return PaymentResult::offline(
             'Payment will be confirmed by the Trip Sathi team.',
             ['reference' => $reference],
+            $reference,
         );
     }
 

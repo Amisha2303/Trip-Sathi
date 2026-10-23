@@ -13,6 +13,8 @@ use App\Models\Hotel;
 use App\Models\Pooja;
 use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -131,24 +133,24 @@ final class Catalogue
             'title' => $model->name,
             'subtitle' => self::location($model, $type),
             'text' => $model->short_description
-                ?? (\Illuminate\Support\Str::limit((string) $model->description, 110) ?: null),
+                ?? (Str::limit((string) $model->description, 110) ?: null),
             'badge' => $model->is_featured ? 'Featured' : null,
             'meta' => self::cardMeta($model, $type),
             'stars' => $model->star_rating ?? null,
             'rating' => isset($model->rating) && $model->rating !== null ? (float) $model->rating : null,
-            'ratingNote' => ($model->review_count ?? 0) > 0 ? (int) $model->review_count . ' reviews' : null,
+            'ratingNote' => ($model->review_count ?? 0) > 0 ? (int) $model->review_count.' reviews' : null,
             'price' => self::price($model),
             'priceNote' => self::priceNote($type),
             'wishType' => $wishType,
             'wishId' => $model->getKey(),
-            'placeholder' => asset('images/' . $wishType . '-placeholder.svg'),
+            'placeholder' => asset('images/'.$wishType.'-placeholder.svg'),
             'cta' => 'View details',
             'ctaUrl' => route($route, ['slug' => $model->slug]),
         ];
     }
 
     /** Map a paginator/collection of models to card arrays. */
-    public static function cards(iterable $models, string $type): \Illuminate\Support\Collection
+    public static function cards(iterable $models, string $type): Collection
     {
         return collect($models)->map(fn (Model $m) => self::card($m, $type))->values();
     }
@@ -239,7 +241,7 @@ final class Catalogue
         }
 
         if ($type === 'event' && $model->event_date) {
-            $meta['bi-calendar-event'] = \Illuminate\Support\Carbon::parse($model->event_date)->format('d M Y');
+            $meta['bi-calendar-event'] = Carbon::parse($model->event_date)->format('d M Y');
         }
 
         if ($type === 'restaurant' && $model->cuisine) {
@@ -272,6 +274,15 @@ final class Catalogue
             if (is_bool($value)) {
                 $value = 'Yes';
             }
+            if (is_array($value)) {
+                $value = implode(', ', array_filter(array_map(
+                    static fn (mixed $item): string => is_scalar($item) ? (string) $item : '',
+                    $value
+                )));
+            }
+            if ($value === '') {
+                return;
+            }
             $facts[] = ['icon' => $icon, 'label' => $label, 'value' => (string) $value];
         };
 
@@ -285,15 +296,15 @@ final class Catalogue
                 $add('bi-clock-history', 'Timezone', $model->timezone),
             ],
             'hotel' => [
-                $add('bi-star-fill', 'Star rating', $model->star_rating ? $model->star_rating . ' star' : null),
+                $add('bi-star-fill', 'Star rating', $model->star_rating ? $model->star_rating.' star' : null),
                 $add('bi-box-arrow-in-right', 'Check-in', $model->check_in_time),
                 $add('bi-box-arrow-right', 'Check-out', $model->check_out_time),
                 $add('bi-calendar-x', 'Min nights', $model->min_nights),
                 $add('bi-shield-check', 'Cancellation', $model->cancellation_policy),
             ],
             'event' => [
-                $add('bi-calendar-event', 'Date', $model->event_date ? \Illuminate\Support\Carbon::parse($model->event_date)->format('D, d M Y') : null),
-                $add('bi-clock', 'Time', $model->starts_at ? \Illuminate\Support\Carbon::parse($model->starts_at)->format('h:i A') : null),
+                $add('bi-calendar-event', 'Date', $model->event_date ? Carbon::parse($model->event_date)->format('D, d M Y') : null),
+                $add('bi-clock', 'Time', $model->starts_at ? Carbon::parse($model->starts_at)->format('h:i A') : null),
                 $add('bi-geo-alt', 'Venue', $model->venue),
                 $add('bi-person', 'Organiser', $model->organiser),
                 $add('bi-people', 'Capacity', $model->capacity),
@@ -423,19 +434,19 @@ final class Catalogue
     private static function cta(Model $model, string $type): array
     {
         $label = match ($type) {
-            'hotel' => 'Enquire about this stay',
-            'event' => 'Request tickets',
+            'hotel' => 'Book this stay',
+            'event' => 'Buy tickets',
             'adventure' => 'Book this activity',
             'darshan' => 'Book VIP darshan',
             'pooja' => 'Book this pooja',
             'restaurant' => 'Reserve a table',
             'food' => 'Book this experience',
-            default => 'Plan a trip here',
+            default => 'Explore stays nearby',
         };
 
         $url = $type === 'destination'
             ? route('hotels.index', ['destination' => $model->slug])
-            : route('contact', ['subject' => ucfirst($type) . ': ' . $model->name]);
+            : route('bookings.create', ['type' => $type, 'slug' => $model->slug]);
 
         return ['label' => $label, 'url' => $url, 'icon' => 'bi-arrow-right'];
     }
@@ -456,7 +467,7 @@ final class Catalogue
         $parts = preg_split('/\R{2,}/u', $safe) ?: [$safe];
 
         return collect($parts)
-            ->map(fn (string $p) => '<p>' . nl2br(trim($p)) . '</p>')
+            ->map(fn (string $p) => '<p>'.nl2br(trim($p)).'</p>')
             ->implode('');
     }
 
@@ -488,7 +499,7 @@ final class Catalogue
         $h = intdiv($minutes, 60);
         $m = $minutes % 60;
 
-        return trim(($h ? "{$h} hr" : '') . ($m ? " {$m} min" : ''));
+        return trim(($h ? "{$h} hr" : '').($m ? " {$m} min" : ''));
     }
 
     private static function range(?int $min, ?int $max, string $suffix): ?string
@@ -500,12 +511,12 @@ final class Catalogue
             return $min === $max ? "{$min}{$suffix}" : "{$min}–{$max}{$suffix}";
         }
 
-        return ($min ?? $max) . $suffix;
+        return ($min ?? $max).$suffix;
     }
 
     /** Public helper: split a slug-ish string for breadcrumbs. */
     public static function label(string $type): string
     {
-        return Str::headline($type === 'food' ? 'Food & Dining' : $type . 's');
+        return Str::headline($type === 'food' ? 'Food & Dining' : $type.'s');
     }
 }

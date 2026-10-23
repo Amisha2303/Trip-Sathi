@@ -37,6 +37,12 @@ class DestinationController extends Controller
             $query->where('state', $state);
         }
 
+        // The home-page search sends the picked destination as a slug; honour
+        // it here so choosing “Destinations” plus a place actually filters.
+        if ($slug = $request->query('destination')) {
+            $query->where('slug', $slug);
+        }
+
         $sort = $request->query('sort');
         if (isset(self::SORTS[$sort])) {
             [$column, $direction] = self::SORTS[$sort];

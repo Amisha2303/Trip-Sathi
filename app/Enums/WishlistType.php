@@ -52,7 +52,7 @@ enum WishlistType: string
             self::Hotel => 'bi-building',
             self::Restaurant => 'bi-cup-hot',
             self::Event => 'bi-calendar-event',
-            self::Adventure => 'bi-mountain',
+            self::Adventure => 'bi-signpost-split',
             self::Darshan => 'bi-gem',
             self::Pooja => 'bi-flower1',
         };

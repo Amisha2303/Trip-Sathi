@@ -158,7 +158,7 @@
                             'text' => $scope === 'mine'
                                 ? 'Start with your dates and travellers — you can shape the itinerary day by day.'
                                 : 'Be the first to share an itinerary the community can borrow ideas from.',
-                            'actionUrl' => '#new-trip',
+                            'actionUrl' => auth()->check() ? route('trips.index', ['scope' => 'mine']) . '#new-trip' : route('login'),
                             'actionLabel' => auth()->check() ? 'Create a trip' : 'Sign in to plan',
                         ])
                     </div>
@@ -267,7 +267,7 @@
                             <div class="col-md-4">
                                 <label class="form-label" for="trip-start">Start date</label>
                                 <input class="form-control @error('start_date') is-invalid @enderror" type="date"
-                                    id="trip-start" name="start_date" value="{{ old('start_date') }}" required>
+                                    id="trip-start" name="start_date" value="{{ old('start_date') }}" min="{{ now()->toDateString() }}" required>
                                 @error('start_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -275,7 +275,7 @@
                             <div class="col-md-4">
                                 <label class="form-label" for="trip-end">End date</label>
                                 <input class="form-control @error('end_date') is-invalid @enderror" type="date"
-                                    id="trip-end" name="end_date" value="{{ old('end_date') }}" required>
+                                    id="trip-end" name="end_date" value="{{ old('end_date') }}" min="{{ old('start_date', now()->toDateString()) }}" required>
                                 @error('end_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -283,7 +283,7 @@
                             <div class="col-md-4">
                                 <label class="form-label" for="trip-travelers">Travellers</label>
                                 <input class="form-control @error('travelers') is-invalid @enderror" type="number"
-                                    id="trip-travelers" name="travelers" min="1" max="50"
+                                    id="trip-travelers" name="travelers" min="1" max="50" inputmode="numeric"
                                     value="{{ old('travelers', 2) }}" required>
                                 @error('travelers')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -294,8 +294,11 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="trip-budget">Budget (₹, optional)</label>
-                                <input class="form-control" type="number" id="trip-budget" name="budget" min="0"
+                                <input class="form-control @error('budget') is-invalid @enderror" type="number" id="trip-budget" name="budget" min="0"
                                     value="{{ old('budget') }}" placeholder="45000">
+                                @error('budget')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 d-flex align-items-end">
                                 <div class="form-check">
@@ -308,8 +311,11 @@
 
                         <div class="mb-0">
                             <label class="form-label" for="trip-description">Notes</label>
-                            <textarea class="form-control" id="trip-description" name="description" rows="3"
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="trip-description" name="description" rows="3"
                                 placeholder="What is this trip about?">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -341,17 +347,41 @@
             }
 
             const newTripModalEl = document.getElementById('newTripModal');
-            const openers = document.querySelectorAll('[data-ts-open-trip-modal]');
-            openers.forEach((opener) => {
-                opener.addEventListener('click', (event) => {
-                    if (!newTripModalEl) return;
-                    event.preventDefault();
-                    new bootstrap.Modal(newTripModalEl).show();
-                });
+
+            const openNewTrip = (event) => {
+                if (!newTripModalEl || !window.bootstrap) return;
+                if (event) event.preventDefault();
+                window.bootstrap.Modal.getOrCreateInstance(newTripModalEl).show();
+            };
+
+            document.querySelectorAll('[data-ts-open-trip-modal], a[href="#new-trip"]').forEach((opener) => {
+                opener.addEventListener('click', openNewTrip);
             });
 
-            if (newTripModalEl && window.location.hash === '#new-trip') {
-                new bootstrap.Modal(newTripModalEl).show();
+            // Re-open the form after a validation failure so the errors are visible.
+            if (newTripModalEl && (window.location.hash === '#new-trip' || @json($errors->any()))) {
+                openNewTrip();
+            }
+
+            window.addEventListener('hashchange', () => {
+                if (window.location.hash === '#new-trip') openNewTrip();
+            });
+
+            const startInput = document.getElementById('trip-start');
+            const endInput = document.getElementById('trip-end');
+
+            if (startInput && endInput) {
+                const syncEndDate = () => {
+                    if (startInput.value) {
+                        endInput.min = startInput.value;
+                    }
+                    if (startInput.value && endInput.value && endInput.value < startInput.value) {
+                        endInput.value = startInput.value;
+                    }
+                };
+
+                startInput.addEventListener('change', syncEndDate);
+                syncEndDate();
             }
         });
     </script>

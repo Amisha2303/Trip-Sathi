@@ -7,9 +7,11 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Services\Payment\PaymentService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -18,7 +20,7 @@ class PaymentController extends Controller
         $payments = Payment::query()
             ->with(['booking:id,booking_number,customer_name', 'user:id,name,email'])
             ->when($request->filled('q'), function ($q) use ($request) {
-                $term = '%' . addcslashes($request->string('q')->toString(), '%_\\') . '%';
+                $term = '%'.addcslashes($request->string('q')->toString(), '%_\\').'%';
                 $q->where(fn ($inner) => $inner
                     ->where('transaction_reference', 'LIKE', $term)
                     ->orWhereHas('booking', fn ($b) => $b
@@ -32,7 +34,7 @@ class PaymentController extends Controller
             ->withQueryString();
 
         $totals = Payment::query()
-            ->select('status', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total'), \Illuminate\Support\Facades\DB::raw('COALESCE(SUM(amount),0) as amount'))
+            ->select('status', DB::raw('COUNT(*) as total'), DB::raw('COALESCE(SUM(amount),0) as amount'))
             ->groupBy('status')
             ->get()
             ->keyBy(fn (Payment $row) => $row->status->value);
@@ -61,26 +63,28 @@ class PaymentController extends Controller
     }
 
     /** Record an offline payment as settled. */
-    public function markPaid(Request $request, Payment $payment): RedirectResponse
+    public function markPaid(Request $request, Payment $payment, PaymentService $payments): RedirectResponse
     {
         if ($payment->status === PaymentStatus::Paid) {
             return back()->with('error', 'This payment is already marked as paid.');
         }
 
-        $payment->forceFill([
-            'status' => PaymentStatus::Paid->value,
-            'paid_at' => $payment->paid_at ?? now(),
-            'transaction_reference' => $payment->transaction_reference
-                ?? $request->string('reference')->toString()
-                ?: 'OFF-' . strtoupper(substr(uniqid(), -8)),
-        ])->save();
-
-        // Keep the booking's payment status in step with the payment record.
         $booking = $payment->booking;
-        if ($booking && $booking->payment_status !== PaymentStatus::Paid) {
-            $booking->forceFill(['payment_status' => PaymentStatus::Paid->value])->save();
+
+        if ($booking === null) {
+            return back()->with('error', 'This payment is not linked to a booking.');
         }
 
-        return back()->with('success', 'Payment marked as paid.');
+        $reference = $request->string('reference')->toString() ?: $payment->transaction_reference;
+
+        try {
+            $result = $payments->recordManualPayment($booking, $reference, (int) $payment->amount);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return back()->with('error', 'Payment could not be recorded: '.$e->getMessage());
+        }
+
+        return back()->with('success', $result->message);
     }
 }

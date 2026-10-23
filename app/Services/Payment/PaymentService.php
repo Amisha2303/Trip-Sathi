@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Payment;
 
+use App\Enums\ActivityAction;
+use App\Enums\BookingStatus;
 use App\Enums\PaymentGateway;
 use App\Enums\PaymentStatus;
 use App\Enums\TransactionStatus;
@@ -15,11 +17,11 @@ use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\PaymentTransaction;
 use App\Models\Refund;
+use App\Models\User;
 use App\Notifications\AdminBookingPaymentFailed;
+use App\Support\Money;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 /**
  * Orchestrates the payment lifecycle.
@@ -102,6 +104,11 @@ class PaymentService
         return $result;
     }
 
+    public function openPending(Booking $booking): Payment
+    {
+        return $this->pendingPaymentFor($booking);
+    }
+
     /**
      * A booking may only have one open payment; reusing it keeps the
      * "abandoned checkout then retry" path from littering the finance tables.
@@ -171,7 +178,7 @@ class PaymentService
                 $booking->final_amount,
                 $result->gatewayReference,
                 'verify',
-                'Amount mismatch: gateway reported ' . $expected . ', booking expects ' . $booking->final_amount,
+                'Amount mismatch: gateway reported '.$expected.', booking expects '.$booking->final_amount,
             );
 
             $this->markFailed($booking, 'Amount mismatch detected.');
@@ -206,8 +213,8 @@ class PaymentService
 
             $locked->forceFill([
                 'payment_status' => PaymentStatus::Paid->value,
-                'status' => $locked->status === \App\Enums\BookingStatus::Pending
-                    ? \App\Enums\BookingStatus::Confirmed->value
+                'status' => $locked->status === BookingStatus::Pending
+                    ? BookingStatus::Confirmed->value
                     : $locked->status->value,
                 'confirmed_at' => $locked->confirmed_at ?? now(),
             ])->save();
@@ -239,6 +246,10 @@ class PaymentService
      */
     public function recordManualPayment(Booking $booking, ?string $reference, ?int $amount = null, ?string $note = null): PaymentResult
     {
+        if ($booking->payment_status === PaymentStatus::Paid) {
+            return PaymentResult::success('Payment has already been recorded.', $booking->payment()->value('transaction_reference'));
+        }
+
         $amount = $amount ?? $booking->final_amount;
 
         $payment = Payment::updateOrCreate(
@@ -249,19 +260,19 @@ class PaymentService
                 'status' => PaymentStatus::Paid->value,
                 'amount' => $amount,
                 'currency' => $booking->currency,
-                'transaction_reference' => $reference ?: 'MANUAL-' . strtoupper($booking->booking_number),
+                'transaction_reference' => $reference ?: 'MANUAL-'.strtoupper($booking->booking_number),
                 'paid_at' => now(),
                 'payload' => ['note' => $note, 'recorded_by' => auth()->id()],
             ],
         );
 
-        DB::transaction(function () use ($booking, $payment, $amount, $reference): void {
+        DB::transaction(function () use ($booking): void {
             $locked = Booking::query()->lockForUpdate()->findOrFail($booking->getKey());
 
             $locked->forceFill([
                 'payment_status' => PaymentStatus::Paid->value,
-                'status' => $locked->status === \App\Enums\BookingStatus::Pending
-                    ? \App\Enums\BookingStatus::Confirmed->value
+                'status' => $locked->status === BookingStatus::Pending
+                    ? BookingStatus::Confirmed->value
                     : $locked->status->value,
                 'confirmed_at' => $locked->confirmed_at ?? now(),
             ])->save();
@@ -297,7 +308,6 @@ class PaymentService
 
         $booking->forceFill([
             'payment_status' => PaymentStatus::Failed->value,
-            'status' => \App\Enums\BookingStatus::Failed->value,
         ])->save();
 
         Mail::to($booking->customer_email)->queue(new PaymentFailedMail($booking, $reason));
@@ -307,8 +317,8 @@ class PaymentService
         }
 
         $booking->logActivity(
-            \App\Enums\ActivityAction::PaymentUpdate,
-            'Payment failed: ' . $reason,
+            ActivityAction::PaymentUpdate,
+            'Payment failed: '.$reason,
         );
     }
 
@@ -355,7 +365,7 @@ class PaymentService
                 if ($result->failed()) {
                     $this->logTransaction($payment, $locked, TransactionStatus::Failed, $amount, $reference, 'refund', $result->failureReason);
 
-                    throw new \RuntimeException('Gateway refused the refund: ' . ($result->failureReason ?? 'unknown error'));
+                    throw new \RuntimeException('Gateway refused the refund: '.($result->failureReason ?? 'unknown error'));
                 }
 
                 $reference = $result->gatewayReference ?? $reference;
@@ -388,20 +398,20 @@ class PaymentService
                 'payment_status' => $totalRefunded >= (int) $locked->final_amount
                     ? PaymentStatus::Refunded->value
                     : PaymentStatus::PartiallyRefunded->value,
-                'status' => $locked->status === \App\Enums\BookingStatus::Confirmed->value
-                    ? \App\Enums\BookingStatus::Refunded->value
+                'status' => $locked->status === BookingStatus::Confirmed->value
+                    ? BookingStatus::Refunded->value
                     : $locked->status->value,
             ])->save();
 
             $this->logTransaction($payment, $locked, TransactionStatus::Refunded, $amount, $reference, 'refund');
 
             $locked->logActivity(
-                \App\Enums\ActivityAction::Refund,
-                'Refunded ' . \App\Support\Money::format($amount) . ' · ' . ($reason ?? 'no reason given'),
+                ActivityAction::Refund,
+                'Refunded '.Money::format($amount).' · '.($reason ?? 'no reason given'),
             );
 
             return $refund->load('payment');
-        })->tap(function (Refund $refund) use ($booking, $amountMinor, $reason): void {
+        })->tap(function (Refund $refund) use ($booking, $reason): void {
             $fresh = $booking->fresh();
 
             Mail::to($fresh->customer_email)->queue(new PaymentRefundProcessedMail($fresh, $refund));
@@ -418,6 +428,8 @@ class PaymentService
     /** Side effects that must happen only after the transaction commits. */
     private function afterSuccessfulPayment(Booking $booking, PaymentResult $result): void
     {
+        $booking->loadMissing('user');
+
         Mail::to($booking->customer_email)->queue(new PaymentSuccessfulMail($booking));
 
         $booking->user?->notifyBookingConfirmed($booking);

@@ -60,6 +60,7 @@ class Booking extends BaseModel
             'refunded_amount' => 'integer',
             'status' => BookingStatus::class,
             'payment_status' => PaymentStatus::class,
+            'booking_type' => BookingType::class,
         ];
     }
 
@@ -192,12 +193,14 @@ class Booking extends BaseModel
 
     public function getTypeLabelAttribute(): string
     {
-        return $this->bookingType()?->label() ?? ucfirst((string) $this->booking_type);
+        return $this->bookingType()?->label() ?? '—';
     }
 
     public function bookingType(): ?BookingType
     {
-        return BookingType::tryFrom((string) $this->booking_type);
+        $type = $this->booking_type;
+
+        return $type instanceof BookingType ? $type : BookingType::tryFrom((string) $type);
     }
 
     /** Legal status transitions for the admin status control. */
@@ -242,7 +245,7 @@ class Booking extends BaseModel
     {
         $start = $this->booking_date instanceof Carbon
             ? $this->booking_date->copy()->setTimeFromTimeString((string) ($this->start_time ?? '00:00:00'))
-            : Carbon::parse($this->booking_date . ' ' . ($this->start_time ?? '00:00:00'));
+            : Carbon::parse($this->booking_date.' '.($this->start_time ?? '00:00:00'));
 
         return round(Carbon::now()->diffInMinutes($start, false) / 60, 2);
     }
@@ -326,7 +329,7 @@ class Booking extends BaseModel
 
     public function activitySubjectLabel(): string
     {
-        return $this->booking_number . ' · ' . $this->type_label;
+        return $this->booking_number.' · '.$this->type_label;
     }
 
     /**
@@ -361,7 +364,7 @@ class Booking extends BaseModel
 
         $this->logActivity(
             ActivityAction::StatusChange,
-            sprintf('%s → %s%s', $from?->label() ?? '—', $target->label(), $note ? ' · ' . $note : ''),
+            sprintf('%s → %s%s', $from?->label() ?? '—', $target->label(), $note ? ' · '.$note : ''),
             ['booking_id' => $this->booking_number],
         );
 

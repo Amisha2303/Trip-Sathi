@@ -7,9 +7,7 @@ namespace App\Services;
 use App\Enums\BookingStatus;
 use App\Enums\BookingType;
 use App\Enums\PaymentStatus;
-use App\Enums\TransactionStatus;
 use App\Exceptions\BookingException;
-use App\Mail\BookingCancelledMail;
 use App\Mail\BookingConfirmedMail;
 use App\Mail\BookingCreatedMail;
 use App\Models\Adventure;
@@ -30,13 +28,13 @@ use App\Models\Restaurant;
 use App\Models\RestaurantSlot;
 use App\Models\Room;
 use App\Models\User;
+use App\Notifications\AdminNewBookingNotification;
 use App\Services\Payment\PaymentService;
 use App\Support\Money;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 /**
  * The single write path for every booking in the platform.
@@ -59,8 +57,7 @@ class BookingService
         private readonly CouponService $coupons,
         private readonly PaymentService $payments,
         private readonly SettingsService $settings,
-    ) {
-    }
+    ) {}
 
     /*
     |--------------------------------------------------------------------------
@@ -73,6 +70,8 @@ class BookingService
      */
     public function bookHotel(User $user, Room $room, array $data, string $checkIn, string $checkOut, int $quantity = 1): Booking
     {
+        $room->loadMissing('hotel');
+
         $adults = (int) ($data['guests']['adults'] ?? 1);
         $children = (int) ($data['guests']['children'] ?? 0);
         $guests = $adults + $children;
@@ -150,6 +149,8 @@ class BookingService
      */
     public function bookRestaurant(User $user, Restaurant $restaurant, RestaurantSlot $slot, array $data, string $date): Booking
     {
+        $slot->loadMissing('slottable');
+
         $guests = max(1, (int) ($data['guests'] ?? 2));
 
         $check = $this->availability->checkRestaurantSlot($slot, $guests);
@@ -201,6 +202,8 @@ class BookingService
      */
     public function bookFoodExperience(User $user, FoodExperience $experience, RestaurantSlot $slot, array $data, string $date): Booking
     {
+        $slot->loadMissing('slottable');
+
         $guests = max(1, (int) ($data['guests'] ?? 2));
 
         $check = $this->availability->checkFoodExperienceSlot($slot, $guests);
@@ -237,7 +240,7 @@ class BookingService
                 'unit_price' => Booking::toMinor($experience->effective_price),
                 'options' => [
                     'cuisine' => $experience->cuisine,
-                    'duration' => $experience->duration_minutes . ' minutes',
+                    'duration' => $experience->duration_minutes.' minutes',
                     'dietary' => $data['dietary'] ?? null,
                 ],
             ]],
@@ -275,7 +278,7 @@ class BookingService
             'items' => [[
                 'item_type' => BookingType::Event,
                 'itemable' => $type,
-                'name' => $event->name . ' — ' . $type->name,
+                'name' => $event->name.' — '.$type->name,
                 'description' => $event->short_description,
                 'image' => $event->main_image,
                 'service_date' => $event->event_date->toDateString(),
@@ -305,6 +308,8 @@ class BookingService
      */
     public function bookAdventure(User $user, Adventure $adventure, AdventureSlot $slot, array $data): Booking
     {
+        $slot->loadMissing('adventure');
+
         $participants = collect($data['participants'] ?? [])->values();
         $count = max(1, $participants->count());
 
@@ -367,6 +372,8 @@ class BookingService
      */
     public function bookDarshan(User $user, Darshan $darshan, DarshanSlot $slot, array $data): Booking
     {
+        $slot->loadMissing('darshan');
+
         $visitors = collect($data['visitors'] ?? [])->values();
         $count = max(1, $visitors->count());
 
@@ -376,7 +383,7 @@ class BookingService
 
             if ($missing !== null && $visitors->count() > 0) {
                 throw new BookingException(
-                    'An ID document number is required for every visitor (' . $darshan->name . ').',
+                    'An ID document number is required for every visitor ('.$darshan->name.').',
                 );
             }
         }
@@ -437,6 +444,8 @@ class BookingService
      */
     public function bookPooja(User $user, Pooja $pooja, PoojaSlot $slot, array $data): Booking
     {
+        $slot->loadMissing('pooja');
+
         $participants = is_array($data['participants'] ?? null)
             ? collect($data['participants'])->values()
             : collect(range(1, max(1, (int) ($data['participants'] ?? 1))))
@@ -481,7 +490,7 @@ class BookingService
                     'temple' => $pooja->temple_name,
                     'deity' => $pooja->deity,
                     'slot' => $slot->label,
-                    'duration' => $pooja->duration_minutes . ' minutes',
+                    'duration' => $pooja->duration_minutes.' minutes',
                     'requirements' => $pooja->requirements,
                 ],
             ]],
@@ -572,7 +581,7 @@ class BookingService
 
         // Outside the transaction: mail must never hold the booking lock.
         Mail::to($booking->customer_email)->queue(new BookingCreatedMail($booking));
-        User::notifyAdmins(\App\Notifications\AdminNewBookingNotification::class, $booking);
+        User::notifyAdmins(AdminNewBookingNotification::class, $booking);
 
         return $booking;
     }
@@ -615,7 +624,7 @@ class BookingService
         $prefix = $this->settings->string('booking_prefix', (string) config('tripsathi.booking_prefix', 'TS'));
         $year = now()->year;
 
-        $lockName = 'tripsathi:booking_number:' . $year;
+        $lockName = 'tripsathi:booking_number:'.$year;
 
         $connection = DB::connection();
         $sequence = 0;
@@ -660,7 +669,6 @@ class BookingService
      * availability query can count occupancy per date.
      *
      * @param  array<int, array<string, mixed>>  $definitions
-     *
      * @return Collection<int, BookingItem>
      */
     private function persistItems(array $definitions): Collection
@@ -714,7 +722,6 @@ class BookingService
      * Subtotal → discount → tax, all in integer minor units.
      *
      * @param  Collection<int, BookingItem>  $items
-     *
      * @return array{subtotal: int, discount: int, tax: int, final: int, coupon: ?Coupon}
      */
     private function calculateTotals(Collection $items, ?string $couponCode, User $user): array
@@ -749,10 +756,6 @@ class BookingService
     }
 
     /**
-     * Spread the header tax across line items proportionally so the printed
-     * invoice lines always re-add to the header total.
-     */
-        /**
      * Push any rounding remainder onto the largest line.
      *
      * Proportional allocation with `round()` can leave the lines one or two
@@ -802,7 +805,6 @@ class BookingService
      * performs no writes, so the "order summary" panel matches the invoice.
      *
      * @param  array<int, array<string, mixed>>  $definitions
-     *
      * @return array<string, mixed>
      */
     public function quote(array $definitions, ?string $couponCode = null, ?User $user = null): array

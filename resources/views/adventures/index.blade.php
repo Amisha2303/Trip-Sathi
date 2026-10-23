@@ -116,7 +116,7 @@
                         @empty
                             <div class="col-12">
                                 @include('partials.empty-state', [
-                                    'icon' => 'bi-mountain',
+                                    'icon' => 'bi-signpost-split',
                                     'title' => 'No activities match those filters',
                                     'text' => 'Try another destination or clear the difficulty filter.',
                                     'actionUrl' => route('adventures.index'),

@@ -159,6 +159,42 @@
                 </div>
             </form>
 
+            @if (! $booking->payment_status->isSettled())
+                <form method="POST" action="{{ route('admin.bookings.record-payment', $booking) }}" class="ts-card mb-4">
+                    @csrf
+                    <div class="ts-card-body">
+                        <div class="ts-card-title mb-3">Record payment</div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label fw-semibold">Amount received ({{ $booking->currency }})</label>
+                            <input id="amount" name="amount" type="number" step="0.01" min="0.01" class="form-control"
+                                value="{{ old('amount', \App\Support\Money::decimal($booking->final_amount_rupees, false)) }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="reference" class="form-label fw-semibold">Reference</label>
+                            <input id="reference" name="reference" class="form-control" placeholder="UPI / bank / cash reference">
+                        </div>
+                        <div class="mb-3">
+                            <label for="note" class="form-label fw-semibold">Internal note</label>
+                            <textarea id="note" name="note" rows="2" class="form-control"></textarea>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">
+                            <i class="bi bi-check2-circle"></i> Mark booking paid
+                        </button>
+                        <div class="form-text">Confirms the booking and emails the customer a receipt.</div>
+                    </div>
+                </form>
+            @else
+                <div class="ts-card mb-4">
+                    <div class="ts-card-body">
+                        <div class="ts-card-title mb-2">Payment</div>
+                        <p class="small text-muted mb-3">Settled. A receipt is available for the customer.</p>
+                        <a class="btn btn-sm btn-outline-secondary w-100" href="{{ route('bookings.invoice', $booking) }}" target="_blank" rel="noopener">
+                            <i class="bi bi-receipt"></i> Customer receipt
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <div class="ts-card mb-4">
                 <div class="ts-card-body">
                     <div class="ts-card-title mb-3">Amounts</div>

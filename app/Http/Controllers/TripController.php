@@ -14,10 +14,10 @@ class TripController extends Controller
 {
     public function index(Request $request): View
     {
-        $scope = $request->query('scope', 'community');
+        $scope = (string) $request->query('scope', 'community');
         $available = ['community' => true, 'mine' => auth()->check()];
 
-        if (! $available[$scope]) {
+        if (! isset($available[$scope]) || ! $available[$scope]) {
             $scope = 'community';
         }
 

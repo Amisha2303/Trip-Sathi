@@ -1,5 +1,5 @@
 <header class="ts-header">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-xl">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img class="brand-logo" src="{{ asset('images/logo.png') }}" width="116" height="52"
@@ -20,7 +20,7 @@
                         <a class="nav-link {{ request()->is('hotels*') ? 'active' : '' }}" href="{{ route('hotels.index') }}">Hotels</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('food*') ? 'active' : '' }}" href="{{ route('food.index') }}">Food &amp; Dining</a>
+                        <a class="nav-link {{ request()->is('food*') ? 'active' : '' }}" href="{{ route('food.index') }}">Food</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('events*') ? 'active' : '' }}" href="{{ route('events.index') }}">Events</a>
@@ -29,17 +29,17 @@
                         <a class="nav-link {{ request()->is('adventures*') ? 'active' : '' }}" href="{{ route('adventures.index') }}">Adventures</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('darshan*') ? 'active' : '' }}" href="{{ route('darshan.index') }}">VIP Darshan</a>
+                        <a class="nav-link {{ request()->is('darshan*') ? 'active' : '' }}" href="{{ route('darshan.index') }}">Darshan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('pooja*') ? 'active' : '' }}" href="{{ route('pooja.index') }}">Pooja Vidhi</a>
+                        <a class="nav-link {{ request()->is('pooja*') ? 'active' : '' }}" href="{{ route('pooja.index') }}">Pooja</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('trips*') ? 'active' : '' }}" href="{{ route('trips.index') }}">Trip Planner</a>
+                        <a class="nav-link {{ request()->is('trips*') ? 'active' : '' }}" href="{{ route('trips.index') }}">Trips</a>
                     </li>
                 </ul>
 
-                <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <div class="navbar-nav ts-nav-actions ms-auto align-items-xl-center gap-xl-2">
                     <a class="nav-link" href="{{ route('contact') }}">Contact</a>
 
                     @auth

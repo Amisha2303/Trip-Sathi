@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Payment;
 
-use App\Enums\PaymentGateway;
-
 /**
  * Result object returned by every gateway call.
  *
@@ -25,8 +23,7 @@ final class PaymentResult
         public readonly ?string $failureReason = null,
         public readonly ?string $clientScript = null,
         public readonly array $clientOptions = [],
-    ) {
-    }
+    ) {}
 
     public static function success(
         string $message,
@@ -76,9 +73,14 @@ final class PaymentResult
         );
     }
 
-    public static function offline(string $message, array $payload = []): self
+    public static function offline(string $message, array $payload = [], ?string $reference = null): self
     {
-        return new self(successful: true, message: $message, payload: $payload);
+        return new self(
+            successful: true,
+            message: $message,
+            gatewayReference: $reference,
+            payload: $payload,
+        );
     }
 
     public function failed(): bool

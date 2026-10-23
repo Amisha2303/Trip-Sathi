@@ -49,10 +49,8 @@ class StripeGateway implements PaymentGatewayInterface
         $payload = [
             'mode' => 'payment',
             'client_reference_id' => (string) $booking->getKey(),
-            'success_url' => route('payments.callback', [
-                'booking' => $booking->booking_number,
-                'session_id' => '{CHECKOUT_SESSION_ID}',
-            ]),
+            'success_url' => route('payments.callback', ['booking' => $booking->getKey()])
+                .'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('bookings.show', $booking),
             'line_items' => [[
                 'quantity' => 1,
@@ -60,7 +58,7 @@ class StripeGateway implements PaymentGatewayInterface
                     'currency' => strtolower($booking->currency ?: 'inr'),
                     'unit_amount' => $booking->final_amount, // minor units
                     'product_data' => [
-                        'name' => 'Trip Sathi booking ' . $booking->booking_number,
+                        'name' => 'Trip Sathi booking '.$booking->booking_number,
                         'description' => $booking->type_label,
                     ],
                 ],
@@ -104,7 +102,7 @@ class StripeGateway implements PaymentGatewayInterface
 
         // Stripe Checkout sessions are single-use and server-authoritative;
         // re-fetching is the strongest verification available.
-        $session = $this->request('GET', '/checkout/sessions/' . rawurlencode($sessionId));
+        $session = $this->request('GET', '/checkout/sessions/'.rawurlencode($sessionId));
 
         if ($session['failed'] ?? true) {
             return PaymentResult::failure($session['error'] ?? 'Unable to verify Stripe session.', $session['body'] ?? []);
@@ -126,7 +124,7 @@ class StripeGateway implements PaymentGatewayInterface
 
     public function fetchOrder(string $reference): PaymentResult
     {
-        $session = $this->request('GET', '/checkout/sessions/' . rawurlencode($reference));
+        $session = $this->request('GET', '/checkout/sessions/'.rawurlencode($reference));
 
         if ($session['failed'] ?? true) {
             return PaymentResult::failure($session['error'] ?? 'Unable to fetch Stripe session.', $session['body'] ?? []);
@@ -143,7 +141,7 @@ class StripeGateway implements PaymentGatewayInterface
     {
         // Stripe Checkout captures automatically; explicit capture only applies
         // to manual-capture PaymentIntents.
-        $response = $this->request('POST', '/payment_intents/' . rawurlencode($reference) . '/capture', [
+        $response = $this->request('POST', '/payment_intents/'.rawurlencode($reference).'/capture', [
             'amount_to_capture' => $amountMinor,
         ]);
 
@@ -209,7 +207,7 @@ class StripeGateway implements PaymentGatewayInterface
             return false;
         }
 
-        $expected = hash_hmac('sha256', $timestamp . '.' . $payload, $secret);
+        $expected = hash_hmac('sha256', $timestamp.'.'.$payload, $secret);
 
         foreach ($signatures as $signature) {
             if (hash_equals($expected, $signature)) {
@@ -235,14 +233,14 @@ class StripeGateway implements PaymentGatewayInterface
 
             // Stripe's form encoding uses bracket notation for nested values.
             $response = $method === 'GET'
-                ? $request->get(rtrim((string) config('payment.stripe.api_base'), '/') . $path)
-                : $request->send($method, rtrim((string) config('payment.stripe.api_base'), '/') . $path, [
+                ? $request->get(rtrim((string) config('payment.stripe.api_base'), '/').$path)
+                : $request->send($method, rtrim((string) config('payment.stripe.api_base'), '/').$path, [
                     'body' => $this->flatten($payload),
                 ]);
         } catch (\Throwable $e) {
             Log::warning('Stripe request failed', ['path' => $path, 'message' => $e->getMessage()]);
 
-            return ['failed' => true, 'body' => [], 'error' => 'Gateway unreachable: ' . $e->getMessage()];
+            return ['failed' => true, 'body' => [], 'error' => 'Gateway unreachable: '.$e->getMessage()];
         }
 
         $body = (array) $response->json();
@@ -251,7 +249,7 @@ class StripeGateway implements PaymentGatewayInterface
             return [
                 'failed' => true,
                 'body' => $this->redactPayload($body),
-                'error' => $body['error']['message'] ?? 'Stripe returned HTTP ' . $response->status(),
+                'error' => $body['error']['message'] ?? 'Stripe returned HTTP '.$response->status(),
             ];
         }
 
@@ -269,7 +267,7 @@ class StripeGateway implements PaymentGatewayInterface
         $output = [];
 
         foreach ($data as $key => $value) {
-            $name = $prefix === '' ? (string) $key : $prefix . '[' . $key . ']';
+            $name = $prefix === '' ? (string) $key : $prefix.'['.$key.']';
 
             if (is_array($value)) {
                 $output += $this->flatten($value, $name);

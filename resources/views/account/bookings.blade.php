@@ -86,6 +86,15 @@
                                     <span class="ts-badge ts-badge-{{ $booking->status->value }}">{{ $booking->status_label }}</span>
                                 </td>
                                 <td class="text-end">
+                                    <div class="d-inline-flex gap-1">
+                                        @if (! $booking->payment_status->isSettled())
+                                            <a class="btn btn-sm btn-accent" href="{{ route('bookings.pay', $booking) }}">
+                                                Pay
+                                            </a>
+                                        @endif
+                                        <a class="btn btn-sm btn-soft" href="{{ route('bookings.show', $booking) }}">
+                                            View
+                                        </a>
                                     <button type="button" class="btn btn-sm btn-square btn-soft" data-bs-toggle="modal"
                                         data-bs-target="#bookingModal"
                                         data-booking-number="{{ $booking->booking_number }}"
@@ -104,6 +113,7 @@
                                         aria-label="Booking details">
                                         <i class="bi bi-eye"></i>
                                     </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

@@ -1,0 +1,292 @@
+.ts-booking-head {
+  padding: 2.25rem 0 1.5rem;
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgba($ts-accent, 0.08), transparent 55%),
+    linear-gradient(180deg, $ts-brand-tint 0%, rgba($ts-brand-tint, 0.25) 70%, transparent 100%);
+
+  .breadcrumb {
+    font-size: 0.82rem;
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba($ts-brand, 0.4);
+  }
+
+  .breadcrumb a {
+    color: $ts-brand;
+    text-decoration: none;
+  }
+}
+
+.ts-booking-card {
+  background: $ts-surface;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-sm;
+  overflow: hidden;
+}
+
+.ts-booking-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.25rem 1.35rem;
+  border-bottom: 1px solid $ts-line;
+  background: $ts-surface-alt;
+}
+
+.ts-booking-step {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $ts-brand-tint;
+  color: $ts-brand;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.ts-booking-card form,
+.ts-booking-card > .p-3,
+.ts-booking-card > .p-4 {
+  position: relative;
+}
+
+.ts-booking-options {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.ts-booking-option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: border-color $transition-speed ease, background $transition-speed ease,
+    box-shadow $transition-speed ease;
+  margin: 0;
+
+  > span:not(.ts-booking-option-price) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .form-check-input {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+
+  &:hover {
+    border-color: rgba($ts-brand, 0.35);
+    background: rgba($ts-brand-tint, 0.35);
+  }
+
+  &:has(.form-check-input:checked) {
+    border-color: $ts-brand;
+    background: rgba($ts-brand-tint, 0.55);
+    box-shadow: 0 0 0 2px rgba($ts-brand, 0.12);
+  }
+
+  &:focus-within {
+    box-shadow: $box-shadow-focus;
+  }
+}
+
+.ts-booking-option-price {
+  text-align: right;
+  font-weight: 800;
+  color: $ts-ink;
+  white-space: nowrap;
+
+  small {
+    display: block;
+    color: $ts-muted;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+}
+
+.ts-booking-row {
+  padding: 0.65rem 0;
+  border-bottom: 1px dashed $ts-line;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.ts-booking-summary {
+  position: sticky;
+  top: 92px;
+
+  @media (max-width: 991.98px) {
+    position: static;
+  }
+}
+
+.ts-booking-media {
+  aspect-ratio: 16 / 9;
+  background: $ts-surface-alt;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.ts-booking-lines {
+  margin: 0;
+
+  > div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.42rem 0;
+    border-bottom: 1px dashed rgba($ts-line, 0.9);
+  }
+
+  > div:last-child {
+    border-bottom: 0;
+  }
+
+  dt {
+    font-weight: 500;
+    color: $ts-ink-soft;
+    margin: 0;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .ts-booking-total {
+    border-bottom: 0;
+    border-top: 2px solid $ts-ink;
+    margin-top: 0.4rem;
+    padding-top: 0.8rem;
+
+    dt,
+    dd {
+      color: $ts-ink;
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+  }
+}
+
+.ts-booking-trust {
+  list-style: none;
+  padding: 0;
+  margin: 1.1rem 0 0;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: $ts-muted;
+    padding: 0.24rem 0;
+
+    i {
+      color: $ts-brand;
+      margin-top: 0.12rem;
+    }
+  }
+}
+
+.ts-booking-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba($ts-accent, 0.35);
+  background: $ts-accent-tint;
+  border-radius: $border-radius;
+  color: $ts-ink;
+
+  &.is-success {
+    border-color: rgba($ts-success, 0.3);
+    background: #e4f6ee;
+  }
+}
+
+.ts-booking-reference {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px dashed rgba($ts-brand, 0.35);
+  border-radius: $border-radius;
+  background: rgba($ts-brand-tint, 0.45);
+}
+
+.ts-booking-items {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ts-booking-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem;
+  border: 1px solid $ts-line;
+  border-radius: $border-radius;
+
+  img {
+    width: 68px;
+    height: 68px;
+    flex: 0 0 auto;
+    border-radius: $border-radius-sm;
+    object-fit: cover;
+    background: $ts-surface-alt;
+  }
+
+  > div:nth-child(2) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.ts-booking-item-price {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ts-booking-note {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid $ts-brand;
+  background: $ts-surface-alt;
+  border-radius: 0 $border-radius-sm $border-radius-sm 0;
+}
+
+.ts-booking-spinner {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-inline: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $ts-brand-tint;
+  color: $ts-brand;
+  font-size: 1.5rem;
+}

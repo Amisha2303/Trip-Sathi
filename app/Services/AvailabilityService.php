@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\BookingStatus;
-use App\Enums\PaymentStatus;
-use App\Models\Booking;
-use App\Models\Room;
 use App\Exceptions\BookingException;
-use App\Models\Adventure;
 use App\Models\AdventureSlot;
-use App\Models\Darshan;
+use App\Models\Booking;
 use App\Models\DarshanSlot;
+use App\Models\Event;
+use App\Models\EventTicketType;
 use App\Models\FoodExperience;
-use App\Models\Pooja;
 use App\Models\PoojaSlot;
-use App\Models\Restaurant;
 use App\Models\RestaurantSlot;
-use App\Support\Money;
+use App\Models\Room;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Answers "can this be booked, and at what price?" without writing anything.
@@ -54,12 +50,14 @@ class AvailabilityService
             return $this->deny('Check-out must be at least one night after check-in.');
         }
 
-        if ($room->min_nights > 0 && $nights < $room->min_nights) {
-            return $this->deny("This room has a {$room->min_nights}-night minimum stay.");
+        $hotel = $room->hotel;
+
+        if ($hotel !== null && $hotel->min_nights > 0 && $nights < $hotel->min_nights) {
+            return $this->deny("This stay has a {$hotel->min_nights}-night minimum.");
         }
 
-        if ($room->max_nights !== null && $nights > $room->max_nights) {
-            return $this->deny("This room allows a maximum of {$room->max_nights} nights.");
+        if ($hotel !== null && $hotel->max_nights !== null && $nights > $hotel->max_nights) {
+            return $this->deny("This stay allows a maximum of {$hotel->max_nights} nights.");
         }
 
         $remaining = $room->availabilityFor($checkIn, $checkOut, $excludeBookingId);
@@ -80,7 +78,7 @@ class AvailabilityService
     /**
      * @return array{available: bool, remaining: int, reason: ?string}
      */
-    public function checkEventTicket(\App\Models\Event $event, \App\Models\EventTicketType $type, int $quantity): array
+    public function checkEventTicket(Event $event, EventTicketType $type, int $quantity): array
     {
         if (! $event->is_active) {
             return $this->deny('This event is no longer on sale.');
@@ -328,7 +326,7 @@ class AvailabilityService
     private function bookedOnSlot(
         AdventureSlot|DarshanSlot|PoojaSlot|RestaurantSlot $slot,
     ): int {
-        return (int) \Illuminate\Support\Facades\DB::table('booking_items')
+        return (int) DB::table('booking_items')
             ->join('bookings', 'bookings.id', '=', 'booking_items.booking_id')
             ->where('booking_items.slot_table', $slot::class)
             ->where('booking_items.slot_id', $slot->getKey())

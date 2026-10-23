@@ -104,6 +104,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
 
+    Route::get('/book/{type}/{slug}', [BookingController::class, 'create'])
+        ->whereIn('type', ['hotel', 'event', 'adventure', 'darshan', 'pooja', 'restaurant', 'food'])
+        ->name('bookings.create');
+    Route::post('/book/{type}/{slug}', [BookingController::class, 'store'])
+        ->whereIn('type', ['hotel', 'event', 'adventure', 'darshan', 'pooja', 'restaurant', 'food'])
+        ->middleware('throttle:20,1')
+        ->name('bookings.store');
+
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{booking}/invoice', [BookingController::class, 'invoice'])->name('bookings.invoice');
+    Route::get('/bookings/{booking}/pay', [BookingController::class, 'pay'])->name('bookings.pay');
+    Route::post('/bookings/{booking}/pay', [BookingController::class, 'initiatePayment'])
+        ->middleware('throttle:10,1')
+        ->name('bookings.pay.initiate');
+    Route::match(['get', 'post'], '/bookings/{booking}/callback', [BookingController::class, 'callback'])
+        ->middleware('throttle:20,1')
+        ->name('payments.callback');
+
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist', [WishlistController::class, 'store'])
         ->middleware('throttle:30,1')
@@ -161,6 +179,7 @@ Route::middleware(['auth', 'admin'])
         // Bookings
         Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
         Route::get('/bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+        Route::post('/bookings/{booking}/record-payment', [AdminBookingController::class, 'recordPayment'])->name('bookings.record-payment');
         Route::put('/bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
         Route::delete('/bookings/{booking}', [AdminBookingController::class, 'destroy'])->name('bookings.destroy');
 
