@@ -17,4 +17,13 @@ foreach ($directories as $dir) {
     }
 }
 
+// Copy pre-compiled bootstrap manifests to /tmp for fast cold starts
+foreach (['packages.php', 'services.php'] as $manifest) {
+    $src = __DIR__ . '/../bootstrap/cache/' . $manifest;
+    $dst = '/tmp/bootstrap/cache/' . $manifest;
+    if (! file_exists($dst) && file_exists($src)) {
+        @copy($src, $dst);
+    }
+}
+
 require __DIR__ . '/../public/index.php';

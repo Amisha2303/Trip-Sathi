@@ -27,3 +27,4 @@ yarn-error.log
 .env.*.local
 !.env.example
 !.env.production.example
+.env*

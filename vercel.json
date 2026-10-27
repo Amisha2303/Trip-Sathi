@@ -7,21 +7,32 @@
   "buildCommand": "npm run build",
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.8.0"
+      "runtime": "vercel-php@0.8.0",
+      "maxDuration": 15,
+      "memory": 1024
     }
   },
   "routes": [
     {
       "src": "/build/(.*)",
-      "dest": "/public/build/$1"
+      "dest": "/public/build/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
     },
     {
       "src": "/images/(.*)",
-      "dest": "/public/images/$1"
+      "dest": "/public/images/$1",
+      "headers": {
+        "cache-control": "public, max-age=86400, stale-while-revalidate=604800"
+      }
     },
     {
       "src": "/photos/(.*)",
-      "dest": "/public/photos/$1"
+      "dest": "/public/photos/$1",
+      "headers": {
+        "cache-control": "public, max-age=86400, stale-while-revalidate=604800"
+      }
     },
     {
       "src": "/favicon\\.(ico|png)",
