@@ -21,6 +21,17 @@ foreach ($directories as $dir) {
     }
 }
 
+// Copy pre-seeded SQLite database to writable /tmp
+$sqliteSource = __DIR__ . '/../database/database.sqlite';
+$sqliteTarget = '/tmp/database.sqlite';
+
+if (file_exists($sqliteSource)) {
+    if (! file_exists($sqliteTarget) || filemtime($sqliteSource) > filemtime($sqliteTarget)) {
+        @copy($sqliteSource, $sqliteTarget);
+        @chmod($sqliteTarget, 0666);
+    }
+}
+
 // Forward storage path to writable /tmp
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 putenv('APP_STORAGE=/tmp/storage');

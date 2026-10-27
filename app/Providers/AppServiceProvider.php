@@ -54,34 +54,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerMorphMap();
-        $this->trustLocalTunnels();
         $this->enforceProductionDefaults();
         $this->shareViewData();
         $this->configureValidationDefaults();
         $this->configureRateLimiters();
         $this->configureDatesAndCurrency();
         \Illuminate\Pagination\Paginator::useBootstrapFive();
-    }
-
-    /**
-     * Trust TLS-terminating tunnels so X-Forwarded-Proto is honoured.
-     *
-     * ngrok (and similar tunnels) reach the app as plain HTTP and put the real
-     * public scheme in X-Forwarded-Proto. Without this the app believes every
-     * request is http://, so @vite emits http:// asset URLs — and the https
-     * page then blocks its own CSS/JS as mixed content, which looks exactly
-     * like "the stylesheet is missing" when browsing through ngrok.
-     *
-     * Production forces https in enforceProductionDefaults() instead, so this
-     * only ever applies to local/dev tunnels.
-     */
-    protected function trustLocalTunnels(): void
-    {
-        if (config('app.env') === 'production') {
-            return;
-        }
-
-        \Illuminate\Http\Middleware\TrustProxies::at('*');
     }
 
     /**

@@ -70,6 +70,10 @@ class LoginController extends Controller
             return redirect()->to($next);
         }
 
+        if (Auth::user()?->isAdmin()) {
+            return redirect()->intended('/admin/dashboard');
+        }
+
         return redirect()->intended(self::DEFAULT_INTENDED);
     }
 

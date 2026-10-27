@@ -46,7 +46,11 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         // Queued: registration must not wait on an SMTP round trip.
-        Mail::to($user)->queue(new WelcomeMail($user));
+        try {
+            Mail::to($user)->queue(new WelcomeMail($user));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()
             ->route('dashboard')

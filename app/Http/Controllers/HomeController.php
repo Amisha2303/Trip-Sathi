@@ -23,7 +23,13 @@ class HomeController extends Controller
     {
         try {
             $destinations = Destination::where('is_active', true)->where('is_featured', true)->take(6)->get();
+            if ($destinations->isEmpty()) {
+                $destinations = Destination::where('is_active', true)->take(6)->get();
+            }
             $hotels = Hotel::where('is_active', true)->with('destination')->take(4)->get();
+            if ($hotels->isEmpty()) {
+                $hotels = Hotel::with('destination')->take(4)->get();
+            }
             $adventures = Adventure::where('is_active', true)->with('destination')->take(4)->get();
             $events = Event::where('is_active', true)->take(4)->get();
             $darshans = Darshan::where('is_active', true)->with('destination')->take(4)->get();
