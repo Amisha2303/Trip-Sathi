@@ -7,13 +7,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $users = User::query()
             ->withCount('bookings')
@@ -34,17 +35,20 @@ class UserController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.users.index', ['users' => $users]);
+        return Inertia::render('Admin/Users/Index', [
+            'users' => $users,
+            'filters' => $request->only(['q', 'role', 'status']),
+        ]);
     }
 
-    public function show(User $user): View
+    public function show(User $user): Response
     {
         $user->load([
             'bookings' => fn ($q) => $q->latest('booking_date')->limit(20),
             'bookings.destination:id,name',
         ]);
 
-        return view('admin.users.show', [
+        return Inertia::render('Admin/Users/Show', [
             'user' => $user,
             'stats' => $user->bookingStats(),
         ]);

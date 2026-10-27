@@ -25,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'sanitize' => \App\Http\Middleware\SanitizeRequestInput::class,
         ]);
 
+        $middleware->web(append: [
+            \App\Http\Middleware\HandleInertiaRequests::class,
+        ]);
+
         // Unauthenticated SPA-style requests get a JSON 401 rather than a
         // redirect to a login page that would never be rendered.
         $middleware->redirectGuestsTo(fn () => route('login', ['next' => request()->fullUrl()]));

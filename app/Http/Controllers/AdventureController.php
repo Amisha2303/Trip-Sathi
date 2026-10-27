@@ -16,7 +16,7 @@ class AdventureController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single adventure by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('adventure', $slug, $request);
     }
@@ -39,7 +39,7 @@ class AdventureController extends Controller
         'watersports' => 'Water sports',
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Adventure::query()->active()->with('destination');
 
@@ -71,7 +71,7 @@ class AdventureController extends Controller
 
         $adventures = $query->paginate(9)->withQueryString();
 
-        return view('adventures.index', [
+        return \Inertia\Inertia::render('Adventures/Index', [
             'adventures' => $adventures,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'types' => self::TYPES,

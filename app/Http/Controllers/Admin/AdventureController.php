@@ -10,7 +10,8 @@ use App\Http\Requests\Admin\AdventureRequest;
 use App\Models\Adventure;
 use App\Models\Category;
 use App\Models\Destination;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class AdventureController extends Controller
 {
     use HandlesImageUpload;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $adventures = Adventure::query()
             ->with(['destination:id,name', 'category:id,name'])
@@ -32,16 +33,17 @@ class AdventureController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.adventures.index', [
+        return Inertia::render('Admin/Adventures/Index', [
             'adventures' => $adventures,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'difficulties' => \App\Enums\Difficulty::options(),
+            'filters' => $request->only(['q', 'destination', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.adventures.form', [
+        return Inertia::render('Admin/Adventures/Form', [
             'adventure' => new Adventure(),
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'adventure')->orderBy('name')->get(),
@@ -59,9 +61,9 @@ class AdventureController extends Controller
         return redirect()->route('admin.adventures.index')->with('success', 'Adventure created.');
     }
 
-    public function edit(Adventure $adventure): View
+    public function edit(Adventure $adventure): Response
     {
-        return view('admin.adventures.form', [
+        return Inertia::render('Admin/Adventures/Form', [
             'adventure' => $adventure,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'adventure')->orderBy('name')->get(),

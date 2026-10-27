@@ -106,7 +106,7 @@ class Adventure extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/adventure-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/adventure-placeholder.svg');
     }
 
     public function getEffectivePriceAttribute(): float

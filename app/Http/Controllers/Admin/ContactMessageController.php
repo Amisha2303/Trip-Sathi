@@ -7,13 +7,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ContactReplyRequest;
 use App\Models\ContactMessage;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $messages = ContactMessage::query()
             ->when($request->filled('q'), function ($q) use ($request) {
@@ -37,21 +38,22 @@ class ContactMessageController extends Controller
             'closed' => ContactMessage::query()->where('status', 'closed')->count(),
         ];
 
-        return view('admin.contact.index', [
+        return Inertia::render('Admin/Contact/Index', [
             'messages' => $messages,
             'counts' => $counts,
             'statuses' => ['new' => 'New', 'read' => 'Read', 'replied' => 'Replied', 'closed' => 'Closed', 'spam' => 'Spam'],
+            'filters' => $request->only(['q', 'status', 'unread']),
         ]);
     }
 
-    public function show(ContactMessage $message): View
+    public function show(ContactMessage $message): Response
     {
         // Opening the message marks it read — same as an email client.
         $message->markRead();
 
         $message->load(['user:id,name,email', 'repliedBy:id,name']);
 
-        return view('admin.contact.show', [
+        return Inertia::render('Admin/Contact/Show', [
             'message' => $message,
             'statuses' => ['new' => 'New', 'read' => 'Read', 'replied' => 'Replied', 'closed' => 'Closed', 'spam' => 'Spam'],
         ]);

@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
  */
 trait RendersCatalogueDetail
 {
-    protected function renderCatalogueDetail(string $type, string $slug, Request $request): View
+    protected function renderCatalogueDetail(string $type, string $slug, Request $request): \Inertia\Response
     {
         $class = Catalogue::modelClass($type);
         abort_unless($class !== null, 404);
@@ -60,7 +60,7 @@ trait RendersCatalogueDetail
         }
         $crumbs[] = ['label' => $model->name];
 
-        return view('catalogue.show', [
+        return \Inertia\Inertia::render('Catalogue/Show', [
             'detail' => $detail,
             'model' => $model,
             'reviews' => $model->reviews->values(),

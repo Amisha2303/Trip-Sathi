@@ -15,7 +15,7 @@ class DarshanController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single darshan by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('darshan', $slug, $request);
     }
@@ -33,7 +33,7 @@ class DarshanController extends Controller
         'online' => 'Online / Virtual',
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Darshan::query()->active()->with('destination');
 
@@ -61,7 +61,7 @@ class DarshanController extends Controller
 
         $darshans = $query->paginate(9)->withQueryString();
 
-        return view('darshan.index', [
+        return \Inertia\Inertia::render('Darshan/Index', [
             'darshans' => $darshans,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'types' => self::TYPES,

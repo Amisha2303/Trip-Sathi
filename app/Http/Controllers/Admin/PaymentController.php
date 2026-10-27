@@ -8,14 +8,15 @@ use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Services\Payment\PaymentService;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $payments = Payment::query()
             ->with(['booking:id,booking_number,customer_name', 'user:id,name,email'])
@@ -39,15 +40,16 @@ class PaymentController extends Controller
             ->get()
             ->keyBy(fn (Payment $row) => $row->status->value);
 
-        return view('admin.payments.index', [
+        return Inertia::render('Admin/Payments/Index', [
             'payments' => $payments,
             'totals' => $totals,
             'statuses' => PaymentStatus::options(),
             'gateways' => ['razorpay' => 'Razorpay', 'stripe' => 'Stripe', 'offline' => 'Offline'],
+            'filters' => $request->only(['q', 'status', 'gateway']),
         ]);
     }
 
-    public function show(Payment $payment): View
+    public function show(Payment $payment): Response
     {
         $payment->load([
             'booking',
@@ -57,7 +59,7 @@ class PaymentController extends Controller
             'refunds',
         ]);
 
-        return view('admin.payments.show', [
+        return Inertia::render('Admin/Payments/Show', [
             'payment' => $payment,
         ]);
     }

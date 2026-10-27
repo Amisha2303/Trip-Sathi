@@ -151,33 +151,33 @@ class Booking extends BaseModel
 
     public function getFinalAmountRupeesAttribute(): float
     {
-        return self::toRupees($this->final_amount);
+        return self::toRupees($this->attributes['final_amount'] ?? 0);
     }
 
     public function getSubtotalRupeesAttribute(): float
     {
-        return self::toRupees($this->subtotal);
+        return self::toRupees($this->attributes['subtotal'] ?? 0);
     }
 
     public function getDiscountRupeesAttribute(): float
     {
-        return self::toRupees($this->discount);
+        return self::toRupees($this->attributes['discount'] ?? 0);
     }
 
     public function getTaxRupeesAttribute(): float
     {
-        return self::toRupees($this->tax);
+        return self::toRupees($this->attributes['tax'] ?? 0);
     }
 
     public function getRefundedRupeesAttribute(): float
     {
-        return self::toRupees($this->refunded_amount);
+        return self::toRupees($this->attributes['refunded_amount'] ?? 0);
     }
 
     /** Amount still owed after refunds. */
     public function getRefundableAmountAttribute(): float
     {
-        return self::toRupees(max(0, (int) $this->final_amount - (int) $this->refunded_amount));
+        return self::toRupees(max(0, (int) ($this->attributes['final_amount'] ?? 0) - (int) ($this->attributes['refunded_amount'] ?? 0)));
     }
 
     /*
@@ -188,6 +188,10 @@ class Booking extends BaseModel
 
     public function getStatusLabelAttribute(): string
     {
+        if (! isset($this->attributes['status'])) {
+            return '—';
+        }
+
         return $this->status?->label() ?? '—';
     }
 
@@ -198,7 +202,11 @@ class Booking extends BaseModel
 
     public function bookingType(): ?BookingType
     {
-        $type = $this->booking_type;
+        $type = $this->attributes['booking_type'] ?? null;
+
+        if ($type === null) {
+            return null;
+        }
 
         return $type instanceof BookingType ? $type : BookingType::tryFrom((string) $type);
     }

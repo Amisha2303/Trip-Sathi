@@ -20,7 +20,8 @@ use App\Services\Payment\PaymentService;
 use App\Services\SettingsService;
 use App\Support\Catalogue;
 use App\Support\Money;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class BookingController extends Controller
         'hotel', 'event', 'adventure', 'darshan', 'pooja', 'restaurant', 'food',
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $status = $request->query('status');
         $statuses = [...BookingStatus::values(), 'upcoming'];
@@ -57,21 +58,24 @@ class BookingController extends Controller
             'cancelled' => $request->user()->bookings()->where('status', 'cancelled')->count(),
         ];
 
-        return view('account.bookings', [
+        return Inertia::render('Account/Bookings', [
             'bookings' => $bookings,
             'status' => $status,
-            'statuses' => BookingStatus::cases(),
+            'statuses' => array_map(fn ($case) => [
+                'value' => $case->value,
+                'label' => $case->label(),
+            ], BookingStatus::cases()),
             'counts' => $counts,
         ]);
     }
 
-    public function create(Request $request, string $type, string $slug, BookingInventoryService $inventory): View
+    public function create(Request $request, string $type, string $slug, BookingInventoryService $inventory): Response
     {
         $model = $this->resolveBookable($type, $slug);
 
         $inventory->ensure($model, $type);
 
-        return view('bookings.create', $this->formData($type, $model, $inventory));
+        return Inertia::render('Bookings/Create', $this->formData($type, $model, $inventory));
     }
 
     public function store(
@@ -109,7 +113,7 @@ class BookingController extends Controller
             ->with('success', 'Your booking is held. Complete payment to confirm it.');
     }
 
-    public function show(Request $request, Booking $booking): View
+    public function show(Request $request, Booking $booking): Response
     {
         $this->authorizeBooking($request, $booking);
 
@@ -121,25 +125,25 @@ class BookingController extends Controller
             'refunds',
         ]);
 
-        return view('bookings.show', [
+        return Inertia::render('Bookings/Show', [
             'booking' => $booking,
             'latestPayment' => $booking->payments->sortByDesc('id')->first(),
         ]);
     }
 
-    public function invoice(Request $request, Booking $booking): View
+    public function invoice(Request $request, Booking $booking): Response
     {
         $this->authorizeBooking($request, $booking);
 
         $booking->load(['items', 'destination:id,name', 'payments']);
 
-        return view('bookings.invoice', [
+        return Inertia::render('Bookings/Invoice', [
             'booking' => $booking,
             'payment' => $booking->payments->sortByDesc('id')->first(),
         ]);
     }
 
-    public function pay(Request $request, Booking $booking, PaymentService $payments): View|RedirectResponse
+    public function pay(Request $request, Booking $booking, PaymentService $payments): Response|RedirectResponse
     {
         $this->authorizeBooking($request, $booking);
 
@@ -153,7 +157,7 @@ class BookingController extends Controller
 
         $gateway = $payments->gateway();
 
-        return view('bookings.pay', [
+        return Inertia::render('Bookings/Pay', [
             'booking' => $booking,
             'latestPayment' => $booking->payment()->first(),
             'gatewayName' => $gateway->gateway()->label(),
@@ -164,7 +168,7 @@ class BookingController extends Controller
         ]);
     }
 
-    public function initiatePayment(Request $request, Booking $booking, PaymentService $payments): View|RedirectResponse
+    public function initiatePayment(Request $request, Booking $booking, PaymentService $payments): Response|RedirectResponse
     {
         $this->authorizeBooking($request, $booking);
 
@@ -185,9 +189,12 @@ class BookingController extends Controller
         }
 
         if ($result->requiresCheckout()) {
-            return view('bookings.checkout', [
+            return Inertia::render('Bookings/Checkout', [
                 'booking' => $booking,
-                'result' => $result,
+                'result' => [
+                    'clientScript' => $result->clientScript,
+                    'clientOptions' => $result->clientOptions,
+                ],
             ]);
         }
 

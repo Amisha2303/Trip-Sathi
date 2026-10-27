@@ -7,13 +7,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $categories = Category::query()
             ->search($request->string('q')->toString(), ['name', 'type'])
@@ -26,15 +27,16 @@ class CategoryController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.categories.index', [
+        return Inertia::render('Admin/Categories/Index', [
             'categories' => $categories,
             'types' => Category::types(),
+            'filters' => $request->only(['q', 'type', 'status']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.categories.form', [
+        return Inertia::render('Admin/Categories/Form', [
             'category' => new Category(),
             'types' => Category::types(),
         ]);
@@ -47,9 +49,9 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Category created.');
     }
 
-    public function edit(Category $category): View
+    public function edit(Category $category): Response
     {
-        return view('admin.categories.form', [
+        return Inertia::render('Admin/Categories/Form', [
             'category' => $category,
             'types' => Category::types(),
         ]);

@@ -183,10 +183,16 @@ class AppServiceProvider extends ServiceProvider
     protected function shareViewData(): void
     {
         View::composer('*', function ($view): void {
-            $user = auth()->user();
+            try {
+                $user = auth()->user();
+                $appSettings = app(SettingsService::class)->all();
+            } catch (\Throwable) {
+                $user = null;
+                $appSettings = [];
+            }
 
             $view->with([
-                'appSettings' => app(SettingsService::class)->all(),
+                'appSettings' => $appSettings,
                 'signedIn' => $user !== null,
                 'currentUser' => $user,
                 'isAdmin' => $user?->isAdmin() ?? false,
@@ -202,9 +208,13 @@ class AppServiceProvider extends ServiceProvider
 
     protected function unreadNotificationCount(): int
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        return $user ? $user->notifications()->whereNull('read_at')->count() : 0;
+            return $user ? $user->notifications()->whereNull('read_at')->count() : 0;
+        } catch (\Throwable) {
+            return 0;
+        }
     }
 
     /**

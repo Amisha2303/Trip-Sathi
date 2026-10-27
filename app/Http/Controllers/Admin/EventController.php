@@ -10,7 +10,8 @@ use App\Http\Requests\Admin\EventRequest;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Event;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class EventController extends Controller
 {
     use HandlesImageUpload;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $events = Event::query()
             ->with(['destination:id,name', 'category:id,name'])
@@ -32,15 +33,16 @@ class EventController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.events.index', [
+        return Inertia::render('Admin/Events/Index', [
             'events' => $events,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
+            'filters' => $request->only(['q', 'destination', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.events.form', [
+        return Inertia::render('Admin/Events/Form', [
             'event' => new Event(),
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'event')->orderBy('name')->get(),
@@ -57,9 +59,9 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')->with('success', 'Event created.');
     }
 
-    public function edit(Event $event): View
+    public function edit(Event $event): Response
     {
-        return view('admin.events.form', [
+        return Inertia::render('Admin/Events/Form', [
             'event' => $event,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'event')->orderBy('name')->get(),

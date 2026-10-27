@@ -17,9 +17,9 @@ use Illuminate\View\View;
 
 class NewPasswordController extends Controller
 {
-    public function create(Request $request): View
+    public function create(Request $request): \Inertia\Response
     {
-        return view('auth.reset-password', [
+        return \Inertia\Inertia::render('Auth/ResetPassword', [
             'email' => $request->query('email'),
             'token' => $request->query('token'),
         ]);

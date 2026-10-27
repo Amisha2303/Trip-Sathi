@@ -91,7 +91,7 @@ class Pooja extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/pooja-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/pooja-placeholder.svg');
     }
 
     public function getEffectivePriceAttribute(): float

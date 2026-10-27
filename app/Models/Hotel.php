@@ -110,7 +110,7 @@ class Hotel extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/hotel-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/hotel-placeholder.svg');
     }
 
     /** Price once the hotel-level discount is applied. */

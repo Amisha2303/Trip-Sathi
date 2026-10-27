@@ -16,9 +16,9 @@ class LoginController extends Controller
     /** Where to land after a successful sign-in. */
     private const DEFAULT_INTENDED = '/dashboard';
 
-    public function create(): View
+    public function create(): \Inertia\Response
     {
-        return view('auth.login', [
+        return \Inertia\Inertia::render('Auth/Login', [
             'canResetPassword' => true,
         ]);
     }

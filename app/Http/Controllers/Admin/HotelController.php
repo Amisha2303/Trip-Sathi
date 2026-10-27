@@ -10,7 +10,8 @@ use App\Http\Requests\Admin\HotelRequest;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Hotel;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class HotelController extends Controller
 {
     use HandlesImageUpload;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $hotels = Hotel::query()
             ->with(['destination:id,name', 'category:id,name'])
@@ -32,15 +33,16 @@ class HotelController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.hotels.index', [
+        return Inertia::render('Admin/Hotels/Index', [
             'hotels' => $hotels,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
+            'filters' => $request->only(['q', 'destination', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.hotels.form', [
+        return Inertia::render('Admin/Hotels/Form', [
             'hotel' => new Hotel(),
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'hotel')->orderBy('name')->get(),
@@ -57,9 +59,9 @@ class HotelController extends Controller
         return redirect()->route('admin.hotels.index')->with('success', 'Hotel created.');
     }
 
-    public function edit(Hotel $hotel): View
+    public function edit(Hotel $hotel): Response
     {
-        return view('admin.hotels.form', [
+        return Inertia::render('Admin/Hotels/Form', [
             'hotel' => $hotel,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'hotel')->orderBy('name')->get(),

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TripController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $scope = (string) $request->query('scope', 'community');
         $available = ['community' => true, 'mine' => auth()->check()];
@@ -45,7 +45,7 @@ class TripController extends Controller
 
         $trips = $query->paginate(9)->withQueryString();
 
-        return view('trips.index', [
+        return \Inertia\Inertia::render('Trips/Index', [
             'trips' => $trips,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'scope' => $scope,

@@ -101,7 +101,7 @@ class TripItem extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->image, 'images/trip-item-placeholder.svg');
+        return self::imageUrl($this->attributes['image'] ?? null, 'images/trip-item-placeholder.svg');
     }
 
     /** True when the traveller has already paid for this stop. */

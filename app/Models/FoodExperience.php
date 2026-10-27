@@ -89,7 +89,7 @@ class FoodExperience extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/food-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/food-placeholder.svg');
     }
 
     public function getEffectivePriceAttribute(): float

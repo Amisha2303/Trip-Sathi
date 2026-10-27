@@ -15,7 +15,7 @@ class PoojaController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single pooja by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('pooja', $slug, $request);
     }
@@ -26,7 +26,7 @@ class PoojaController extends Controller
         'duration' => ['duration_minutes', 'asc'],
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Pooja::query()->active()->with('destination');
 
@@ -50,7 +50,7 @@ class PoojaController extends Controller
 
         $poojas = $query->paginate(9)->withQueryString();
 
-        return view('pooja.index', [
+        return \Inertia\Inertia::render('Pooja/Index', [
             'poojas' => $poojas,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'total' => Pooja::query()->active()->count(),

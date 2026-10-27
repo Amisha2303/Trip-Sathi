@@ -126,7 +126,7 @@ class Destination extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/destination-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/destination-placeholder.svg');
     }
 
     /** "Ahmedabad, Gujarat, India" — used on cards and page titles. */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Adventure;
@@ -12,10 +14,12 @@ use App\Models\Pooja;
 use App\Models\Restaurant;
 use App\Models\Testimonial;
 use App\Models\Trip;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $destinations = Destination::where('is_active', true)->where('is_featured', true)->take(6)->get();
         $hotels = Hotel::where('is_active', true)->with('destination')->take(4)->get();
@@ -52,19 +56,19 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'slug']);
 
-        return view('home', compact(
-            'destinations',
-            'hotels',
-            'adventures',
-            'events',
-            'darshans',
-            'poojas',
-            'restaurants',
-            'experiences',
-            'trips',
-            'testimonials',
-            'counts',
-            'destinationOptions'
-        ));
+        return Inertia::render('Home', [
+            'destinations' => $destinations,
+            'hotels' => $hotels,
+            'adventures' => $adventures,
+            'events' => $events,
+            'darshans' => $darshans,
+            'poojas' => $poojas,
+            'restaurants' => $restaurants,
+            'experiences' => $experiences,
+            'trips' => $trips,
+            'testimonials' => $testimonials,
+            'counts' => $counts,
+            'destinationOptions' => $destinationOptions,
+        ]);
     }
 }

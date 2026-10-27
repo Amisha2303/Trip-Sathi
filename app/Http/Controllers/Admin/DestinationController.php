@@ -9,7 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DestinationRequest;
 use App\Models\Category;
 use App\Models\Destination;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class DestinationController extends Controller
 {
     use HandlesImageUpload;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $destinations = Destination::query()
             ->with('category:id,name')
@@ -30,14 +31,15 @@ class DestinationController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.destinations.index', [
+        return Inertia::render('Admin/Destinations/Index', [
             'destinations' => $destinations,
+            'filters' => $request->only(['q', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.destinations.form', [
+        return Inertia::render('Admin/Destinations/Form', [
             'destination' => new Destination(),
             'categories' => Category::where('type', 'destination')->orderBy('name')->get(),
         ]);
@@ -55,9 +57,9 @@ class DestinationController extends Controller
         return redirect()->route('admin.destinations.index')->with('success', 'Destination created.');
     }
 
-    public function edit(Destination $destination): View
+    public function edit(Destination $destination): Response
     {
-        return view('admin.destinations.form', [
+        return Inertia::render('Admin/Destinations/Form', [
             'destination' => $destination,
             'categories' => Category::where('type', 'destination')->orderBy('name')->get(),
         ]);

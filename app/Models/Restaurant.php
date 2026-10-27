@@ -107,7 +107,7 @@ class Restaurant extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->main_image, 'images/restaurant-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/restaurant-placeholder.svg');
     }
 
     public function getRouteKeyName(): string

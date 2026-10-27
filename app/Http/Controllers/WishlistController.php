@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\WishlistType;
 use App\Models\Wishlist;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $type = $request->query('type');
 
@@ -32,10 +33,13 @@ class WishlistController extends Controller
             $counts[$case->value] = $request->user()->wishlistItems()->where('type', $case->value)->count();
         }
 
-        return view('account.wishlist', [
+        return Inertia::render('Account/Wishlist', [
             'items' => $items,
             'type' => $type,
-            'types' => WishlistType::cases(),
+            'types' => array_map(fn ($case) => [
+                'value' => $case->value,
+                'label' => $case->label(),
+            ], WishlistType::cases()),
             'counts' => $counts,
             'total' => $request->user()->wishlistItems()->count(),
         ]);

@@ -11,9 +11,9 @@ use Illuminate\Contracts\View\View;
 
 class ContactController extends Controller
 {
-    public function create(SettingsService $settings): View
+    public function create(SettingsService $settings): \Inertia\Response
     {
-        return view('contact', [
+        return \Inertia\Inertia::render('Contact', [
             'settings' => [
                 'owner' => $settings->string('owner_name', 'Amisha Chauhan'),
                 'email' => $settings->string('contact_email'),

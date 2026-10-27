@@ -69,7 +69,7 @@ class Category extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->image, 'images/category-placeholder.svg');
+        return self::imageUrl($this->attributes['image'] ?? null, 'images/category-placeholder.svg');
     }
 
     public function scopeOfType(Builder $query, ?string $type): Builder

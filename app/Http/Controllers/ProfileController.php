@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
-    public function edit(Request $request): View
+    public function edit(Request $request): Response
     {
-        return view('account.profile', [
+        return Inertia::render('Account/Profile', [
             'user' => $request->user(),
+            'isAdmin' => $request->user()->isAdmin(),
         ]);
     }
 
@@ -59,9 +61,9 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('success', 'Password updated successfully.');
     }
 
-    public function preferences(Request $request): View
+    public function preferences(Request $request): Response
     {
-        return view('account.preferences', [
+        return Inertia::render('Account/Preferences', [
             'user' => $request->user(),
             'prefs' => $request->user()->prefs(),
         ]);

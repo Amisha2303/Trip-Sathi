@@ -17,9 +17,9 @@ use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
-    public function create(): View
+    public function create(): \Inertia\Response
     {
-        return view('auth.register');
+        return \Inertia\Inertia::render('Auth/Register');
     }
 
     public function store(RegisterRequest $request): RedirectResponse

@@ -59,12 +59,12 @@ class Payment extends BaseModel
 
     public function getAmountRupeesAttribute(): float
     {
-        return Booking::toRupees($this->amount);
+        return Booking::toRupees($this->attributes['amount'] ?? 0);
     }
 
     public function getAmountRefundedRupeesAttribute(): float
     {
-        return Booking::toRupees($this->amount_refunded);
+        return Booking::toRupees($this->attributes['amount_refunded'] ?? 0);
     }
 
     public function getIsRefundedAttribute(): bool

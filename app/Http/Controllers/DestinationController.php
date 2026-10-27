@@ -14,7 +14,7 @@ class DestinationController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single destination by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('destination', $slug, $request);
     }
@@ -25,7 +25,7 @@ class DestinationController extends Controller
         'newest' => ['created_at', 'desc'],
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Destination::query()->active();
 
@@ -60,7 +60,7 @@ class DestinationController extends Controller
             ->orderBy('state')
             ->pluck('state');
 
-        return view('destinations.index', [
+        return \Inertia\Inertia::render('Destinations/Index', [
             'destinations' => $destinations,
             'states' => $states,
             'total' => Destination::query()->active()->count(),

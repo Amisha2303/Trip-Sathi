@@ -91,7 +91,7 @@ class BookingItem extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->image, 'images/placeholder.svg');
+        return self::imageUrl($this->attributes['image'] ?? null, 'images/placeholder.svg');
     }
 
     /*

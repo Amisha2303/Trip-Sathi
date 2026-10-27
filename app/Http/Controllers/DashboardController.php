@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Destination;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request): Response
     {
         $user = $request->user();
 
@@ -48,7 +49,7 @@ class DashboardController extends Controller
 
         $notifications = $user->notifications()->latest()->limit(5)->get();
 
-        return view('account.dashboard', [
+        return \Inertia\Inertia::render('Account/Dashboard', [
             'stats' => $stats,
             'upcomingBookings' => $upcomingBookings,
             'recentBookings' => $recentBookings,

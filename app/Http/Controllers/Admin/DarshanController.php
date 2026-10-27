@@ -10,7 +10,8 @@ use App\Http\Requests\Admin\DarshanRequest;
 use App\Models\Category;
 use App\Models\Darshan;
 use App\Models\Destination;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class DarshanController extends Controller
 
     private const TYPES = ['vip' => 'VIP Darshan', 'regular' => 'Regular', 'special' => 'Special', 'online' => 'Online'];
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $darshans = Darshan::query()
             ->with(['destination:id,name', 'category:id,name'])
@@ -34,16 +35,17 @@ class DarshanController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.darshan.index', [
+        return Inertia::render('Admin/Darshan/Index', [
             'darshans' => $darshans,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'types' => self::TYPES,
+            'filters' => $request->only(['q', 'destination', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.darshan.form', [
+        return Inertia::render('Admin/Darshan/Form', [
             'darshan' => new Darshan(),
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'darshan')->orderBy('name')->get(),
@@ -61,9 +63,9 @@ class DarshanController extends Controller
         return redirect()->route('admin.darshan.index')->with('success', 'Darshan created.');
     }
 
-    public function edit(Darshan $darshan): View
+    public function edit(Darshan $darshan): Response
     {
-        return view('admin.darshan.form', [
+        return Inertia::render('Admin/Darshan/Form', [
             'darshan' => $darshan,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'darshan')->orderBy('name')->get(),

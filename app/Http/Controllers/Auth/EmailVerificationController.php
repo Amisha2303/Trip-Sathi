@@ -16,15 +16,16 @@ class EmailVerificationController extends Controller
     /** Landing page after a successful verification. */
     private const VERIFIED_REDIRECT = '/dashboard';
 
-    public function notice(Request $request): View|RedirectResponse
+    public function notice(Request $request): \Inertia\Response|RedirectResponse
     {
         // A signed-in user who is already verified never sees this screen.
         if ($request->user()?->hasVerifiedEmail()) {
             return redirect()->intended(self::VERIFIED_REDIRECT);
         }
 
-        return view('auth.verify-email', [
+        return \Inertia\Inertia::render('Auth/VerifyEmail', [
             'email' => $request->user()?->getEmailForVerification(),
+            'status' => session('status'),
         ]);
     }
 

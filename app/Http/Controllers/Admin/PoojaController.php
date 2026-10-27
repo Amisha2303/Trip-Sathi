@@ -10,7 +10,8 @@ use App\Http\Requests\Admin\PoojaRequest;
 use App\Models\Category;
 use App\Models\Destination;
 use App\Models\Pooja;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class PoojaController extends Controller
 {
     use HandlesImageUpload;
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $poojas = Pooja::query()
             ->with(['destination:id,name', 'category:id,name'])
@@ -32,15 +33,16 @@ class PoojaController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.pooja.index', [
+        return Inertia::render('Admin/Pooja/Index', [
             'poojas' => $poojas,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
+            'filters' => $request->only(['q', 'destination', 'status', 'featured']),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.pooja.form', [
+        return Inertia::render('Admin/Pooja/Form', [
             'pooja' => new Pooja(),
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'pooja')->orderBy('name')->get(),
@@ -57,9 +59,9 @@ class PoojaController extends Controller
         return redirect()->route('admin.pooja.index')->with('success', 'Pooja created.');
     }
 
-    public function edit(Pooja $pooja): View
+    public function edit(Pooja $pooja): Response
     {
-        return view('admin.pooja.form', [
+        return Inertia::render('Admin/Pooja/Form', [
             'pooja' => $pooja,
             'destinations' => Destination::orderBy('name')->get(['id', 'name']),
             'categories' => Category::where('type', 'pooja')->orderBy('name')->get(),

@@ -11,14 +11,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BookingUpdateRequest;
 use App\Models\Booking;
 use App\Services\Payment\PaymentService;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $bookings = Booking::query()
             ->with(['user:id,name,email', 'destination:id,name'])
@@ -44,16 +45,17 @@ class BookingController extends Controller
             ->groupBy('status')
             ->pluck('total', 'status');
 
-        return view('admin.bookings.index', [
+        return Inertia::render('Admin/Bookings/Index', [
             'bookings' => $bookings,
             'statusTotals' => $statusTotals,
             'statuses' => BookingStatus::options(),
             'paymentStatuses' => PaymentStatus::options(),
             'types' => BookingType::options(),
+            'filters' => $request->only(['q', 'status', 'payment_status', 'type', 'from', 'to']),
         ]);
     }
 
-    public function show(Booking $booking): View
+    public function show(Booking $booking): Response
     {
         $booking->load([
             'user',
@@ -65,7 +67,7 @@ class BookingController extends Controller
             'payments.transactions',
         ]);
 
-        return view('admin.bookings.show', [
+        return Inertia::render('Admin/Bookings/Show', [
             'booking' => $booking,
             'statuses' => BookingStatus::options(),
             'paymentStatuses' => PaymentStatus::options(),

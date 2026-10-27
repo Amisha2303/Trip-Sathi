@@ -15,7 +15,7 @@ class HotelController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single hotel by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('hotel', $slug, $request);
     }
@@ -27,7 +27,7 @@ class HotelController extends Controller
         'stars' => ['star_rating', 'desc'],
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Hotel::query()->active()->with('destination');
 
@@ -63,7 +63,7 @@ class HotelController extends Controller
 
         $hotels = $query->paginate(12)->withQueryString();
 
-        return view('hotels.index', [
+        return \Inertia\Inertia::render('Hotels/Index', [
             'hotels' => $hotels,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'total' => Hotel::query()->active()->count(),

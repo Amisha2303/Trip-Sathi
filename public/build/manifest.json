@@ -7,10 +7,10 @@
     "file": "assets/bootstrap-icons-mSm7cUeB.woff2",
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
-  "resources/js/app.js": {
-    "file": "assets/app-Dzdt7v2H.js",
+  "resources/js/app.jsx": {
+    "file": "assets/app-BPOv6b5U.js",
     "name": "app",
-    "src": "resources/js/app.js",
+    "src": "resources/js/app.jsx",
     "isEntry": true,
     "css": [
       "assets/app-BI69yjDX.css"

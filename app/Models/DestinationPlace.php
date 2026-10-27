@@ -40,7 +40,7 @@ class DestinationPlace extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        return self::imageUrl($this->image, 'images/place-placeholder.svg');
+        return self::imageUrl($this->attributes['image'] ?? null, 'images/place-placeholder.svg');
     }
 
     public function activityModule(): string

@@ -17,12 +17,13 @@ use App\Models\Hotel;
 use App\Models\Pooja;
 use App\Models\Trip;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
         $revenue = (int) Booking::query()
             ->whereIn('payment_status', [PaymentStatus::Paid->value, PaymentStatus::PartiallyRefunded->value])
@@ -55,7 +56,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('admin.dashboard', [
+        return Inertia::render('Admin/Dashboard', [
             'kpis' => $kpis,
             'statusBreakdown' => $statusBreakdown,
             'recentBookings' => $recentBookings,

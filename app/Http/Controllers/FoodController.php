@@ -30,7 +30,7 @@ class FoodController extends Controller
         'cost_high' => ['average_cost', 'desc'],
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $query = Restaurant::query()->active()->with('destination');
 
@@ -77,7 +77,7 @@ class FoodController extends Controller
             ->orderBy('cuisine')
             ->pluck('cuisine');
 
-        return view('food.index', [
+        return \Inertia\Inertia::render('Food/Index', [
             'restaurants' => $restaurants,
             'experiences' => $experiences,
             'destinations' => $destinations,
@@ -92,7 +92,7 @@ class FoodController extends Controller
         ]);
     }
 
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         // Restaurants and food experiences share the /food/{slug} namespace.
         if (FoodExperience::query()->active()->where('slug', $slug)->exists()) {

@@ -15,7 +15,7 @@ class EventController extends Controller
     use RendersCatalogueDetail;
 
     /** Public detail page for a single event by slug. */
-    public function show(string $slug, Request $request): View
+    public function show(string $slug, Request $request): \Inertia\Response
     {
         return $this->renderCatalogueDetail('event', $slug, $request);
     }
@@ -27,7 +27,7 @@ class EventController extends Controller
         'popular' => ['sold_count', 'desc'],
     ];
 
-    public function index(Request $request): View
+    public function index(Request $request): \Inertia\Response
     {
         $when = $request->query('when', 'upcoming');
 
@@ -61,7 +61,7 @@ class EventController extends Controller
 
         $events = $query->paginate(9)->withQueryString();
 
-        return view('events.index', [
+        return \Inertia\Inertia::render('Events/Index', [
             'events' => $events,
             'destinations' => Destination::query()->active()->orderBy('name')->get(['id', 'name', 'slug']),
             'total' => Event::query()->active()->count(),

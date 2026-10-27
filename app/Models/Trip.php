@@ -76,7 +76,7 @@ class Trip extends BaseModel
     public function getImageUrlAttribute(): string
     {
         return self::imageUrl(
-            $this->cover_image ?? $this->destination?->main_image,
+            $this->attributes['cover_image'] ?? $this->destination?->main_image ?? null,
             'images/trip-placeholder.svg',
         );
     }
