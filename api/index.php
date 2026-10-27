@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-// Initialize writable storage directories in /tmp for Vercel Serverless
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+// Setup writable directories in /tmp for Vercel Serverless environment
 $directories = [
     '/tmp/storage/framework/views',
     '/tmp/storage/framework/cache/data',
@@ -17,13 +21,15 @@ foreach ($directories as $dir) {
     }
 }
 
-// Copy pre-compiled bootstrap manifests to /tmp for fast cold starts
-foreach (['packages.php', 'services.php'] as $manifest) {
-    $src = __DIR__ . '/../bootstrap/cache/' . $manifest;
-    $dst = '/tmp/bootstrap/cache/' . $manifest;
-    if (! file_exists($dst) && file_exists($src)) {
-        @copy($src, $dst);
-    }
-}
+// Forward storage path to writable /tmp
+$_ENV['APP_STORAGE'] = '/tmp/storage';
+putenv('APP_STORAGE=/tmp/storage');
 
-require __DIR__ . '/../public/index.php';
+require __DIR__ . '/../vendor/autoload.php';
+
+/** @var \Illuminate\Foundation\Application $app */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+$app->useStoragePath('/tmp/storage');
+
+$app->handleRequest(Request::capture());

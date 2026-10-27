@@ -77,7 +77,11 @@ class SettingsService
             return $this->cache;
         }
 
-        $stored = Setting::allCached();
+        try {
+            $stored = Setting::allCached();
+        } catch (\Throwable) {
+            $stored = [];
+        }
 
         $merged = [];
 

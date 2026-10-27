@@ -154,6 +154,8 @@ class AppServiceProvider extends ServiceProvider
         }
 
         URL::forceScheme('https');
+
+        \Illuminate\Support\Facades\Vite::useHotFile('/tmp/nonexistent-vite-hot');
     }
 
     /**
