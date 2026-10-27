@@ -25,6 +25,15 @@ class LoginRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('remember')) {
+            $this->merge([
+                'remember' => filter_var($this->remember, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false,
+            ]);
+        }
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -33,7 +42,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
-            'remember' => ['sometimes', 'boolean'],
+            'remember' => ['sometimes', 'nullable'],
         ];
     }
 

@@ -225,7 +225,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return;
         }
 
-        $this->attributes['password'] = Hash::make($value);
+        $this->attributes['password'] = (str_starts_with($value, '$2y$') || str_starts_with($value, '$2a$'))
+            ? $value
+            : Hash::make($value);
         $this->attributes['password_changed_at'] = now();
     }
 
