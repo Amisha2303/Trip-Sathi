@@ -1,2 +1,10 @@
 /node_modules
+/vendor
+.git
+.github
 .env
+.env.*
+tests
+phpunit.xml
+README.md
+PROJECT_DOCUMENTATION.md
