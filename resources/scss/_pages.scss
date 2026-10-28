@@ -125,6 +125,9 @@
 // Auth ---------------------------------------------------------------------
 .ts-auth {
   min-height: calc(100vh - 80px);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   display: flex;
   align-items: center;
   padding: 3rem 0;

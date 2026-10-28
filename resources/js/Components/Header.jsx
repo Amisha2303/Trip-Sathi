@@ -60,15 +60,13 @@ export default function Header() {
                         <div className="d-xl-none w-100">
                             <div className="ts-apple-mobile-capsule">
                                 <button
-                                    className={`ts-hamburger-btn ${navOpen ? 'is-active' : ''}`}
+                                    className={`ts-capsule-btn ${navOpen ? 'is-active' : ''}`}
                                     type="button"
                                     onClick={() => setNavOpen(!navOpen)}
                                     aria-label="Toggle navigation"
                                     aria-expanded={navOpen}
                                 >
-                                    <span className="hamburger-box">
-                                        <span className="hamburger-inner"></span>
-                                    </span>
+                                    <i className={`bi ${navOpen ? 'bi-x-lg' : 'bi-list'} fs-5`}></i>
                                 </button>
 
                                 <Link className="ts-capsule-brand" href="/">
@@ -233,13 +231,13 @@ export default function Header() {
                 aria-hidden="true"
             />
             <div className={`ts-glass-drawer ${navOpen ? 'is-open' : ''}`} role="dialog" aria-modal="true">
-                <div className="ts-drawer-header d-flex justify-content-between align-items-center p-3 border-bottom border-light-subtle">
+                <div className="ts-drawer-header d-flex justify-content-between align-items-center p-3 border-bottom border-secondary-subtle border-opacity-25">
                     <Link href="/" onClick={() => setNavOpen(false)}>
                         <img src="/images/logo.png" alt="Trip Sathi" height="38" />
                     </Link>
                     <button
                         type="button"
-                        className="btn-close btn-close-white"
+                        className="btn-close"
                         aria-label="Close menu"
                         onClick={() => setNavOpen(false)}
                     />
@@ -253,8 +251,8 @@ export default function Header() {
                                 {(user.name || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div className="flex-grow-1 min-w-0">
-                                <div className="fw-bold text-white text-truncate">{user.name}</div>
-                                <div className="small text-white-50 text-truncate">{user.email}</div>
+                                <div className="fw-bold text-dark text-truncate">{user.name}</div>
+                                <div className="small text-muted text-truncate">{user.email}</div>
                                 {user.is_admin && (
                                     <span className="badge bg-warning text-dark mt-1" style={{ fontSize: '0.65rem' }}>
                                         Admin
@@ -264,16 +262,16 @@ export default function Header() {
                         </div>
                     ) : (
                         <div className="d-grid gap-2 mb-4">
-                            <Link className="btn btn-gradient-glow text-white" href="/register" onClick={() => setNavOpen(false)}>
+                            <Link className="btn btn-primary" href="/register" onClick={() => setNavOpen(false)}>
                                 <i className="bi bi-person-plus me-1"></i> Create Account
                             </Link>
-                            <Link className="btn btn-glass text-white" href="/login" onClick={() => setNavOpen(false)}>
+                            <Link className="btn btn-outline-dark" href="/login" onClick={() => setNavOpen(false)}>
                                 <i className="bi bi-box-arrow-in-right me-1"></i> Sign In
                             </Link>
                         </div>
                     )}
 
-                    <div className="ts-drawer-heading small text-uppercase fw-bold text-white-50 px-2 mb-2">
+                    <div className="ts-drawer-heading small text-uppercase fw-bold text-muted px-2 mb-2">
                         Explore Catalogue
                     </div>
                     <div className="ts-drawer-links d-flex flex-column gap-1 mb-4">
@@ -287,14 +285,14 @@ export default function Header() {
                                 <span className="ts-drawer-icon">
                                     <i className={`bi ${link.icon}`}></i>
                                 </span>
-                                <span className="fw-medium text-white">{link.label}</span>
+                                <span className="fw-medium text-dark">{link.label}</span>
                             </Link>
                         ))}
                     </div>
 
                     {user && (
                         <>
-                            <div className="ts-drawer-heading small text-uppercase fw-bold text-white-50 px-2 mb-2">
+                            <div className="ts-drawer-heading small text-uppercase fw-bold text-muted px-2 mb-2">
                                 My Account
                             </div>
                             <div className="ts-drawer-links d-flex flex-column gap-1 mb-3">
@@ -304,7 +302,7 @@ export default function Header() {
                                     onClick={() => setNavOpen(false)}
                                 >
                                     <span className="ts-drawer-icon text-primary"><i className="bi bi-speedometer2"></i></span>
-                                    <span className="text-white">Dashboard</span>
+                                    <span className="text-dark">Dashboard</span>
                                 </Link>
                                 <Link
                                     href="/bookings"
@@ -312,7 +310,7 @@ export default function Header() {
                                     onClick={() => setNavOpen(false)}
                                 >
                                     <span className="ts-drawer-icon text-success"><i className="bi bi-ticket-perforated"></i></span>
-                                    <span className="text-white">My Bookings</span>
+                                    <span className="text-dark">My Bookings</span>
                                 </Link>
                                 <Link
                                     href="/wishlist"
@@ -321,7 +319,7 @@ export default function Header() {
                                 >
                                     <div className="d-flex align-items-center gap-3">
                                         <span className="ts-drawer-icon text-danger"><i className="bi bi-heart"></i></span>
-                                        <span className="text-white">Wishlist</span>
+                                        <span className="text-dark">Wishlist</span>
                                     </div>
                                     {wishlistCount > 0 && (
                                         <span className="badge bg-danger rounded-pill">{wishlistCount}</span>
@@ -333,27 +331,27 @@ export default function Header() {
                                     onClick={() => setNavOpen(false)}
                                 >
                                     <span className="ts-drawer-icon text-secondary"><i className="bi bi-person"></i></span>
-                                    <span className="text-white">Profile Settings</span>
+                                    <span className="text-dark">Profile Settings</span>
                                 </Link>
 
                                 {user.is_admin && (
                                     <Link
                                         href="/admin/dashboard"
-                                        className="ts-drawer-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 bg-primary bg-opacity-25"
+                                        className="ts-drawer-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 bg-primary bg-opacity-10"
                                         onClick={() => setNavOpen(false)}
                                     >
                                         <span className="ts-drawer-icon text-warning"><i className="bi bi-shield-lock"></i></span>
-                                        <span className="text-warning fw-bold">Admin Panel</span>
+                                        <span className="text-primary fw-bold">Admin Panel</span>
                                     </Link>
                                 )}
                             </div>
                         </>
                     )}
 
-                    <div className="border-top border-light-subtle pt-3 mt-3">
+                    <div className="border-top border-secondary-subtle border-opacity-25 pt-3 mt-3">
                         <Link
                             href="/contact"
-                            className="ts-drawer-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-white mb-2"
+                            className="ts-drawer-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-dark mb-2"
                             onClick={() => setNavOpen(false)}
                         >
                             <span className="ts-drawer-icon text-info"><i className="bi bi-envelope"></i></span>
