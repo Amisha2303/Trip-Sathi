@@ -1,13 +1,14 @@
 {
+  "id": "/?source=pwa",
   "name": "Trip Sathi — Plan Trips, Hotels, Adventures & Darshan",
   "short_name": "Trip Sathi",
   "description": "Your ultimate travel companion for trips, hotel bookings, adventures, events, VIP Darshan, and Pooja Vidhi.",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0b1320",
-  "theme_color": "#0b6e75",
+  "theme_color": "#0d9488",
   "categories": ["travel", "lifestyle", "booking"],
   "icons": [
     {

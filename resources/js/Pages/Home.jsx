@@ -428,7 +428,7 @@ export default function Home({
             {/* Newsletter Subscription */}
             <section className="ts-section py-5">
                 <div className="container">
-                    <div className="card bg-dark text-white p-5 rounded-4 border-0 position-relative overflow-hidden shadow">
+                    <div className="card ts-glass-dark-card ts-newsletter-card text-white p-4 p-md-5 rounded-4 border-0 position-relative overflow-hidden shadow-lg">
                         <div className="row align-items-center">
                             <div className="col-lg-6">
                                 <span className="ts-eyebrow text-warning">Stay in the loop</span>

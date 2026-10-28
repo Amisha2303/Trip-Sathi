@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 
-export default function Header() {
+export default function Header({ onOpenTheme }) {
     const { url, props } = usePage();
     const { auth, appSettings, wishlistCount } = props;
     const user = auth?.user;
     const [navOpen, setNavOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    const handleThemeClick = () => {
+        if (typeof onOpenTheme === 'function') {
+            onOpenTheme();
+        } else {
+            window.dispatchEvent(new CustomEvent('open-theme-customizer'));
+        }
+    };
 
     const isActive = (path) => url.startsWith(path);
 
@@ -56,7 +64,62 @@ export default function Header() {
             <header className={`ts-header ts-glass-header ${scrolled ? 'is-scrolled' : ''}`}>
                 <nav className="navbar navbar-expand-xl py-2">
                     <div className="container">
-                        <Link className="navbar-brand d-flex align-items-center" href="/">
+                        {/* Apple Mobile Capsule Top Bar (Image 2 LUXORA Inspiration) */}
+                        <div className="d-xl-none w-100">
+                            <div className="ts-apple-mobile-capsule">
+                                <button
+                                    className={`ts-hamburger-btn ${navOpen ? 'is-active' : ''}`}
+                                    type="button"
+                                    onClick={() => setNavOpen(!navOpen)}
+                                    aria-label="Toggle navigation"
+                                    aria-expanded={navOpen}
+                                >
+                                    <span className="hamburger-box">
+                                        <span className="hamburger-inner"></span>
+                                    </span>
+                                </button>
+
+                                <Link className="ts-capsule-brand" href="/">
+                                    <img
+                                        className="brand-logo"
+                                        src="/images/logo.png"
+                                        alt={appSettings?.site_name || 'Trip Sathi'}
+                                    />
+                                </Link>
+
+                                <div className="d-flex align-items-center gap-1">
+                                    <button
+                                        type="button"
+                                        className="ts-capsule-btn"
+                                        onClick={handleThemeClick}
+                                        title="Personalize Theme & Colors"
+                                        aria-label="Personalize Theme & Colors"
+                                    >
+                                        <i className="bi bi-palette-fill"></i>
+                                    </button>
+
+                                    <Link
+                                        href={user ? (user.is_admin ? '/admin/dashboard' : '/dashboard') : '/login'}
+                                        className="ts-capsule-btn"
+                                        title={user ? user.name : 'Sign In'}
+                                    >
+                                        {user ? (
+                                            <span className="ts-dock-avatar" style={{ width: '26px', height: '26px', fontSize: '0.75rem' }}>
+                                                {(user.name || 'U').charAt(0).toUpperCase()}
+                                            </span>
+                                        ) : (
+                                            <i className="bi bi-person-circle"></i>
+                                        )}
+                                        {wishlistCount > 0 && (
+                                            <span className="ts-capsule-badge">{wishlistCount}</span>
+                                        )}
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Desktop Navbar Brand */}
+                        <Link className="navbar-brand d-none d-xl-flex align-items-center" href="/">
                             <img
                                 className="brand-logo ts-glass-logo"
                                 src="/images/logo.png"
@@ -65,19 +128,6 @@ export default function Header() {
                                 alt={appSettings?.site_name || 'Trip Sathi'}
                             />
                         </Link>
-
-                        {/* Modern Hamburger Button */}
-                        <button
-                            className={`ts-hamburger-btn d-xl-none ${navOpen ? 'is-active' : ''}`}
-                            type="button"
-                            onClick={() => setNavOpen(!navOpen)}
-                            aria-label="Toggle navigation"
-                            aria-expanded={navOpen}
-                        >
-                            <span className="hamburger-box">
-                                <span className="hamburger-inner"></span>
-                            </span>
-                        </button>
 
                         {/* Desktop Nav */}
                         <div className="collapse navbar-collapse d-none d-xl-flex" id="mainNav">
@@ -101,6 +151,17 @@ export default function Header() {
                                 >
                                     Contact
                                 </Link>
+
+                                {/* Theme Customizer Button for Desktop */}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-glass rounded-pill px-3 py-1.5 d-inline-flex align-items-center gap-1.5 text-dark"
+                                    onClick={handleThemeClick}
+                                    title="Personalize Theme & Colors"
+                                >
+                                    <i className="bi bi-palette-fill text-primary"></i>
+                                    <span className="small fw-semibold">Theme</span>
+                                </button>
 
                                 {user ? (
                                     <div className="nav-item dropdown">

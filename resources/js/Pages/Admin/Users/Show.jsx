@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function Show({ user, stats = {} }) {
+    const [confirmDelete, setConfirmDelete] = useState(false);
+
     const { data, setData, put, processing, errors } = useForm({
         name: user?.name || '',
         email: user?.email || '',
@@ -16,14 +18,16 @@ export default function Show({ user, stats = {} }) {
     });
 
     const handleUpdate = (e) => {
-        e.preventDefault();
-        put(`/admin/users/${user.id}`, { preserveScroll: true });
+        if (e && e.preventDefault) e.preventDefault();
+        const payload = { ...data };
+        if (!payload.password || payload.password.trim() === '') {
+            delete payload.password;
+        }
+        put(`/admin/users/${user.id}`, payload, { preserveScroll: true });
     };
 
-    const handleDelete = () => {
-        if (confirm(`Are you sure you want to permanently delete ${user.name}'s account?`)) {
-            router.delete(`/admin/users/${user.id}`);
-        }
+    const executeDelete = () => {
+        router.delete(`/admin/users/${user.id}`);
     };
 
     const formatMoney = (amount) => {
@@ -109,7 +113,7 @@ export default function Show({ user, stats = {} }) {
                             <p className="small text-muted mb-3">
                                 Once deleted, this user account cannot be restored.
                             </p>
-                            <button className="btn btn-outline-danger btn-sm w-100" type="button" onClick={handleDelete}>
+                            <button className="btn btn-outline-danger btn-sm w-100" type="button" onClick={() => setConfirmDelete(true)}>
                                 Delete User
                             </button>
                         </div>
@@ -293,6 +297,63 @@ export default function Show({ user, stats = {} }) {
                     </div>
                 </div>
             </div>
+
+            {/* Sticky Mobile Action Bar */}
+            <div className="ts-mobile-sticky-actions d-lg-none">
+                <button
+                    className="btn btn-primary flex-grow-1"
+                    type="button"
+                    onClick={handleUpdate}
+                    disabled={processing}
+                >
+                    <i className="bi bi-check2 me-1"></i> {processing ? 'Saving…' : 'Save Changes'}
+                </button>
+                <button
+                    className="btn btn-outline-danger"
+                    type="button"
+                    onClick={() => setConfirmDelete(true)}
+                    title="Delete User Account"
+                >
+                    <i className="bi bi-trash"></i>
+                </button>
+            </div>
+
+            {/* Deletion Confirmation Modal */}
+            {confirmDelete && (
+                <div
+                    className="ts-theme-backdrop is-open d-flex align-items-center justify-content-center p-3"
+                    style={{ zIndex: 1070 }}
+                >
+                    <div
+                        className="card ts-glass-card shadow-lg p-4 text-center border-danger-subtle"
+                        style={{ maxWidth: '400px', width: '100%', background: '#fff' }}
+                    >
+                        <div className="fs-1 text-danger mb-2">
+                            <i className="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h4 className="fw-bold fs-5 mb-2 text-dark">Delete User Account?</h4>
+                        <p className="text-muted small mb-4">
+                            Are you sure you want to permanently delete <strong>{user.name}</strong>? This action cannot be undone.
+                        </p>
+                        <div className="d-flex gap-2">
+                            <button
+                                type="button"
+                                className="btn btn-outline-secondary flex-grow-1"
+                                onClick={() => setConfirmDelete(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-danger flex-grow-1"
+                                onClick={executeDelete}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 }

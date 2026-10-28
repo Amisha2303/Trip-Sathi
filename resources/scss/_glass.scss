@@ -1,48 +1,274 @@
 // ---------------------------------------------------------------------------
-// Trip Sathi — Modern Glassmorphism Design System
-// Applied to both Front Storefront and Admin Panel
+// Trip Sathi — Modern Apple Glassmorphism Design System
+// Supporting Dynamic Color Palettes & Dark/Light Mode
 // ---------------------------------------------------------------------------
+
+:root {
+  --ts-primary: #0d9488;
+  --ts-primary-rgb: 13, 148, 136;
+  --ts-primary-light: #2dd4bf;
+  --ts-primary-dark: #0f766e;
+  --ts-accent: #f59e0b;
+  --ts-accent-rgb: 245, 158, 11;
+  --ts-bg: #f8fafc;
+  --ts-card-bg: rgba(255, 255, 255, 0.82);
+  --ts-card-border: rgba(255, 255, 255, 0.65);
+  --ts-card-shadow: 0 10px 30px 0 rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+  --ts-text-main: #0f172a;
+  --ts-text-muted: #64748b;
+  --ts-header-bg: rgba(255, 255, 255, 0.82);
+  --ts-nav-pill-bg: rgba(241, 245, 249, 0.7);
+}
+
+// 6 Curated Luxury Palettes
+[data-accent="teal"] {
+  --ts-primary: #0d9488;
+  --ts-primary-rgb: 13, 148, 136;
+  --ts-primary-light: #2dd4bf;
+  --ts-primary-dark: #0f766e;
+  --ts-accent: #f59e0b;
+}
+
+[data-accent="blue"] {
+  --ts-primary: #2563eb;
+  --ts-primary-rgb: 37, 99, 235;
+  --ts-primary-light: #60a5fa;
+  --ts-primary-dark: #1d4ed8;
+  --ts-accent: #06b6d4;
+}
+
+[data-accent="purple"] {
+  --ts-primary: #7c3aed;
+  --ts-primary-rgb: 124, 58, 237;
+  --ts-primary-light: #a78bfa;
+  --ts-primary-dark: #6d28d9;
+  --ts-accent: #f43f5e;
+}
+
+[data-accent="amber"] {
+  --ts-primary: #ea580c;
+  --ts-primary-rgb: 234, 88, 12;
+  --ts-primary-light: #fb923c;
+  --ts-primary-dark: #c2410c;
+  --ts-accent: #eab308;
+}
+
+[data-accent="rose"] {
+  --ts-primary: #e11d48;
+  --ts-primary-rgb: 225, 29, 72;
+  --ts-primary-light: #fb7185;
+  --ts-primary-dark: #be123c;
+  --ts-accent: #f59e0b;
+}
+
+[data-accent="gold"] {
+  --ts-primary: #d97706;
+  --ts-primary-rgb: 217, 119, 6;
+  --ts-primary-light: #fbbf24;
+  --ts-primary-dark: #b45309;
+  --ts-accent: #10b981;
+}
 
 // 1. Ambient Background Atmosphere -----------------------------------------
 body,
 .ts-admin-shell {
-  background-color: #f8fafc;
+  background-color: var(--ts-bg);
   background-image:
-    radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.08) 0px, transparent 45%),
+    radial-gradient(at 0% 0%, rgba(var(--ts-primary-rgb), 0.08) 0px, transparent 45%),
     radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.06) 0px, transparent 40%),
     radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 45%);
+    radial-gradient(at 100% 100%, rgba(var(--ts-primary-rgb), 0.05) 0px, transparent 45%);
   background-attachment: fixed;
   background-size: 100% 100%;
+  color: var(--ts-text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 // 2. Glass Cards & Panels --------------------------------------------------
 .ts-glass-card,
-.card,
+.card:not(.bg-dark):not(.ts-glass-dark-card):not(.ts-newsletter-card):not(.text-bg-dark),
 .ts-card {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  box-shadow: 0 10px 30px 0 rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8) !important;
-  border-radius: 1rem;
+  background: var(--ts-card-bg) !important;
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--ts-card-border) !important;
+  box-shadow: var(--ts-card-shadow) !important;
+  border-radius: 1.15rem;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    box-shadow: 0 18px 40px 0 rgba(13, 148, 136, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(13, 148, 136, 0.35) !important;
+    box-shadow: 0 18px 40px 0 rgba(var(--ts-primary-rgb), 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(var(--ts-primary-rgb), 0.35) !important;
   }
 }
 
-// Dark Frosted Glass Card (for special highlights, dark sections, mobile drawer)
-.ts-glass-dark-card {
-  background: rgba(15, 23, 42, 0.85) !important;
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.25), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15) !important;
-  color: #fff;
-  border-radius: 1rem;
+// Dark Frosted Glass Card & Newsletter (FIX for white text in white card)
+.ts-glass-dark-card,
+.card.bg-dark,
+.card.text-bg-dark,
+.ts-newsletter-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.92)) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  border-radius: 1.5rem !important;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+  }
+
+  p, span, small {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .text-white-50 {
+    color: rgba(255, 255, 255, 0.75) !important;
+  }
+
+  .ts-eyebrow {
+    color: #fbbf24 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+}
+
+// Global Primary Buttons adapting to selected color
+.btn-primary,
+.btn-accent {
+  background: linear-gradient(135deg, var(--ts-primary), var(--ts-primary-dark)) !important;
+  border-color: var(--ts-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(var(--ts-primary-rgb), 0.3) !important;
+  transition: all 0.22s ease !important;
+
+  &:hover,
+  &:focus {
+    background: linear-gradient(135deg, var(--ts-primary-light), var(--ts-primary)) !important;
+    box-shadow: 0 8px 24px rgba(var(--ts-primary-rgb), 0.45) !important;
+    transform: translateY(-2px);
+    color: #fff !important;
+  }
+}
+
+.text-primary {
+  color: var(--ts-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--ts-primary) !important;
+}
+
+// ---------------------------------------------------------------------------
+// Dark Mode System
+// ---------------------------------------------------------------------------
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ts-bg: #090d16;
+  --ts-card-bg: rgba(15, 23, 42, 0.78);
+  --ts-card-border: rgba(255, 255, 255, 0.11);
+  --ts-card-shadow: 0 12px 35px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+  --ts-text-main: #f8fafc;
+  --ts-text-muted: #94a3b8;
+  --ts-header-bg: rgba(15, 23, 42, 0.85);
+  --ts-nav-pill-bg: rgba(30, 41, 59, 0.75);
+
+  body,
+  .ts-admin-shell {
+    background-color: #090d16 !important;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(var(--ts-primary-rgb), 0.18) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.08) 0px, transparent 40%),
+      radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(var(--ts-primary-rgb), 0.14) 0px, transparent 50%) !important;
+    color: #f8fafc !important;
+  }
+
+  .ts-glass-card,
+  .card:not(.bg-dark):not(.ts-glass-dark-card):not(.ts-newsletter-card):not(.text-bg-dark),
+  .ts-card {
+    background: rgba(15, 23, 42, 0.78) !important;
+    border: 1px solid rgba(255, 255, 255, 0.11) !important;
+    box-shadow: 0 12px 35px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
+
+    h1, h2, h3, h4, h5, h6, .text-dark {
+      color: #f8fafc !important;
+    }
+    .text-muted {
+      color: #94a3b8 !important;
+    }
+  }
+
+  .form-control,
+  .form-select {
+    background: rgba(15, 23, 42, 0.75) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: #f8fafc !important;
+
+    &::placeholder {
+      color: #64748b;
+    }
+  }
+
+  .ts-glass-admin-bar {
+    background: rgba(15, 23, 42, 0.88) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+
+    .text-dark {
+      color: #f8fafc !important;
+    }
+  }
+
+  .ts-glass-header {
+    background: rgba(15, 23, 42, 0.85) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+
+    &.is-scrolled {
+      background: rgba(15, 23, 42, 0.94) !important;
+      border-bottom-color: rgba(var(--ts-primary-rgb), 0.25) !important;
+    }
+  }
+
+  .ts-nav-pill-group {
+    background: rgba(30, 41, 59, 0.75) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .ts-nav-pill {
+    color: #cbd5e1 !important;
+
+    &:hover {
+      color: #fff !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  .ts-user-pill-btn {
+    background: rgba(30, 41, 59, 0.8) !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .ts-apple-dock {
+    background: rgba(15, 23, 42, 0.88) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .table-responsive table {
+    thead.table-light tr th {
+      background: rgba(30, 41, 59, 0.85) !important;
+      color: #cbd5e1 !important;
+      border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    tbody tr td {
+      border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+      color: #e2e8f0 !important;
+    }
+  }
 }
 
 // 3. Glass Header & Navigation ---------------------------------------------
@@ -816,5 +1042,354 @@ body,
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.18);
   }
+}
+
+// ---------------------------------------------------------------------------
+// 9. Apple Liquid Glass Floating Bottom Dock (Image 3 Inspiration)
+// ---------------------------------------------------------------------------
+.ts-apple-dock-wrap {
+  position: fixed;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1040;
+  pointer-events: none;
+  padding: 0 1rem;
+
+  @media (min-width: 992px) {
+    display: none !important;
+  }
+}
+
+.ts-apple-dock {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(30px) saturate(210%);
+  -webkit-backdrop-filter: blur(30px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50rem;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .ts-dock-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.25rem;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      color: #fff;
+      transform: translateY(-2px) scale(1.08);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &.is-active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--ts-primary), var(--ts-primary-dark));
+      box-shadow: 0 4px 14px rgba(var(--ts-primary-rgb), 0.45);
+    }
+
+    .ts-dock-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ts-primary), #f59e0b);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .ts-dock-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ts-primary-light);
+      box-shadow: 0 0 8px var(--ts-primary-light);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 10. Apple Mobile Capsule Header (Image 2 LUXORA Inspiration)
+// ---------------------------------------------------------------------------
+.ts-apple-mobile-capsule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 540px;
+  margin: 0.25rem auto 0;
+  padding: 0.4rem 0.85rem;
+  background: rgba(18, 24, 38, 0.85);
+  backdrop-filter: blur(30px) saturate(210%);
+  -webkit-backdrop-filter: blur(30px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  transition: all 0.3s ease;
+
+  .ts-capsule-brand {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    img {
+      height: 24px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+  }
+
+  .ts-capsule-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.15rem;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .ts-capsule-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      border: 1.5px solid #121826;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 11. Theme & Color Customizer Drawer
+// ---------------------------------------------------------------------------
+.ts-theme-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 1060;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.ts-theme-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  width: 100%;
+  max-width: 500px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(32px) saturate(210%);
+  -webkit-backdrop-filter: blur(32px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: none;
+  border-radius: 2rem 2rem 0 0;
+  padding: 1.75rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.45);
+  z-index: 1065;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #fff;
+
+  &.is-open {
+    transform: translate(-50%, 0);
+  }
+
+  .ts-drawer-handle {
+    width: 44px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50rem;
+    margin: 0 auto 1.25rem;
+  }
+
+  .ts-color-swatch {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+    &:hover {
+      transform: scale(1.12);
+    }
+
+    &.is-selected {
+      border-color: #fff;
+      transform: scale(1.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
+
+  .ts-mode-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.2s ease;
+
+    i {
+      font-size: 1.35rem;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    &.is-active {
+      background: linear-gradient(135deg, var(--ts-primary), var(--ts-primary-dark));
+      border-color: var(--ts-primary);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(var(--ts-primary-rgb), 0.4);
+    }
+  }
+}
+
+// Floating Theme Toggle Pill (for Desktop & Mobile)
+.ts-theme-floating-pill {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1030;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: rgba(15, 23, 42, 0.95);
+    border-color: var(--ts-primary-light);
+    color: #fff;
+    box-shadow: 0 14px 40px rgba(var(--ts-primary-rgb), 0.4);
+  }
+
+  .ts-theme-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--ts-primary);
+    box-shadow: 0 0 10px var(--ts-primary);
+  }
+
+  @media (max-width: 991.98px) {
+    display: none; // Handled via Apple bottom dock
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 12. Admin Mobile User Actions (Sticky bottom bar)
+// ---------------------------------------------------------------------------
+.ts-mobile-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.85rem 1rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  margin: 1.5rem -0.85rem -2.5rem;
+  z-index: 99;
+  display: flex;
+  gap: 0.75rem;
 }
 

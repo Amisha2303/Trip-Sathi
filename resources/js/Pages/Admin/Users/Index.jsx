@@ -15,6 +15,20 @@ export default function Index({ users, filters = {} }) {
 
     const userList = users?.data || [];
 
+    const [deleteTarget, setDeleteTarget] = useState(null);
+
+    const handleDelete = (u) => {
+        setDeleteTarget(u);
+    };
+
+    const confirmDeleteAction = () => {
+        if (deleteTarget) {
+            router.delete(`/admin/users/${deleteTarget.id}`, {
+                onSuccess: () => setDeleteTarget(null),
+            });
+        }
+    };
+
     return (
         <AdminLayout
             title="Users"
@@ -59,7 +73,53 @@ export default function Index({ users, filters = {} }) {
                 <p className="text-muted small mb-0">{users?.total || 0} users</p>
             </div>
 
-            <div className="card shadow-sm border-0">
+            {/* Mobile Cards List (< 768px) */}
+            <div className="d-md-none d-flex flex-column gap-3 mb-4">
+                {userList.length === 0 ? (
+                    <div className="card ts-glass-card p-4 text-center text-muted">
+                        No users found matching your filters.
+                    </div>
+                ) : (
+                    userList.map((user) => (
+                        <div key={user.id} className="card ts-glass-card shadow-sm border-0 p-3">
+                            <div className="d-flex align-items-center justify-content-between mb-2">
+                                <Link href={`/admin/users/${user.id}`} className="d-flex align-items-center gap-2 text-decoration-none">
+                                    <div
+                                        className="rounded-circle bg-light text-primary fw-bold d-flex align-items-center justify-content-center"
+                                        style={{ width: '40px', height: '40px' }}
+                                    >
+                                        {(user.name || 'U').substring(0, 1).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <strong className="text-dark d-block">{user.name}</strong>
+                                        <span className="small text-muted">{user.email}</span>
+                                    </div>
+                                </Link>
+                                <span className={`badge ${user.is_admin ? 'bg-primary' : 'bg-light text-dark border'}`}>
+                                    {user.is_admin ? 'Admin' : 'Traveller'}
+                                </span>
+                            </div>
+
+                            <div className="d-flex justify-content-between align-items-center py-2 border-top border-bottom border-light-subtle my-2 small">
+                                <div>Phone: <span className="text-dark fw-medium">{user.phone || '—'}</span></div>
+                                <div>Bookings: <span className="badge bg-secondary-subtle text-secondary fw-bold">{user.bookings_count}</span></div>
+                            </div>
+
+                            <div className="d-flex justify-content-end gap-2 mt-2">
+                                <Link className="btn btn-sm btn-outline-primary" href={`/admin/users/${user.id}`}>
+                                    <i className="bi bi-pencil me-1"></i> Edit
+                                </Link>
+                                <button className="btn btn-sm btn-outline-danger" type="button" onClick={() => handleDelete(user)}>
+                                    <i className="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Desktop / Tablet Table (>= 768px) */}
+            <div className="card shadow-sm border-0 d-none d-md-block">
                 <div className="table-responsive">
                     <table className="table mb-0 align-middle">
                         <thead className="table-light">
@@ -83,9 +143,9 @@ export default function Index({ users, filters = {} }) {
                                 userList.map((user) => (
                                     <tr key={user.id}>
                                         <td>
-                                            <div className="d-flex align-items-center gap-3">
+                                            <Link href={`/admin/users/${user.id}`} className="d-flex align-items-center gap-3 text-decoration-none">
                                                 <div
-                                                    className="rounded-circle bg-light text-primary fw-bold d-flex align-items-center justify-content-center"
+                                                    className="rounded-circle bg-light text-primary fw-bold d-flex align-items-center justify-content-center flex-shrink-0"
                                                     style={{ width: '38px', height: '38px' }}
                                                 >
                                                     {(user.name || 'U').substring(0, 1).toUpperCase()}
@@ -94,7 +154,7 @@ export default function Index({ users, filters = {} }) {
                                                     <strong className="text-dark d-block">{user.name}</strong>
                                                     <span className="small text-muted">{user.email}</span>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </td>
                                         <td>{user.phone || '—'}</td>
                                         <td className="text-end fw-semibold">{user.bookings_count}</td>
@@ -109,9 +169,14 @@ export default function Index({ users, filters = {} }) {
                                             </span>
                                         </td>
                                         <td className="text-end">
-                                            <Link className="btn btn-sm btn-soft" href={`/admin/users/${user.id}`}>
-                                                View / Edit
-                                            </Link>
+                                            <div className="d-inline-flex gap-1">
+                                                <Link className="btn btn-sm btn-soft" href={`/admin/users/${user.id}`}>
+                                                    View / Edit
+                                                </Link>
+                                                <button className="btn btn-sm btn-outline-danger" type="button" onClick={() => handleDelete(user)} title="Delete user">
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -120,6 +185,43 @@ export default function Index({ users, filters = {} }) {
                     </table>
                 </div>
             </div>
+
+            {/* Deletion Confirmation Modal */}
+            {deleteTarget && (
+                <div
+                    className="ts-theme-backdrop is-open d-flex align-items-center justify-content-center p-3"
+                    style={{ zIndex: 1070 }}
+                >
+                    <div
+                        className="card ts-glass-card shadow-lg p-4 text-center border-danger-subtle"
+                        style={{ maxWidth: '400px', width: '100%', background: '#fff' }}
+                    >
+                        <div className="fs-1 text-danger mb-2">
+                            <i className="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h4 className="fw-bold fs-5 mb-2 text-dark">Delete User Account?</h4>
+                        <p className="text-muted small mb-4">
+                            Are you sure you want to permanently delete <strong>{deleteTarget.name}</strong>? This action cannot be undone.
+                        </p>
+                        <div className="d-flex gap-2">
+                            <button
+                                type="button"
+                                className="btn btn-outline-secondary flex-grow-1"
+                                onClick={() => setDeleteTarget(null)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-danger flex-grow-1"
+                                onClick={confirmDeleteAction}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="mt-4">
                 <Pagination links={users.links} />

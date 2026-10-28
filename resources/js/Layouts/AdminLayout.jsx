@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Head, Link, usePage, router } from '@inertiajs/react';
 import ToastContainer from '../Components/ToastContainer';
 import Breadcrumb from '../Components/Breadcrumb';
+import ThemeCustomizer from '../Components/ThemeCustomizer';
 
 export default function AdminLayout({ title = 'Admin', heading = 'Dashboard', breadcrumbs = [], children }) {
     const { auth, appSettings, flash } = usePage().props;
     const currentUrl = usePage().url;
     const currentUser = auth?.user;
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [themeOpen, setThemeOpen] = useState(false);
 
     // Auto close sidebar on mobile navigation
     useEffect(() => {
@@ -165,6 +167,15 @@ export default function AdminLayout({ title = 'Admin', heading = 'Dashboard', br
                             </span>
                         </div>
 
+                        <button
+                            className="btn btn-sm btn-glass text-primary fw-medium d-inline-flex align-items-center gap-1"
+                            type="button"
+                            onClick={() => setThemeOpen(true)}
+                            title="Personalize Theme & Colors"
+                        >
+                            <i className="bi bi-palette-fill"></i> <span className="d-none d-sm-inline">Theme</span>
+                        </button>
+
                         <button className="btn btn-sm btn-glass text-danger fw-medium d-inline-flex align-items-center gap-1" type="button" onClick={handleLogout}>
                             <i className="bi bi-box-arrow-right"></i> <span className="d-none d-sm-inline">Sign Out</span>
                         </button>
@@ -193,6 +204,7 @@ export default function AdminLayout({ title = 'Admin', heading = 'Dashboard', br
                 </main>
             </div>
 
+            <ThemeCustomizer isOpen={themeOpen} onClose={() => setThemeOpen(false)} />
             <ToastContainer />
         </div>
     );
