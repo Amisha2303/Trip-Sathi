@@ -7,47 +7,52 @@
 // ---------------------------------------------------------------------------
 
 // Brand --------------------------------------------------------------------
-// Modern vibrant Emerald/Teal (#0d9488) + Warm Sunburst Amber (#f59e0b)
-// Curated for luxurious travel, spiritual heritage, and outdoor adventure.
-$ts-brand: #0d9488;
-$ts-brand-dark: #0f766e;
-$ts-brand-light: #14b8a6;
-$ts-brand-tint: #f0fdfa;
+// Official Trip Sathi Brand Palette:
+// Primary Orange (#FF7A2F) + Secondary Teal (#0F4C46) + Light Cream (#FFF7ED)
+$ts-brand: #FF7A2F;
+$ts-brand-dark: #E05D15;
+$ts-brand-light: #FF9454;
+$ts-brand-tint: #FFE0CC;
 
-$ts-accent: #f59e0b;
-$ts-accent-dark: #d97706;
-$ts-accent-light: #fbbf24;
-$ts-accent-tint: #fffbeb;
+$ts-secondary: #0F4C46;
+$ts-secondary-dark: #0A3632;
+$ts-secondary-light: #166B63;
+$ts-secondary-tint: #E6F3F1;
+
+$ts-accent: #0F4C46;
+$ts-accent-dark: #0A3632;
+$ts-accent-light: #166B63;
+$ts-accent-tint: #E6F3F1;
 
 // Neutrals -----------------------------------------------------------------
-$ts-ink: #0f172a;        // rich slate-900 primary text
-$ts-ink-soft: #334155;   // slate-700 body text
-$ts-muted: #64748b;      // slate-500 labels, meta
-$ts-line: #e2e8f0;       // subtle divider
-$ts-surface: #ffffff;
-$ts-surface-alt: #f8fafc; // clean slate-50
+$ts-ink: #1F2937;        // Text Primary (#1F2937)
+$ts-ink-soft: #374151;   // Slate-700
+$ts-muted: #6B7280;      // Text Secondary (#6B7280)
+$ts-line: #E5E7EB;       // Border (#E5E7EB)
+$ts-surface: #FFFFFF;    // White (#FFFFFF)
+$ts-surface-alt: #FFF7ED; // Light Cream (#FFF7ED)
 
 // Glassmorphism System Tokens ----------------------------------------------
-$glass-bg: rgba(255, 255, 255, 0.75);
-$glass-bg-hover: rgba(255, 255, 255, 0.88);
-$glass-border: 1px solid rgba(255, 255, 255, 0.45);
+$glass-bg: rgba(255, 255, 255, 0.85);
+$glass-bg-hover: rgba(255, 255, 255, 0.95);
+$glass-border: 1px solid rgba(229, 231, 235, 0.75);
 $glass-blur: 16px;
-$glass-shadow: 0 12px 36px 0 rgba(15, 23, 42, 0.08);
-$glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+$glass-shadow: 0 10px 30px 0 rgba(15, 76, 70, 0.06);
+$glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
 
-$glass-dark-bg: rgba(15, 23, 42, 0.82);
-$glass-dark-border: 1px solid rgba(255, 255, 255, 0.12);
+$glass-dark-bg: rgba(15, 76, 70, 0.92);
+$glass-dark-border: 1px solid rgba(255, 255, 255, 0.15);
 $glass-dark-blur: 20px;
 
 // Feedback -----------------------------------------------------------------
-$ts-success: #10b981;
-$ts-warning: #f59e0b;
-$ts-danger: #ef4444;
-$ts-info: #0ea5e9;
+$ts-success: #16A34A;    // Success (#16A34A)
+$ts-warning: #F59E0B;    // Warning (#F59E0B)
+$ts-danger: #EF4444;     // Error (#EF4444)
+$ts-info: #0F4C46;       // Secondary Teal (#0F4C46)
 
 // Bootstrap keys these tokens feed -----------------------------------------
 $primary: $ts-brand;
-$secondary: $ts-muted;
+$secondary: $ts-secondary;
 $danger: $ts-danger;
 $warning: $ts-warning;
 $success: $ts-success;

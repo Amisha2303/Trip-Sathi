@@ -51,7 +51,7 @@ export default function Show({
 
                     <div className="ts-detail-hero-top d-flex flex-wrap justify-content-between align-items-end gap-3">
                         <div>
-                            <span className="ts-eyebrow" style={{ color: '#ef8f1c' }}>
+                            <span className="ts-eyebrow" style={{ color: '#FF7A2F' }}>
                                 {detail.eyebrow}
                             </span>
                             <h1 className="ts-hero-title mb-2">{detail.name}</h1>

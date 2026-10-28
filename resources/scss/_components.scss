@@ -26,7 +26,7 @@
     border: 1px solid transparent;
 
     &:hover {
-      background: #d6ecee;
+      background: rgba($ts-brand, 0.22);
       color: $ts-brand-dark;
     }
   }

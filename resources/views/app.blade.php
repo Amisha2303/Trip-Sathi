@@ -22,9 +22,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Trip Sathi">
     <meta name="application-name" content="Trip Sathi">
-    <meta name="theme-color" content="#0d9488">
-    <meta name="msapplication-navbutton-color" content="#0d9488">
-    <meta name="msapplication-TileColor" content="#0d9488">
+    <meta name="theme-color" content="#FF7A2F">
+    <meta name="msapplication-navbutton-color" content="#FF7A2F">
+    <meta name="msapplication-TileColor" content="#FF7A2F">
 
     <!-- Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

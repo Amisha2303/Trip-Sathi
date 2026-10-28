@@ -45,14 +45,16 @@ export default function Contact({ settings = {}, subjects = {} }) {
                             <div
                                 className="ts-contact-side h-100 p-4 text-white rounded-4"
                                 style={{
-                                    background: 'linear-gradient(135deg, #1b2a4a 0%, #0d172a 100%)',
+                                    background: 'linear-gradient(135deg, #0A3632 0%, #0F4C46 100%)',
+                                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                                    boxShadow: '0 10px 30px rgba(10, 54, 50, 0.25)',
                                 }}
                             >
-                                <span className="ts-eyebrow text-warning">Reach us directly</span>
+                                <span className="ts-eyebrow" style={{ color: '#FF9454' }}>Reach us directly</span>
                                 <h3 className="h4 fw-bold mb-4">Support, sales & partnerships</h3>
 
                                 <div className="ts-contact-item d-flex gap-3 mb-3">
-                                    <i className="bi bi-person-badge-fill fs-4 text-warning"></i>
+                                    <i className="bi bi-person-badge-fill fs-4" style={{ color: '#FF9454' }}></i>
                                     <div>
                                         <strong className="d-block">Owner</strong>
                                         <span className="text-white-50">{settings.owner || 'Amisha Chauhan'}</span>
@@ -60,7 +62,7 @@ export default function Contact({ settings = {}, subjects = {} }) {
                                 </div>
 
                                 <div className="ts-contact-item d-flex gap-3 mb-3">
-                                    <i className="bi bi-envelope-fill fs-4 text-warning"></i>
+                                    <i className="bi bi-envelope-fill fs-4" style={{ color: '#FF9454' }}></i>
                                     <div>
                                         <strong className="d-block">Email</strong>
                                         <span className="text-white-50">{settings.email || 'Amisha@tripsathi.com'}</span>
@@ -68,7 +70,7 @@ export default function Contact({ settings = {}, subjects = {} }) {
                                 </div>
 
                                 <div className="ts-contact-item d-flex gap-3 mb-3">
-                                    <i className="bi bi-telephone-fill fs-4 text-warning"></i>
+                                    <i className="bi bi-telephone-fill fs-4" style={{ color: '#FF9454' }}></i>
                                     <div>
                                         <strong className="d-block">Phone</strong>
                                         <span className="text-white-50">{settings.phone || '+91 9904530641'}</span>
@@ -77,7 +79,7 @@ export default function Contact({ settings = {}, subjects = {} }) {
 
                                 {settings.whatsapp && (
                                     <div className="ts-contact-item d-flex gap-3 mb-3">
-                                        <i className="bi bi-whatsapp fs-4 text-success"></i>
+                                        <i className="bi bi-whatsapp fs-4" style={{ color: '#16A34A' }}></i>
                                         <div>
                                             <strong className="d-block">WhatsApp</strong>
                                             <span className="text-white-50">{settings.whatsapp}</span>
@@ -86,7 +88,7 @@ export default function Contact({ settings = {}, subjects = {} }) {
                                 )}
 
                                 <div className="ts-contact-item d-flex gap-3 mb-3">
-                                    <i className="bi bi-geo-alt-fill fs-4 text-warning"></i>
+                                    <i className="bi bi-geo-alt-fill fs-4" style={{ color: '#FF9454' }}></i>
                                     <div>
                                         <strong className="d-block">Office</strong>
                                         <span className="text-white-50">{settings.address || 'Bhavnagar, Gujarat, India'}</span>
@@ -94,7 +96,7 @@ export default function Contact({ settings = {}, subjects = {} }) {
                                 </div>
 
                                 <div className="ts-contact-item d-flex gap-3 mb-4">
-                                    <i className="bi bi-clock-fill fs-4 text-warning"></i>
+                                    <i className="bi bi-clock-fill fs-4" style={{ color: '#FF9454' }}></i>
                                     <div>
                                         <strong className="d-block">Hours</strong>
                                         <span className="text-white-50">Mon – Sat, 9:30 AM – 6:30 PM IST</span>

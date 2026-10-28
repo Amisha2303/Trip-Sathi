@@ -8,7 +8,7 @@ export default function PageHero({
     image,
     stats = [],
     crumbs = [],
-    accent = '#ef8f1c',
+    accent = '#FF7A2F',
 }) {
     const heroStyle = image ? { '--ts-hero-img': `url('${image}')` } : {};
 

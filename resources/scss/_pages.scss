@@ -7,9 +7,9 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.32), transparent 62%),
-    radial-gradient(900px 420px at 92% 8%, rgba($ts-accent, 0.24), transparent 60%),
-    linear-gradient(160deg, $ts-brand-dark 0%, $ts-brand 58%, #0d7f83 100%);
+    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.35), transparent 62%),
+    radial-gradient(900px 420px at 92% 8%, rgba($ts-brand, 0.25), transparent 60%),
+    linear-gradient(160deg, $ts-secondary-dark 0%, $ts-secondary 55%, $ts-brand-dark 100%);
   color: #fff;
   padding: 5.5rem 0 7rem;
 
@@ -53,11 +53,11 @@
 // layer while a brand-tinted scrim keeps the white copy legible on top.
 // Supply the asset with --ts-hero-img: url('...').
 .ts-hero.ts-hero-photo {
-  background-color: $ts-brand-dark;
+  background-color: $ts-secondary-dark;
   background-image:
-    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.30), transparent 62%),
-    radial-gradient(900px 420px at 92% 8%, rgba($ts-accent, 0.22), transparent 60%),
-    linear-gradient(160deg, rgba($ts-brand-dark, 0.82) 0%, rgba($ts-brand, 0.72) 55%, rgba(#0d7f83, 0.64) 100%),
+    radial-gradient(1200px 480px at 15% -10%, rgba($ts-brand-light, 0.35), transparent 62%),
+    radial-gradient(900px 420px at 92% 8%, rgba($ts-brand, 0.25), transparent 60%),
+    linear-gradient(160deg, rgba($ts-secondary-dark, 0.88) 0%, rgba($ts-secondary, 0.78) 55%, rgba($ts-brand-dark, 0.65) 100%),
     var(--ts-hero-img, none);
   background-size: auto, auto, auto, cover;
   background-position: center;
