@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PaymentGateway;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
@@ -44,7 +45,7 @@ class PaymentController extends Controller
             'payments' => $payments,
             'totals' => $totals,
             'statuses' => PaymentStatus::options(),
-            'gateways' => ['razorpay' => 'Razorpay', 'stripe' => 'Stripe', 'offline' => 'Offline'],
+            'gateways' => PaymentGateway::options(),
             'filters' => $request->only(['q', 'status', 'gateway']),
         ]);
     }

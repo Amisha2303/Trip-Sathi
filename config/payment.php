@@ -10,12 +10,25 @@ return [
     |--------------------------------------------------------------------------
     | Default gateway
     |--------------------------------------------------------------------------
-    | Set PAYMENT_GATEWAY=razorpay, stripe or offline. "offline" keeps the whole
-    | payment lifecycle (pending -> paid/refunded) intact without contacting an
-    | external provider, which is what local development and CI use.
+    | Set PAYMENT_GATEWAY=demo, razorpay, stripe or offline. "demo" provides a
+    | free, interactive online payment sandbox (simulated UPI, Card, NetBanking)
+    | with zero configuration needed.
     */
 
-    'default' => env('PAYMENT_GATEWAY', PaymentGateway::Offline->value),
+    'default' => env('PAYMENT_GATEWAY', PaymentGateway::Demo->value),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Demo Pay (Free Interactive Sandbox)
+    |--------------------------------------------------------------------------
+    | 100% free sandbox simulation. Does not require external keys or merchant accounts.
+    */
+
+    'demo' => [
+        'key' => env('DEMO_PAY_KEY', 'demo_key_tripsathi_free'),
+        'secret' => env('DEMO_PAY_SECRET', 'demo_secret_tripsathi_free_sandbox'),
+        'auto_settle' => true,
+    ],
 
     /*
     |--------------------------------------------------------------------------

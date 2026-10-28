@@ -119,7 +119,15 @@ export default function Index({ payments, totals = {}, statuses = {}, gateways =
                                             <div>{p.booking?.customer_name || p.user?.name || '—'}</div>
                                             <span className="small text-muted">{p.user?.email || ''}</span>
                                         </td>
-                                        <td>{p.gateway || p.method_label || '—'}</td>
+                                        <td>
+                                            {p.gateway === 'demo' ? (
+                                                <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">
+                                                    <i className="bi bi-shield-check me-1"></i>Demo Pay
+                                                </span>
+                                            ) : (
+                                                <span className="text-capitalize">{p.gateway || p.method_label || '—'}</span>
+                                            )}
+                                        </td>
                                         <td className="text-end fw-semibold">{formatMoney(p.amount)}</td>
                                         <td>
                                             <span className={`badge ${getPaymentBadge(p.status)}`}>

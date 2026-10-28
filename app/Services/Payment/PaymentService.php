@@ -38,16 +38,17 @@ class PaymentService
 {
     private ?PaymentGatewayInterface $gateway = null;
 
-    /** The gateway named by PAYMENT_GATEWAY, falling back to offline. */
+    /** The gateway named by PAYMENT_GATEWAY, falling back to Demo sandbox. */
     public static function configuredGateway(): PaymentGateway
     {
-        return PaymentGateway::tryFrom((string) config('payment.default', 'offline'))
-            ?? PaymentGateway::Offline;
+        return PaymentGateway::tryFrom((string) config('payment.default', PaymentGateway::Demo->value))
+            ?? PaymentGateway::Demo;
     }
 
     public function gateway(): PaymentGatewayInterface
     {
         return $this->gateway ??= match (self::configuredGateway()) {
+            PaymentGateway::Demo => app(DemoGateway::class),
             PaymentGateway::Razorpay => app(RazorpayGateway::class),
             PaymentGateway::Stripe => app(StripeGateway::class),
             PaymentGateway::Offline => app(OfflineGateway::class),
@@ -482,6 +483,7 @@ class PaymentService
     private function gatewaySecret(): string
     {
         return (string) match ($this->gateway()->gateway()) {
+            PaymentGateway::Demo => config('payment.demo.secret', 'demo_secret_tripsathi_free_sandbox'),
             PaymentGateway::Razorpay => config('payment.razorpay.secret'),
             PaymentGateway::Stripe => config('payment.stripe.secret'),
             PaymentGateway::Offline => '',

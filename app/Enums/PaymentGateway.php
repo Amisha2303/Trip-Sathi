@@ -6,6 +6,7 @@ namespace App\Enums;
 
 enum PaymentGateway: string
 {
+    case Demo = 'demo';
     case Razorpay = 'razorpay';
     case Stripe = 'stripe';
     case Offline = 'offline';
@@ -13,6 +14,7 @@ enum PaymentGateway: string
     public function label(): string
     {
         return match ($this) {
+            self::Demo => 'Demo Pay (Free Sandbox)',
             self::Razorpay => 'Razorpay',
             self::Stripe => 'Stripe',
             self::Offline => 'Offline / Manual',

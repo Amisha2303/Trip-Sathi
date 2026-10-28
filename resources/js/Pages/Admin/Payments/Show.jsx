@@ -65,7 +65,15 @@ export default function Show({ payment }) {
                                 </div>
                                 <div className="col-sm-6">
                                     <span className="small text-muted d-block">Gateway</span>
-                                    <div>{payment.gateway || payment.method_label || '—'}</div>
+                                    <div>
+                                        {payment.gateway === 'demo' ? (
+                                            <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                                                <i className="bi bi-shield-check me-1"></i>Demo Pay (Sandbox)
+                                            </span>
+                                        ) : (
+                                            <span className="text-capitalize">{payment.gateway || payment.method_label || '—'}</span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="col-sm-6">
                                     <span className="small text-muted d-block">Created At</span>

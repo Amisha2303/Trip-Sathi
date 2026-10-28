@@ -27,6 +27,8 @@ export default function Pay({
         post(`/bookings/${booking.id}/pay`);
     };
 
+    const isDemo = gatewayName?.toLowerCase().includes('demo') || (isOnline && isConfigured && !gatewayName?.toLowerCase().includes('razorpay') && !gatewayName?.toLowerCase().includes('stripe'));
+
     return (
         <AppLayout>
             <Head title={`Pay for ${booking.booking_number} — Trip Sathi`} />
@@ -58,21 +60,44 @@ export default function Pay({
 
                     <div className="row g-4">
                         <div className="col-lg-7">
-                            <div className="card shadow-sm border-0 mb-4">
-                                <div className="card-header bg-white border-bottom p-3 d-flex align-items-center gap-3">
-                                    <span className="badge bg-primary rounded-circle p-2 px-3 fs-6">
-                                        <i className="bi bi-credit-card"></i>
-                                    </span>
-                                    <div>
-                                        <h2 className="h5 mb-0 fw-bold">Pay {formatMoney(booking.final_amount)}</h2>
-                                        <p className="text-muted small mb-0">
-                                            {gatewayName} {!isConfigured && '· not configured yet'}
-                                        </p>
+                            <div className="card shadow-sm border-0 mb-4 overflow-hidden">
+                                <div className="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                    <div className="d-flex align-items-center gap-3">
+                                        <span className="badge bg-primary rounded-circle p-2 px-3 fs-6">
+                                            <i className="bi bi-credit-card"></i>
+                                        </span>
+                                        <div>
+                                            <h2 className="h5 mb-0 fw-bold">Pay {formatMoney(booking.final_amount)}</h2>
+                                            <p className="text-muted small mb-0">
+                                                {gatewayName} {!isConfigured && '· not configured yet'}
+                                            </p>
+                                        </div>
                                     </div>
+                                    {isDemo && (
+                                        <span className="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-semibold">
+                                            <i className="bi bi-shield-check me-1"></i> Free Sandbox Mode
+                                        </span>
+                                    )}
                                 </div>
 
                                 <div className="card-body p-4">
-                                    {!isConfigured ? (
+                                    {isDemo ? (
+                                        <div className="p-3 mb-4 rounded-3 border" style={{ background: 'linear-gradient(135deg, rgba(255, 122, 47, 0.08) 0%, rgba(15, 76, 70, 0.08) 100%)', borderColor: 'rgba(255, 122, 47, 0.25)' }}>
+                                            <div className="d-flex align-items-center gap-2 mb-2">
+                                                <span className="badge bg-primary px-2 py-1 small">Free Online Demo</span>
+                                                <span className="small text-muted">Zero cost · No real money needed</span>
+                                            </div>
+                                            <p className="small mb-3 text-secondary">
+                                                Test the complete online payment flow freely! Simulate UPI apps (GPay, PhonePe, Paytm), test cards, or 1-click instant approval with automated confirmation emails.
+                                            </p>
+                                            <div className="d-flex flex-wrap gap-2 small">
+                                                <span className="badge bg-white text-dark border"><i className="bi bi-qr-code me-1 text-primary"></i> Simulated UPI / QR</span>
+                                                <span className="badge bg-white text-dark border"><i className="bi bi-credit-card-2-front me-1 text-primary"></i> Test Debit/Credit Cards</span>
+                                                <span className="badge bg-white text-dark border"><i className="bi bi-bank me-1 text-primary"></i> Demo Net Banking</span>
+                                                <span className="badge bg-white text-dark border"><i className="bi bi-lightning-charge-fill me-1 text-warning"></i> 1-Click Fast Approval</span>
+                                            </div>
+                                        </div>
+                                    ) : !isConfigured ? (
                                         <div className="alert alert-warning">
                                             Online card payments are not configured on this site yet. Your booking is safe and
                                             our team can collect payment directly. Quote <strong>{booking.booking_number}</strong> when you contact us.
@@ -89,11 +114,15 @@ export default function Pay({
 
                                     <form onSubmit={handleInitiate}>
                                         <button
-                                            className="btn btn-accent btn-lg w-100 shadow-sm"
+                                            className="btn btn-accent btn-lg w-100 shadow-sm py-3 fw-bold"
                                             type="submit"
                                             disabled={processing}
                                         >
-                                            {isOnline && isConfigured ? (
+                                            {isDemo ? (
+                                                <>
+                                                    <i className="bi bi-lightning-charge-fill me-1 text-warning"></i> Open Free Demo Payment Checkout
+                                                </>
+                                            ) : isOnline && isConfigured ? (
                                                 <>
                                                     <i className="bi bi-lock-fill me-1"></i> Pay securely with {gatewayName}
                                                 </>
