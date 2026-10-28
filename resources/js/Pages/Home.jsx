@@ -349,11 +349,22 @@ export default function Home({
 
                     <div className="row g-4 text-start">
                         <div className="col-md-4">
-                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4">
-                                <div className="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex p-3 mb-3 fs-3" style={{ width: 'fit-content' }}>
+                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4 ts-feature-card">
+                                <div
+                                    className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 fs-3"
+                                    style={{
+                                        width: '3.75rem',
+                                        height: '3.75rem',
+                                        minWidth: '3.75rem',
+                                        minHeight: '3.75rem',
+                                        background: 'rgba(255, 122, 47, 0.12)',
+                                        color: '#FF7A2F',
+                                        border: '1px solid rgba(255, 122, 47, 0.2)',
+                                    }}
+                                >
                                     <i className="bi bi-map"></i>
                                 </div>
-                                <h4 className="fw-bold">All-In-One Platform</h4>
+                                <h4 className="fw-bold mb-2">All-In-One Platform</h4>
                                 <p className="text-muted mb-0">
                                     Stays, temple darshan, spiritual rituals, excursions, and day-by-day itineraries managed under a single login.
                                 </p>
@@ -361,11 +372,22 @@ export default function Home({
                         </div>
 
                         <div className="col-md-4">
-                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4">
-                                <div className="rounded-circle bg-success bg-opacity-10 text-success d-inline-flex p-3 mb-3 fs-3" style={{ width: 'fit-content' }}>
+                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4 ts-feature-card">
+                                <div
+                                    className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 fs-3"
+                                    style={{
+                                        width: '3.75rem',
+                                        height: '3.75rem',
+                                        minWidth: '3.75rem',
+                                        minHeight: '3.75rem',
+                                        background: 'rgba(15, 76, 70, 0.12)',
+                                        color: '#0F4C46',
+                                        border: '1px solid rgba(15, 76, 70, 0.2)',
+                                    }}
+                                >
                                     <i className="bi bi-shield-check"></i>
                                 </div>
-                                <h4 className="fw-bold">Guaranteed Slot Allocation</h4>
+                                <h4 className="fw-bold mb-2">Guaranteed Slot Allocation</h4>
                                 <p className="text-muted mb-0">
                                     Real-time concurrency locks ensure that once you book a room or darshan window, it is locked and guaranteed for you.
                                 </p>
@@ -373,11 +395,22 @@ export default function Home({
                         </div>
 
                         <div className="col-md-4">
-                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4">
-                                <div className="rounded-circle bg-warning bg-opacity-10 text-warning d-inline-flex p-3 mb-3 fs-3" style={{ width: 'fit-content' }}>
+                            <div className="card h-100 border-0 shadow-sm p-4 rounded-4 ts-feature-card">
+                                <div
+                                    className="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 fs-3"
+                                    style={{
+                                        width: '3.75rem',
+                                        height: '3.75rem',
+                                        minWidth: '3.75rem',
+                                        minHeight: '3.75rem',
+                                        background: 'rgba(255, 122, 47, 0.12)',
+                                        color: '#FF7A2F',
+                                        border: '1px solid rgba(255, 122, 47, 0.2)',
+                                    }}
+                                >
                                     <i className="bi bi-heart"></i>
                                 </div>
-                                <h4 className="fw-bold">Verified Travellers Only</h4>
+                                <h4 className="fw-bold mb-2">Verified Travellers Only</h4>
                                 <p className="text-muted mb-0">
                                     Every review and rating on our platform comes exclusively from guests who have completed their confirmed journey.
                                 </p>
