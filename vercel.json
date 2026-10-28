@@ -39,6 +39,22 @@
       "dest": "/public/favicon.$1"
     },
     {
+      "src": "/sw.js",
+      "dest": "/public/sw.js",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "service-worker-allowed": "/"
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/public/manifest.json",
+      "headers": {
+        "cache-control": "public, max-age=86400",
+        "content-type": "application/manifest+json; charset=utf-8"
+      }
+    },
+    {
       "src": "/(.*)\\.(css|js|ico|png|jpg|jpeg|svg|webp|avif|webmanifest|woff|woff2|ttf|json)$",
       "dest": "/public/$1.$2"
     },

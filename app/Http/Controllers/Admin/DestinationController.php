@@ -83,11 +83,14 @@ class DestinationController extends Controller
 
     public function destroy(Destination $destination): RedirectResponse
     {
-        $destination->delete();
+        try {
+            $destination->delete();
+            Destination::flushCatalogueCache();
 
-        Destination::flushCatalogueCache();
-
-        return redirect()->route('admin.destinations.index')->with('success', 'Destination deleted.');
+            return redirect()->route('admin.destinations.index')->with('success', 'Destination deleted.');
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Cannot delete destination: ' . $e->getMessage());
+        }
     }
 
     /** @return array<string, mixed> */

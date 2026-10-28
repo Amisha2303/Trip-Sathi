@@ -37,7 +37,20 @@ class PoojaRequest extends FormRequest
             'process' => ['nullable', 'string', 'max:10000'],
             'dress_code' => ['nullable', 'string', 'max:1000'],
             'cancellation_policy' => ['nullable', 'string', 'max:5000'],
-            'main_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:4096'],
+            'main_image' => ['nullable', function ($attribute, $value, $fail) {
+                if ($value instanceof \Illuminate\Http\UploadedFile) {
+                    $ext = strtolower($value->getClientOriginalExtension() ?: (string) $value->extension());
+                    $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+                    if (! in_array($ext, $allowed, true)) {
+                        $fail('Image must be a JPG, PNG, WEBP or SVG.');
+                    }
+                    if ($value->getSize() > 4096 * 1024) {
+                        $fail('Image size must not exceed 4MB.');
+                    }
+                } elseif (! is_string($value) && ! is_null($value)) {
+                    $fail('Invalid image provided.');
+                }
+            }],
             'remove_image' => ['nullable', 'boolean'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],

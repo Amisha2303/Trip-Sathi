@@ -1,0 +1,739 @@
+// ---------------------------------------------------------------------------
+// Trip Sathi — Modern Glassmorphism Design System
+// Applied to both Front Storefront and Admin Panel
+// ---------------------------------------------------------------------------
+
+// 1. Ambient Background Atmosphere -----------------------------------------
+body,
+.ts-admin-shell {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.08) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.06) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 45%);
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+// 2. Glass Cards & Panels --------------------------------------------------
+.ts-glass-card,
+.card,
+.ts-card {
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 30px 0 rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8) !important;
+  border-radius: 1rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    box-shadow: 0 18px 40px 0 rgba(13, 148, 136, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(13, 148, 136, 0.35) !important;
+  }
+}
+
+// Dark Frosted Glass Card (for special highlights, dark sections, mobile drawer)
+.ts-glass-dark-card {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.25), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15) !important;
+  color: #fff;
+  border-radius: 1rem;
+}
+
+// 3. Glass Header & Navigation ---------------------------------------------
+.ts-glass-header {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  transition: all 0.3s ease;
+
+  &.is-scrolled {
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    border-bottom-color: rgba(13, 148, 136, 0.15) !important;
+  }
+}
+
+.ts-glass-logo {
+  filter: drop-shadow(0 2px 8px rgba(13, 148, 136, 0.15));
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.ts-nav-pill-group {
+  background: rgba(241, 245, 249, 0.65);
+  backdrop-filter: blur(12px);
+  padding: 0.25rem 0.4rem;
+  border-radius: 50rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  gap: 0.15rem;
+}
+
+.ts-nav-pill {
+  color: #334155 !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+  padding: 0.45rem 0.85rem !important;
+  border-radius: 50rem !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    color: #0d9488 !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+  }
+
+  &.active {
+    color: #fff !important;
+    background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  }
+}
+
+// User Profile Pill in Header
+.ts-user-pill-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  border-radius: 50rem;
+  padding: 0.3rem 0.85rem 0.3rem 0.35rem;
+  color: #0f172a;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background: #fff;
+    border-color: #0d9488;
+    box-shadow: 0 4px 16px rgba(13, 148, 136, 0.18);
+  }
+
+  .ts-user-avatar-mini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d9488, #10b981);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(13, 148, 136, 0.25);
+  }
+}
+
+// Dropdowns with Glassmorphism
+.ts-glass-dropdown {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  border-radius: 1rem !important;
+  padding: 0.5rem !important;
+  margin-top: 0.5rem !important;
+
+  .dropdown-item {
+    border-radius: 0.6rem;
+    padding: 0.55rem 0.85rem;
+    font-weight: 500;
+    color: #334155;
+    transition: all 0.18s ease;
+
+    &:hover,
+    &:focus {
+      background: rgba(13, 148, 136, 0.08);
+      color: #0d9488;
+      transform: translateX(3px);
+    }
+
+    &.text-danger:hover {
+      background: rgba(239, 68, 68, 0.08);
+      color: #ef4444;
+    }
+  }
+}
+
+// 4. Modern Animated Hamburger Button ---------------------------------------
+.ts-hamburger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #fff;
+    border-color: #0d9488;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+  }
+
+  .hamburger-box {
+    width: 22px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    width: 22px;
+    height: 2px;
+    background-color: #0f172a;
+    border-radius: 4px;
+    position: absolute;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
+  }
+
+  .hamburger-inner {
+    top: 50%;
+    transform: translateY(-50%);
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+    }
+
+    &::before {
+      top: -7px;
+    }
+
+    &::after {
+      bottom: -7px;
+    }
+  }
+
+  &.is-active {
+    background: rgba(13, 148, 136, 0.1);
+    border-color: #0d9488;
+
+    .hamburger-inner {
+      transform: rotate(45deg);
+      background-color: #0d9488;
+
+      &::before {
+        top: 0;
+        opacity: 0;
+      }
+
+      &::after {
+        bottom: 0;
+        transform: rotate(-90deg);
+        background-color: #0d9488;
+      }
+    }
+  }
+}
+
+// 5. Mobile Glass Drawer & Backdrop ----------------------------------------
+.ts-glass-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1040;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.ts-glass-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 86vw);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.45);
+  z-index: 1045;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  .ts-drawer-user-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+
+    .ts-user-avatar-large {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0d9488, #10b981);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.4);
+    }
+  }
+
+  .ts-drawer-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+
+    .ts-drawer-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #14b8a6;
+      transition: all 0.2s ease;
+    }
+
+    &:hover,
+    &.is-active {
+      background: rgba(13, 148, 136, 0.2);
+      color: #fff;
+
+      .ts-drawer-icon {
+        background: #0d9488;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// 6. Glass Breadcrumbs -----------------------------------------------------
+.ts-glass-breadcrumb-wrap {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.ts-glass-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50rem;
+  list-style: none;
+  gap: 0.45rem;
+  font-size: 0.86rem;
+
+  .ts-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+
+    .ts-breadcrumb-link {
+      color: #64748b;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: #0d9488;
+      }
+    }
+
+    .ts-breadcrumb-sep {
+      color: #94a3b8;
+      font-size: 0.7rem;
+    }
+
+    .ts-breadcrumb-current {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    &.active .ts-breadcrumb-current {
+      background: rgba(13, 148, 136, 0.12);
+      color: #0f766e;
+      padding: 0.15rem 0.55rem;
+      border-radius: 50rem;
+    }
+  }
+}
+
+// 7. Buttons with Glass and Gradient Glow -----------------------------------
+.btn-glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(13, 148, 136, 0.3) !important;
+  color: #0f766e !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #fff !important;
+    border-color: #0d9488 !important;
+    color: #0d9488 !important;
+    box-shadow: 0 6px 18px rgba(13, 148, 136, 0.16);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-gradient-glow {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 20px rgba(13, 148, 136, 0.32);
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%) !important;
+    box-shadow: 0 8px 26px rgba(13, 148, 136, 0.45);
+    transform: translateY(-2px);
+    color: #fff !important;
+  }
+}
+
+// 8. Admin Panel Glassmorphism System --------------------------------------
+.ts-glass-admin-shell {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+// Admin Backdrop for Mobile
+.ts-admin-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1040;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Glass Admin Sidebar
+.ts-glass-admin-side {
+  width: 260px;
+  flex: 0 0 260px;
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 1.25rem 0.85rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1045;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  // Responsive mobile drawer behavior
+  @media (max-width: 991.98px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.5);
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .ts-glass-logo-badge {
+    background: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .ts-admin-group {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 1.1rem 0.75rem 0.4rem;
+    font-weight: 700;
+  }
+
+  .ts-admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    a {
+      color: rgba(255, 255, 255, 0.75);
+      padding: 0.6rem 0.85rem;
+      border-radius: 0.75rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 1.05rem;
+        color: #14b8a6;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+
+        i {
+          transform: scale(1.15);
+          color: #2dd4bf;
+        }
+      }
+
+      &.is-active {
+        background: linear-gradient(135deg, rgba(13, 148, 136, 0.35), rgba(16, 185, 129, 0.25));
+        border: 1px solid rgba(20, 184, 166, 0.4);
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
+
+        i {
+          color: #2dd4bf;
+        }
+      }
+    }
+  }
+}
+
+// Glass Top Bar in Admin
+.ts-glass-admin-bar {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6) !important;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+
+  .ts-admin-avatar-mini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d9488, #10b981);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Glass Tables
+.table-responsive {
+  border-radius: 1rem;
+  overflow: hidden;
+
+  table {
+    margin-bottom: 0;
+
+    thead.table-light tr th {
+      background: rgba(241, 245, 249, 0.75) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      font-weight: 700;
+      color: #475569;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+
+      td {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid rgba(241, 245, 249, 0.8);
+      }
+
+      &:hover {
+        background: rgba(13, 148, 136, 0.04) !important;
+      }
+    }
+  }
+}
+
+// Glass Alerts
+.ts-glass-alert {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0.85rem !important;
+  border-width: 1px !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+
+  &.alert-success {
+    border-color: rgba(16, 185, 129, 0.3) !important;
+    color: #065f46 !important;
+  }
+
+  &.alert-danger {
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: #991b1b !important;
+  }
+}
+
+// Form Controls with Glass look
+.form-control,
+.form-select {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(203, 213, 225, 0.8) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.65rem 0.95rem !important;
+  color: #0f172a !important;
+  transition: all 0.2s ease !important;
+
+  &:focus {
+    background: #fff !important;
+    border-color: #0d9488 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 148, 136, 0.18) !important;
+  }
+}
+
+// Mobile View Optimizations
+@media (max-width: 767.98px) {
+  .ts-admin-bar {
+    padding: 0.65rem 1rem !important;
+  }
+
+  .ts-admin-body {
+    padding: 1rem 0.75rem 2.5rem !important;
+  }
+
+  .ts-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+// Hero Search & On-dark breadcrumb
+.ts-search {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  border-radius: 1.5rem !important;
+}
+
+.ts-breadcrumb-ondark {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  padding: 0.35rem 0.85rem !important;
+  border-radius: 50rem !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+  font-size: 0.84rem !important;
+
+  .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.85);
+
+    a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: #fbbf24;
+      }
+    }
+
+    &.active {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    + .breadcrumb-item::before {
+      color: rgba(255, 255, 255, 0.5);
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+.ts-hero-stats > div {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 0.6rem 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+

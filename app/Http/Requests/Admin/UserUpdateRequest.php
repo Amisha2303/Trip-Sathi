@@ -26,6 +26,7 @@ class UserUpdateRequest extends FormRequest
             'country' => ['nullable', 'string', 'max:100'],
             'is_admin' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
+            'password' => ['nullable', 'string', 'min:8', 'max:100'],
         ];
     }
 }

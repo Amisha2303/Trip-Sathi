@@ -142,4 +142,27 @@ abstract class BaseModel extends Model
 
         return $disk->exists($path) ? $disk->url($path) : asset($fallback);
     }
+
+    /**
+     * Resolve route binding by primary key ID or slug.
+     * Allows admin routes (/admin/.../1) to resolve by numeric ID while
+     * frontend routes (/.../somnath-temple) resolve by slug.
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if ($field) {
+            return parent::resolveRouteBinding($value, $field);
+        }
+
+        if (is_numeric($value)) {
+            $model = $this->resolveRouteBindingQuery($this, $value, $this->getKeyName())->first();
+            if ($model) {
+                return $model;
+            }
+        }
+
+        return $this->resolveRouteBindingQuery($this, $value, $this->getRouteKeyName())->first()
+            ?? $this->resolveRouteBindingQuery($this, $value, $this->getKeyName())->first();
+    }
 }
+

@@ -22,7 +22,11 @@ export default function Index({ destinations, filters = {} }) {
     const list = destinations?.data || [];
 
     return (
-        <AdminLayout title="Destinations" heading="Destinations">
+        <AdminLayout
+            title="Destinations"
+            heading="Destinations"
+            breadcrumbs={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Destinations' }]}
+        >
             <Head title="Destinations — Admin — Trip Sathi" />
 
             <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">

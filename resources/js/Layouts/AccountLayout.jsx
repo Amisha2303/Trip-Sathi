@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import AppLayout from './AppLayout';
+import Breadcrumb from '../Components/Breadcrumb';
 
 export default function AccountLayout({ title, heading, children }) {
     const { url, props } = usePage();
@@ -11,12 +12,18 @@ export default function AccountLayout({ title, heading, children }) {
         return url.startsWith(path);
     };
 
+    const breadcrumbs = [
+        { label: 'Account', href: '/dashboard' },
+        ...(heading && heading !== 'Dashboard' ? [{ label: heading }] : []),
+    ];
+
     return (
         <AppLayout title={title || heading || 'Account'}>
             <div className="container py-4 py-lg-5">
+                <Breadcrumb items={breadcrumbs} />
                 <div className="ts-account">
                     <aside className="ts-layout-side">
-                        <nav className="ts-account-nav card border-0 shadow-sm p-3 rounded-4" aria-label="Account sections">
+                        <nav className="ts-account-nav card ts-glass-card border-0 shadow-sm p-3 rounded-4" aria-label="Account sections">
                             <div className="d-flex align-items-center gap-2 p-2 mb-3 border-bottom pb-3">
                                 <div
                                     className="rounded-circle bg-primary text-white fw-bold d-flex align-items-center justify-content-center"

@@ -67,10 +67,18 @@ class UserController extends Controller
             $data['is_active'] = $request->boolean('is_active');
         }
 
+        if ($request->filled('password')) {
+            $data['password'] = $request->string('password')->toString();
+        }
+
         // is_admin / is_active are outside $fillable; forceFill the guarded keys.
         $user->forceFill($data)->save();
 
-        return redirect()->route('admin.users.show', $user)->with('success', 'Account updated.');
+        if (isset($data['is_admin'])) {
+            User::flushAdminCache();
+        }
+
+        return redirect()->route('admin.users.show', $user)->with('success', 'Account updated successfully.');
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
@@ -79,8 +87,11 @@ class UserController extends Controller
             return back()->with('error', 'You cannot delete your own account.');
         }
 
-        $user->delete();
-
-        return redirect()->route('admin.users.index')->with('success', 'Account deleted.');
+        try {
+            $user->delete();
+            return redirect()->route('admin.users.index')->with('success', 'User account deleted.');
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Cannot delete user: ' . $e->getMessage());
+        }
     }
 }

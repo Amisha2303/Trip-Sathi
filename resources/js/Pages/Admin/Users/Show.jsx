@@ -12,6 +12,7 @@ export default function Show({ user, stats = {} }) {
         country: user?.country || 'India',
         is_admin: Boolean(user?.is_admin),
         is_active: Boolean(user?.is_active),
+        password: '',
     });
 
     const handleUpdate = (e) => {
@@ -46,7 +47,15 @@ export default function Show({ user, stats = {} }) {
     };
 
     return (
-        <AdminLayout title={user.name} heading={`User · ${user.name}`}>
+        <AdminLayout
+            title={`Edit ${user.name}`}
+            heading={`User · ${user.name}`}
+            breadcrumbs={[
+                { label: 'Admin', href: '/admin/dashboard' },
+                { label: 'Users', href: '/admin/users' },
+                { label: user.name },
+            ]}
+        >
             <Head title={`${user.name} — Admin — Trip Sathi`} />
 
             <div className="row g-4">
@@ -177,6 +186,22 @@ export default function Show({ user, stats = {} }) {
                                             value={data.country}
                                             onChange={(e) => setData('country', e.target.value)}
                                         />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label htmlFor="password" className="form-label fw-semibold">
+                                            Reset Password <span className="small text-muted fw-normal">(leave blank to keep current)</span>
+                                        </label>
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                                            value={data.password}
+                                            onChange={(e) => setData('password', e.target.value)}
+                                            placeholder="Min 8 characters…"
+                                            autoComplete="new-password"
+                                        />
+                                        {errors.password && <div className="invalid-feedback">{errors.password}</div>}
                                     </div>
 
                                     <div className="col-12 border-top pt-3 mt-4">

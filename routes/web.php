@@ -151,7 +151,8 @@ Route::middleware(['auth', 'admin'])
 
         // Users
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
-        Route::get('/users/{user}/edit', [AdminUserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [AdminUserController::class, 'show'])->name('users.edit');
         Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 

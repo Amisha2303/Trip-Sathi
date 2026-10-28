@@ -56,6 +56,11 @@ export default function Form({ destination = {}, categories = [] }) {
         <AdminLayout
             title={isEdit ? `Edit ${destination.name}` : 'New Destination'}
             heading={isEdit ? `Edit · ${destination.name}` : 'New Destination'}
+            breadcrumbs={[
+                { label: 'Admin', href: '/admin/dashboard' },
+                { label: 'Destinations', href: '/admin/destinations' },
+                { label: isEdit ? destination.name : 'New' },
+            ]}
         >
             <Head title={`${isEdit ? 'Edit Destination' : 'New Destination'} — Admin — Trip Sathi`} />
 

@@ -24,7 +24,19 @@ createInertiaApp({
         root.render(<App {...props} />);
     },
     progress: {
-        color: '#ff5a5f',
+        color: '#0b6e75',
         showSpinner: true,
     },
 });
+
+// Register PWA service worker seamlessly
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+            // Service worker registered smoothly
+        }).catch((err) => {
+            console.debug('ServiceWorker registration omitted:', err);
+        });
+    });
+}
+

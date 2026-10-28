@@ -84,9 +84,13 @@ class HotelController extends Controller
 
     public function destroy(Hotel $hotel): RedirectResponse
     {
-        $hotel->delete();
+        try {
+            $hotel->delete();
 
-        return redirect()->route('admin.hotels.index')->with('success', 'Hotel deleted.');
+            return redirect()->route('admin.hotels.index')->with('success', 'Hotel deleted.');
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Cannot delete hotel: ' . $e->getMessage());
+        }
     }
 
     /** @return array<string, mixed> */

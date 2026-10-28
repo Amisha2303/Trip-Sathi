@@ -16,7 +16,11 @@ export default function Index({ users, filters = {} }) {
     const userList = users?.data || [];
 
     return (
-        <AdminLayout title="Users" heading="Users">
+        <AdminLayout
+            title="Users"
+            heading="Users Management"
+            breadcrumbs={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Users' }]}
+        >
             <Head title="Users — Admin — Trip Sathi" />
 
             <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">

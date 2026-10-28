@@ -12,12 +12,14 @@ $directories = [
     '/tmp/storage/framework/cache/data',
     '/tmp/storage/framework/sessions',
     '/tmp/storage/logs',
+    '/tmp/storage/app/public',
+    '/tmp/storage/app/public/catalogue',
     '/tmp/bootstrap/cache',
 ];
 
 foreach ($directories as $dir) {
     if (! is_dir($dir)) {
-        @mkdir($dir, 0755, true);
+        @mkdir($dir, 0777, true);
     }
 }
 
@@ -26,7 +28,7 @@ $sqliteSource = __DIR__ . '/../database/database.sqlite';
 $sqliteTarget = '/tmp/database.sqlite';
 
 if (file_exists($sqliteSource)) {
-    if (! file_exists($sqliteTarget) || filemtime($sqliteSource) > filemtime($sqliteTarget)) {
+    if (! file_exists($sqliteTarget) || filesize($sqliteTarget) === 0) {
         @copy($sqliteSource, $sqliteTarget);
         @chmod($sqliteTarget, 0666);
     }

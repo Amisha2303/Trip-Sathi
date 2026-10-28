@@ -7,31 +7,43 @@
 // ---------------------------------------------------------------------------
 
 // Brand --------------------------------------------------------------------
-// Deep teal reads as dependable and calm (the colour of water and altitude)
-// without the generic-blue look every booking site has. Marigold is the warm
-// accent used only for moments of action: price, CTA, active nav.
-$ts-brand: #0b6e75;
-$ts-brand-dark: #084e53;
-$ts-brand-light: #13959f;
-$ts-brand-tint: #e6f4f5;
+// Modern vibrant Emerald/Teal (#0d9488) + Warm Sunburst Amber (#f59e0b)
+// Curated for luxurious travel, spiritual heritage, and outdoor adventure.
+$ts-brand: #0d9488;
+$ts-brand-dark: #0f766e;
+$ts-brand-light: #14b8a6;
+$ts-brand-tint: #f0fdfa;
 
-$ts-accent: #ef8f1c;
-$ts-accent-dark: #c9720d;
-$ts-accent-tint: #fdf2e2;
+$ts-accent: #f59e0b;
+$ts-accent-dark: #d97706;
+$ts-accent-light: #fbbf24;
+$ts-accent-tint: #fffbeb;
 
 // Neutrals -----------------------------------------------------------------
-$ts-ink: #10212b;      // primary text
-$ts-ink-soft: #45555f;  // body text
-$ts-muted: #73838c;     // labels, meta
-$ts-line: #e3e8ea;      // hairlines
+$ts-ink: #0f172a;        // rich slate-900 primary text
+$ts-ink-soft: #334155;   // slate-700 body text
+$ts-muted: #64748b;      // slate-500 labels, meta
+$ts-line: #e2e8f0;       // subtle divider
 $ts-surface: #ffffff;
-$ts-surface-alt: #f6f9f9;
+$ts-surface-alt: #f8fafc; // clean slate-50
+
+// Glassmorphism System Tokens ----------------------------------------------
+$glass-bg: rgba(255, 255, 255, 0.75);
+$glass-bg-hover: rgba(255, 255, 255, 0.88);
+$glass-border: 1px solid rgba(255, 255, 255, 0.45);
+$glass-blur: 16px;
+$glass-shadow: 0 12px 36px 0 rgba(15, 23, 42, 0.08);
+$glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+
+$glass-dark-bg: rgba(15, 23, 42, 0.82);
+$glass-dark-border: 1px solid rgba(255, 255, 255, 0.12);
+$glass-dark-blur: 20px;
 
 // Feedback -----------------------------------------------------------------
-$ts-success: #0f8a5f;
-$ts-warning: #b97704;
-$ts-danger: #c33a3a;
-$ts-info: #0b6e75;
+$ts-success: #10b981;
+$ts-warning: #f59e0b;
+$ts-danger: #ef4444;
+$ts-info: #0ea5e9;
 
 // Bootstrap keys these tokens feed -----------------------------------------
 $primary: $ts-brand;
@@ -42,10 +54,11 @@ $success: $ts-success;
 $info: $ts-info;
 
 // Type ---------------------------------------------------------------------
-$font-sans: "Segoe UI", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-  Arial, "Noto Sans", sans-serif;
+$font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-family-headings: 'Outfit', 'Plus Jakarta Sans', sans-serif;
 $font-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 $font-size-base: 1rem;
+$headings-font-family: $font-family-headings;
 $headings-font-weight: 700;
 $headings-line-height: 1.25;
 $line-height-base: 1.6;
