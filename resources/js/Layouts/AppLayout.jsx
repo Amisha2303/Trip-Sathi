@@ -4,12 +4,10 @@ import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import ToastContainer from '../Components/ToastContainer';
 import AppleDock from '../Components/AppleDock';
-import ThemeCustomizer from '../Components/ThemeCustomizer';
 
 export default function AppLayout({ title, description, children }) {
     const { appSettings } = usePage().props;
     const [showBackTop, setShowBackTop] = useState(false);
-    const [showThemeModal, setShowThemeModal] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -17,12 +15,8 @@ export default function AppLayout({ title, description, children }) {
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
 
-        const handleOpenTheme = () => setShowThemeModal(true);
-        window.addEventListener('open-theme-customizer', handleOpenTheme);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('open-theme-customizer', handleOpenTheme);
         };
     }, []);
 
@@ -40,7 +34,7 @@ export default function AppLayout({ title, description, children }) {
                 <meta name="description" content={metaDesc} />
             </Head>
 
-            <Header onOpenTheme={() => setShowThemeModal(true)} />
+            <Header />
             <ToastContainer />
 
             <main className="flex-grow-1">
@@ -50,25 +44,7 @@ export default function AppLayout({ title, description, children }) {
             <Footer />
 
             {/* Apple Liquid Glass Floating Bottom Dock (Mobile & Tablet) */}
-            <AppleDock onOpenTheme={() => setShowThemeModal(true)} />
-
-            {/* Desktop Floating Theme Customizer Pill */}
-            <button
-                type="button"
-                className="ts-theme-floating-pill"
-                onClick={() => setShowThemeModal(true)}
-                title="Customize Theme & Colors"
-                aria-label="Customize Theme & Colors"
-            >
-                <span className="ts-theme-dot"></span>
-                <span>Customize Theme</span>
-            </button>
-
-            {/* Theme & Color Customizer Drawer/Modal */}
-            <ThemeCustomizer
-                isOpen={showThemeModal}
-                onClose={() => setShowThemeModal(false)}
-            />
+            <AppleDock />
 
             {/* Back to top button */}
             <button

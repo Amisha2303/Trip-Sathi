@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
 
-export default function AppleDock({ onOpenTheme }) {
+export default function AppleDock() {
     const { auth } = usePage().props;
     const currentUrl = usePage().url;
     const user = auth?.user;
@@ -53,18 +53,6 @@ export default function AppleDock({ onOpenTheme }) {
                 >
                     <i className="bi bi-building"></i>
                 </Link>
-
-                {/* Color & Theme Switcher Button */}
-                <button
-                    type="button"
-                    className="ts-dock-item ts-dock-theme-btn"
-                    onClick={onOpenTheme}
-                    title="Appearance & Theme Colors"
-                    aria-label="Appearance & Theme Colors"
-                >
-                    <i className="bi bi-palette-fill"></i>
-                    <span className="ts-dock-dot"></span>
-                </button>
 
                 {/* User Account / Profile */}
                 <Link

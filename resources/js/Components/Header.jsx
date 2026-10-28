@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, usePage, router } from '@inertiajs/react';
 
-export default function Header({ onOpenTheme }) {
+export default function Header() {
     const { url, props } = usePage();
     const { auth, appSettings, wishlistCount } = props;
     const user = auth?.user;
     const [navOpen, setNavOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-
-    const handleThemeClick = () => {
-        if (typeof onOpenTheme === 'function') {
-            onOpenTheme();
-        } else {
-            window.dispatchEvent(new CustomEvent('open-theme-customizer'));
-        }
-    };
 
     const isActive = (path) => url.startsWith(path);
 
@@ -88,16 +80,6 @@ export default function Header({ onOpenTheme }) {
                                 </Link>
 
                                 <div className="d-flex align-items-center gap-1">
-                                    <button
-                                        type="button"
-                                        className="ts-capsule-btn"
-                                        onClick={handleThemeClick}
-                                        title="Personalize Theme & Colors"
-                                        aria-label="Personalize Theme & Colors"
-                                    >
-                                        <i className="bi bi-palette-fill"></i>
-                                    </button>
-
                                     <Link
                                         href={user ? (user.is_admin ? '/admin/dashboard' : '/dashboard') : '/login'}
                                         className="ts-capsule-btn"
@@ -151,17 +133,6 @@ export default function Header({ onOpenTheme }) {
                                 >
                                     Contact
                                 </Link>
-
-                                {/* Theme Customizer Button for Desktop */}
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-glass rounded-pill px-3 py-1.5 d-inline-flex align-items-center gap-1.5 text-dark"
-                                    onClick={handleThemeClick}
-                                    title="Personalize Theme & Colors"
-                                >
-                                    <i className="bi bi-palette-fill text-primary"></i>
-                                    <span className="small fw-semibold">Theme</span>
-                                </button>
 
                                 {user ? (
                                     <div className="nav-item dropdown">

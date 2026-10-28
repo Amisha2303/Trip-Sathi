@@ -321,7 +321,7 @@ export default function Show({ user, stats = {} }) {
             {/* Deletion Confirmation Modal */}
             {confirmDelete && (
                 <div
-                    className="ts-theme-backdrop is-open d-flex align-items-center justify-content-center p-3"
+                    className="ts-modal-backdrop d-flex align-items-center justify-content-center p-3"
                     style={{ zIndex: 1070 }}
                 >
                     <div

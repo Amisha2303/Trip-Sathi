@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light" data-accent="teal">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -25,21 +25,6 @@
     <meta name="theme-color" content="#0d9488">
     <meta name="msapplication-navbutton-color" content="#0d9488">
     <meta name="msapplication-TileColor" content="#0d9488">
-
-    <!-- Anti-FOUC Theme Pre-loader -->
-    <script>
-        (function() {
-            try {
-                var storedTheme = localStorage.getItem('ts-theme-mode');
-                var storedAccent = localStorage.getItem('ts-theme-accent');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var mode = storedTheme || (prefersDark ? 'dark' : 'light');
-                var accent = storedAccent || 'teal';
-                document.documentElement.setAttribute('data-theme', mode);
-                document.documentElement.setAttribute('data-accent', accent);
-            } catch (e) {}
-        })();
-    </script>
 
     <!-- Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
