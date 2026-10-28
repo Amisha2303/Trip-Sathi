@@ -39,15 +39,18 @@ export default function Dashboard({
             {/* KPI Cards */}
             <div className="row g-3 mb-4">
                 {kpis.map((kpi, idx) => (
-                    <div key={idx} className="col-6 col-xl-3">
-                        <div className="card shadow-sm border-0 p-3 h-100 d-flex flex-row align-items-center gap-3">
-                            <div className="fs-2 text-primary p-2 bg-light rounded">
+                    <div key={idx} className="col-12 col-sm-6 col-xl-3">
+                        <div className="card ts-glass-card shadow-sm border-0 p-3 h-100 d-flex flex-row align-items-center gap-3">
+                            <div
+                                className="fs-3 text-primary p-2 bg-light-subtle rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{ width: '50px', height: '50px' }}
+                            >
                                 <i className={`bi ${kpi.icon}`}></i>
                             </div>
-                            <div>
-                                <div className="text-muted small">{kpi.label}</div>
-                                <div className="fs-4 fw-bold">{kpi.value}</div>
-                                <div className="small text-muted">{kpi.note}</div>
+                            <div className="min-w-0 flex-grow-1">
+                                <div className="text-muted small text-truncate">{kpi.label}</div>
+                                <div className="fs-4 fw-bold text-dark">{kpi.value}</div>
+                                <div className="small text-muted text-truncate">{kpi.note}</div>
                             </div>
                         </div>
                     </div>
@@ -56,8 +59,8 @@ export default function Dashboard({
 
             {/* Status Breakdown & Top Destinations */}
             <div className="row g-4 mb-4">
-                <div className="col-lg-7">
-                    <div className="card shadow-sm border-0 h-100">
+                <div className="col-12 col-lg-7">
+                    <div className="card ts-glass-card shadow-sm border-0 h-100">
                         <div className="card-body p-4">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="h5 fw-bold mb-0">Booking Status</h2>
@@ -99,8 +102,8 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="col-lg-5">
-                    <div className="card shadow-sm border-0 h-100">
+                <div className="col-12 col-lg-5">
+                    <div className="card ts-glass-card shadow-sm border-0 h-100">
                         <div className="card-body p-4">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="h5 fw-bold mb-0">Top Destinations</h2>
@@ -143,8 +146,8 @@ export default function Dashboard({
 
             {/* Recent Bookings & Inbox / Users */}
             <div className="row g-4">
-                <div className="col-lg-7">
-                    <div className="card shadow-sm border-0">
+                <div className="col-12 col-lg-7">
+                    <div className="card ts-glass-card shadow-sm border-0">
                         <div className="card-body p-4">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="h5 fw-bold mb-0">Recent Bookings</h2>
@@ -200,9 +203,9 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                <div className="col-lg-5">
+                <div className="col-12 col-lg-5">
                     {/* Contact Inbox Card */}
-                    <div className="card shadow-sm border-0 mb-4">
+                    <div className="card ts-glass-card shadow-sm border-0 mb-4">
                         <div className="card-body p-4">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="h5 fw-bold mb-0">Contact Inbox</h2>
@@ -235,7 +238,7 @@ export default function Dashboard({
                     </div>
 
                     {/* Newest Accounts Card */}
-                    <div className="card shadow-sm border-0">
+                    <div className="card ts-glass-card shadow-sm border-0">
                         <div className="card-body p-4">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h2 className="h5 fw-bold mb-0">Newest Accounts</h2>

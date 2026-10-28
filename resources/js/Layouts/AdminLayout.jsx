@@ -137,25 +137,25 @@ export default function AdminLayout({ title = 'Admin', heading = 'Dashboard', br
             {/* Admin Main Body */}
             <div className="ts-admin-main">
                 <header className="ts-admin-bar ts-glass-admin-bar">
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex align-items-center gap-2 gap-sm-3 min-w-0">
                         <button
-                            className="ts-admin-menu-toggle d-lg-none btn btn-sm btn-glass text-dark"
+                            className="ts-admin-menu-toggle d-lg-none"
                             type="button"
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             aria-label="Toggle navigation"
                         >
-                            <i className="bi bi-list fs-5"></i>
+                            <i className="bi bi-list"></i>
                         </button>
 
-                        <div>
-                            <h1 className="h5 fw-bold mb-0 text-dark ts-admin-title">{heading}</h1>
+                        <div className="min-w-0">
+                            <h1 className="h5 fw-bold mb-0 text-dark ts-admin-title text-truncate">{heading}</h1>
                             <span className="badge text-bg-light border small d-none d-md-inline-block mt-1">
                                 {new Date().toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
                             </span>
                         </div>
                     </div>
 
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex align-items-center gap-2 flex-shrink-0">
                         <div className="d-none d-md-flex align-items-center gap-2">
                             <span className="ts-admin-avatar-mini">
                                 {(currentUser?.name || 'A').charAt(0).toUpperCase()}
@@ -165,8 +165,8 @@ export default function AdminLayout({ title = 'Admin', heading = 'Dashboard', br
                             </span>
                         </div>
 
-                        <button className="btn btn-sm btn-glass text-danger fw-medium" type="button" onClick={handleLogout}>
-                            <i className="bi bi-box-arrow-right me-1"></i> Sign Out
+                        <button className="btn btn-sm btn-glass text-danger fw-medium d-inline-flex align-items-center gap-1" type="button" onClick={handleLogout}>
+                            <i className="bi bi-box-arrow-right"></i> <span className="d-none d-sm-inline">Sign Out</span>
                         </button>
                     </div>
                 </header>
