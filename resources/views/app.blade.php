@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Complete Favicon & PWA App Icons -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
@@ -22,14 +23,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Trip Sathi">
     <meta name="application-name" content="Trip Sathi">
-    <meta name="theme-color" content="#FF7A2F">
-    <meta name="msapplication-navbutton-color" content="#FF7A2F">
-    <meta name="msapplication-TileColor" content="#FF7A2F">
+    <meta name="theme-color" content="#16324F">
+    <meta name="msapplication-navbutton-color" content="#16324F">
+    <meta name="msapplication-TileColor" content="#16324F">
 
-    <!-- Premium Typography -->
+    <!-- Premium Typography: Inter, Manrope, Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <title inertia>{{ config('app.name', 'Trip Sathi') }}</title>
 

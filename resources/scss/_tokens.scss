@@ -1,110 +1,135 @@
 // ---------------------------------------------------------------------------
-// Trip Sathi design tokens
-//
-// The single source of truth for colour, type and shape. Every component in
-// resources/scss references these rather than raw hex values, so rebranding is
-// an edit here and nowhere else.
+// Trip Sathi Official Design System Tokens
+// Primary Navy (#16324F) + Secondary Teal (#0F9D91) + Accent Coral (#FF795D)
+// Main Background (#F7F8F5) + Card (#FFFFFF) + Text (#172B3A / #64748B)
 // ---------------------------------------------------------------------------
 
-// Brand --------------------------------------------------------------------
-// Official Trip Sathi Brand Palette:
-// Primary Orange (#FF7A2F) + Secondary Teal (#0F4C46) + Light Cream (#FFF7ED)
-$ts-brand: #FF7A2F;
-$ts-brand-dark: #E05D15;
-$ts-brand-light: #FF9454;
-$ts-brand-tint: #FFE0CC;
+// Brand Palette ------------------------------------------------------------
+$ts-navy: #16324F;
+$ts-navy-dark: #0F2338;
+$ts-navy-light: #20456B;
+$ts-navy-tint: #E8EEF5;
 
-$ts-secondary: #0F4C46;
-$ts-secondary-dark: #0A3632;
-$ts-secondary-light: #166B63;
-$ts-secondary-tint: #E6F3F1;
+$ts-teal: #0F9D91;
+$ts-teal-dark: #0A7A71;
+$ts-teal-light: #16B8AB;
+$ts-teal-tint: #E6F7F5;
 
-$ts-accent: #0F4C46;
-$ts-accent-dark: #0A3632;
-$ts-accent-light: #166B63;
-$ts-accent-tint: #E6F3F1;
+$ts-coral: #FF795D;
+$ts-coral-dark: #E65C40;
+$ts-coral-light: #FF947D;
+$ts-coral-tint: #FFF0ED;
 
-// Neutrals -----------------------------------------------------------------
-$ts-ink: #1F2937;        // Text Primary (#1F2937)
-$ts-ink-soft: #374151;   // Slate-700
-$ts-muted: #6B7280;      // Text Secondary (#6B7280)
-$ts-line: #E5E7EB;       // Border (#E5E7EB)
-$ts-surface: #FFFFFF;    // White (#FFFFFF)
-$ts-surface-alt: #FFF7ED; // Light Cream (#FFF7ED)
+// System Roles -------------------------------------------------------------
+$ts-brand: $ts-teal;            // Primary Action / Brand Color (Teal #0F9D91)
+$ts-brand-dark: $ts-teal-dark;
+$ts-brand-light: $ts-teal-light;
+$ts-brand-tint: $ts-teal-tint;
 
-// Glassmorphism System Tokens ----------------------------------------------
-$glass-bg: rgba(255, 255, 255, 0.85);
-$glass-bg-hover: rgba(255, 255, 255, 0.95);
-$glass-border: 1px solid rgba(229, 231, 235, 0.75);
-$glass-blur: 16px;
-$glass-shadow: 0 10px 30px 0 rgba(15, 76, 70, 0.06);
-$glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+$ts-primary: $ts-navy;          // Primary Structural / Headings (Navy #16324F)
+$ts-primary-dark: $ts-navy-dark;
+$ts-primary-light: $ts-navy-light;
+$ts-primary-tint: $ts-navy-tint;
 
-$glass-dark-bg: rgba(15, 76, 70, 0.92);
-$glass-dark-border: 1px solid rgba(255, 255, 255, 0.15);
-$glass-dark-blur: 20px;
+$ts-secondary: $ts-teal;        // Secondary Teal (#0F9D91)
+$ts-secondary-dark: $ts-teal-dark;
+$ts-secondary-light: $ts-teal-light;
+$ts-secondary-tint: $ts-teal-tint;
 
-// Feedback -----------------------------------------------------------------
-$ts-success: #16A34A;    // Success (#16A34A)
-$ts-warning: #F59E0B;    // Warning (#F59E0B)
-$ts-danger: #EF4444;     // Error (#EF4444)
-$ts-info: #0F4C46;       // Secondary Teal (#0F4C46)
+$ts-accent: $ts-coral;          // Accent Coral (#FF795D)
+$ts-accent-dark: $ts-coral-dark;
+$ts-accent-light: $ts-coral-light;
+$ts-accent-tint: $ts-coral-tint;
 
-// Bootstrap keys these tokens feed -----------------------------------------
-$primary: $ts-brand;
-$secondary: $ts-secondary;
-$danger: $ts-danger;
-$warning: $ts-warning;
+// Neutrals & Surfaces ------------------------------------------------------
+$ts-ink: #172B3A;               // Main text (#172B3A)
+$ts-ink-soft: #334E68;          // Muted navy text
+$ts-muted: #64748B;             // Secondary text (#64748B)
+$ts-line: #E2E8F0;              // Subtle neutral grey border (#E2E8F0)
+$ts-line-subtle: #F1F5F9;       // Soft divider
+$ts-surface: #FFFFFF;           // Card background (#FFFFFF)
+$ts-surface-alt: #F7F8F5;       // Main background (#F7F8F5)
+
+// Feedback Colors ----------------------------------------------------------
+$ts-success: #10B981;
+$ts-warning: #F59E0B;
+$ts-danger: #EF4444;
+$ts-info: #0F9D91;
+
+// Bootstrap Overrides ------------------------------------------------------
+$body-bg: $ts-surface-alt;
+$body-color: $ts-ink;
+$primary: $ts-teal;
+$secondary: $ts-navy;
 $success: $ts-success;
+$warning: $ts-warning;
+$danger: $ts-danger;
 $info: $ts-info;
 
-// Type ---------------------------------------------------------------------
-$font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-$font-family-headings: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+// Typography: Inter / Manrope / Plus Jakarta Sans --------------------------
+$font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-family-headings: 'Manrope', 'Inter', system-ui, sans-serif;
 $font-monospace: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 $font-size-base: 1rem;
 $headings-font-family: $font-family-headings;
+$headings-color: $ts-navy;
 $headings-font-weight: 700;
 $headings-line-height: 1.25;
 $line-height-base: 1.6;
 
-// Shape & depth ------------------------------------------------------------
+// Shape & Elevation --------------------------------------------------------
 $border-radius: 0.5rem;
-$border-radius-sm: 0.35rem;
-$border-radius-lg: 0.9rem;
+$border-radius-sm: 0.375rem;
+$border-radius-lg: 1rem;        // 16px (12–18px range)
 $border-radius-xl: 1.25rem;
 $border-radius-pill: 50rem;
-$border-radius-2: $border-radius-lg;
-
-// Restrained by design: the brief says avoid excessive shadows, so the default
-// is a barely-there elevation and a stronger one reserved for hover states.
-$box-shadow-sm: 0 1px 2px rgba(16, 33, 43, 0.06);
-$box-shadow: 0 4px 16px rgba(16, 33, 43, 0.08);
-$box-shadow-lg: 0 14px 36px rgba(16, 33, 43, 0.14);
-$box-shadow-focus: 0 0 0 0.2rem rgba($ts-brand, 0.28);
-
-// Focus ring must stay visible for keyboard users.
-$focus-ring-width: 0.1875rem;
-$focus-ring-color: rgba($ts-brand, 0.35);
-
-// Layout -------------------------------------------------------------------
-$container-maxs: (xxl: 1320px);
-$grid-gutter-width: 1.5rem;
-
-// Components ---------------------------------------------------------------
-$btn-padding-x: 1.1rem;
-$btn-padding-y: 0.6rem;
-$btn-font-weight: 600;
-$btn-transition: all 0.16s ease-in-out;
-
-$input-padding-y: 0.6rem;
-$input-padding-x: 0.85rem;
-$input-border-color: #d5dde0;
-$input-placeholder-color: $ts-muted;
 
 $card-border-radius: $border-radius-lg;
-$modal-content-border-radius: $border-radius-lg;
-$dropdown-border-radius: $border-radius;
+$card-bg: $ts-surface;
+$card-border-color: $ts-line;
 
-// Motion — deliberately short; long transitions feel sluggish in a form.
-$transition-speed: 0.16s;
+$box-shadow-sm: 0 1px 3px rgba(22, 50, 79, 0.05);
+$box-shadow: 0 4px 16px rgba(22, 50, 79, 0.06);
+$box-shadow-lg: 0 12px 32px rgba(22, 50, 79, 0.09);
+$box-shadow-focus: 0 0 0 0.2rem rgba($ts-teal, 0.25);
+
+// Focus & Interactive ------------------------------------------------------
+$focus-ring-width: 0.1875rem;
+$focus-ring-color: rgba($ts-teal, 0.35);
+
+// Layout: 1280px Max Width & 8px Spacing Grid ------------------------------
+$container-maxs: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+    xxl: 1280px
+);
+$grid-gutter-width: 1.5rem;
+
+// Buttons & Form Controls --------------------------------------------------
+$btn-padding-x: 1.25rem;
+$btn-padding-y: 0.65rem;
+$btn-font-weight: 600;
+$btn-border-radius: 0.75rem;
+$btn-transition: all 0.18s ease-in-out;
+
+$input-padding-y: 0.65rem;
+$input-padding-x: 0.95rem;
+$input-border-color: $ts-line;
+$input-placeholder-color: $ts-muted;
+$input-border-radius: 0.75rem;
+
+$transition-speed: 0.18s;
+
+// Modern Clean Cards (Soft Neutral Glass / Surface) ------------------------
+$glass-bg: rgba(255, 255, 255, 0.95);
+$glass-bg-hover: #FFFFFF;
+$glass-border: 1px solid rgba(226, 232, 240, 0.9);
+$glass-blur: 12px;
+$glass-shadow: 0 8px 24px rgba(22, 50, 79, 0.05);
+$glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 1);
+
+$glass-dark-bg: rgba(22, 50, 79, 0.95);
+$glass-dark-border: 1px solid rgba(255, 255, 255, 0.12);
+$glass-dark-blur: 16px;

@@ -51,7 +51,7 @@ export default function Show({
 
                     <div className="ts-detail-hero-top d-flex flex-wrap justify-content-between align-items-end gap-3">
                         <div>
-                            <span className="ts-eyebrow" style={{ color: '#FF7A2F' }}>
+                            <span className="ts-eyebrow" style={{ color: '#16B8AB' }}>
                                 {detail.eyebrow}
                             </span>
                             <h1 className="ts-hero-title mb-2">{detail.name}</h1>
@@ -82,8 +82,37 @@ export default function Show({
                             </div>
                         </div>
 
-                        <div className="ts-detail-hero-actions d-flex align-items-center gap-2">
+                        <div className="ts-detail-hero-actions d-flex flex-wrap align-items-center gap-2">
                             <WishlistButton type={detail.wishType} id={detail.wishId} initialWished={wished} />
+                            
+                            {/* Share button */}
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-outline-light rounded-pill px-3 py-1.5"
+                                onClick={() => {
+                                    if (navigator.share) {
+                                        navigator.share({ title: detail.name, url: window.location.href });
+                                    } else {
+                                        navigator.clipboard.writeText(window.location.href);
+                                        alert('Destination link copied to clipboard!');
+                                    }
+                                }}
+                                title="Share Destination"
+                            >
+                                <i className="bi bi-share me-1"></i> Share
+                            </button>
+
+                            {/* Plan Trip CTA if destination */}
+                            {detail.wishType === 'destination' && (
+                                <Link
+                                    className="btn btn-teal btn-lg px-3.5 py-2 rounded-pill fw-bold text-white shadow"
+                                    href={`/trips?action=create&destination=${detail.slug || detail.id}`}
+                                    style={{ backgroundColor: '#0F9D91', borderColor: '#0F9D91' }}
+                                >
+                                    <i className="bi bi-send-fill me-1.5"></i> Add to Itinerary
+                                </Link>
+                            )}
+
                             {detail.price !== null && detail.price !== undefined && (
                                 <div className="ts-detail-price text-white me-2">
                                     <span className="ts-price fs-4 fw-bold">
@@ -93,7 +122,7 @@ export default function Show({
                                 </div>
                             )}
                             {detail.cta && (
-                                <Link className="btn btn-accent btn-lg px-4" href={detail.cta.url}>
+                                <Link className="btn btn-teal btn-lg px-4 rounded-pill fw-bold text-white" href={detail.cta.url} style={{ backgroundColor: '#0F9D91', borderColor: '#0F9D91' }}>
                                     {detail.cta.label}
                                     <i className={`bi ${detail.cta.icon || 'bi-arrow-right'} ms-2`}></i>
                                 </Link>

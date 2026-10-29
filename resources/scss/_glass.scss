@@ -1,31 +1,52 @@
 // ---------------------------------------------------------------------------
-// Trip Sathi — Modern Apple Glassmorphism Design System
-// Supporting Dynamic Color Palettes & Dark/Light Mode
+// Trip Sathi — Official Modern Design System
+// Primary Navy (#16324F) + Secondary Teal (#0F9D91) + Accent Coral (#FF795D)
 // ---------------------------------------------------------------------------
 
 :root {
-  --ts-primary: #FF7A2F;
-  --ts-primary-rgb: 255, 122, 47;
-  --ts-primary-light: #FF9454;
-  --ts-primary-dark: #E05D15;
-  --ts-secondary: #0F4C46;
-  --ts-secondary-rgb: 15, 76, 70;
-  --ts-secondary-light: #166B63;
-  --ts-secondary-dark: #0A3632;
-  --ts-accent: #0F4C46;
-  --ts-accent-rgb: 15, 76, 70;
-  --ts-bg: #FFF7ED;
-  --ts-card-bg: rgba(255, 255, 255, 0.88);
-  --ts-card-border: rgba(229, 231, 235, 0.85);
-  --ts-card-shadow: 0 10px 30px 0 rgba(15, 76, 70, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
-  --ts-text-main: #1F2937;
-  --ts-text-muted: #6B7280;
-  --ts-header-bg: rgba(255, 255, 255, 0.88);
-  --ts-nav-pill-bg: rgba(255, 247, 237, 0.85);
-  --ts-border: #E5E7EB;
-  --ts-orange-light: #FFE0CC;
-  --ts-teal-light: #E6F3F1;
-  --ts-success: #16A34A;
+  --ts-navy: #16324F;
+  --ts-navy-rgb: 22, 50, 79;
+  --ts-navy-light: #20456B;
+  --ts-navy-dark: #0F2338;
+  
+  --ts-teal: #0F9D91;
+  --ts-teal-rgb: 15, 157, 145;
+  --ts-teal-light: #16B8AB;
+  --ts-teal-dark: #0A7A71;
+  --ts-teal-tint: #E6F7F5;
+
+  --ts-coral: #FF795D;
+  --ts-coral-rgb: 255, 121, 93;
+  --ts-coral-light: #FF947D;
+  --ts-coral-dark: #E65C40;
+  --ts-coral-tint: #FFF0ED;
+
+  // Semantic roles
+  --ts-primary: #0F9D91;
+  --ts-primary-rgb: 15, 157, 145;
+  --ts-primary-light: #16B8AB;
+  --ts-primary-dark: #0A7A71;
+
+  --ts-secondary: #16324F;
+  --ts-secondary-rgb: 22, 50, 79;
+  --ts-secondary-light: #20456B;
+  --ts-secondary-dark: #0F2338;
+
+  --ts-accent: #FF795D;
+  --ts-accent-rgb: 255, 121, 93;
+
+  --ts-bg: #F7F8F5;
+  --ts-card-bg: #FFFFFF;
+  --ts-card-border: #E2E8F0;
+  --ts-card-shadow: 0 4px 20px rgba(22, 50, 79, 0.05);
+  
+  --ts-text-main: #172B3A;
+  --ts-text-muted: #64748B;
+  --ts-header-bg: rgba(255, 255, 255, 0.94);
+  --ts-nav-pill-bg: #F1F5F9;
+  --ts-border: #E2E8F0;
+  
+  --ts-success: #10B981;
   --ts-warning: #F59E0B;
   --ts-danger: #EF4444;
 }
@@ -41,84 +62,77 @@ body,
   width: 100%;
 }
 
-// 1. Ambient Background Atmosphere -----------------------------------------
+// 1. Clean Background Atmosphere -------------------------------------------
 body,
 .ts-admin-shell {
   background-color: var(--ts-bg);
   background-image:
-    radial-gradient(at 0% 0%, rgba(255, 122, 47, 0.08) 0px, transparent 48%),
-    radial-gradient(at 100% 0%, rgba(15, 76, 70, 0.08) 0px, transparent 45%),
-    radial-gradient(at 50% 100%, rgba(255, 224, 204, 0.35) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(255, 122, 47, 0.06) 0px, transparent 45%);
+    radial-gradient(at 15% 0%, rgba(15, 157, 145, 0.04) 0px, transparent 45%),
+    radial-gradient(at 85% 0%, rgba(22, 50, 79, 0.03) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(255, 121, 93, 0.02) 0px, transparent 40%);
   background-attachment: fixed;
   background-size: 100% 100%;
   color: var(--ts-text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-// 2. Glass Cards & Panels --------------------------------------------------
+// 2. Premium Cards & Panels ------------------------------------------------
 .ts-glass-card,
 .card:not(.bg-dark):not(.ts-glass-dark-card):not(.ts-newsletter-card):not(.text-bg-dark),
 .ts-card {
   background: var(--ts-card-bg) !important;
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid var(--ts-card-border) !important;
-  box-shadow: var(--ts-card-shadow) !important;
-  border-radius: 1.15rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 12px rgba(22, 50, 79, 0.04) !important;
+  border-radius: 1rem;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 36px 0 rgba(255, 122, 47, 0.1), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(255, 122, 47, 0.28) !important;
+    box-shadow: 0 12px 30px rgba(22, 50, 79, 0.08) !important;
+    border-color: rgba(15, 157, 145, 0.32) !important;
   }
 }
 
-// Feature Cards (Why Choose Trip Sathi)
+// Feature Cards (Why Trip Sathi)
 .ts-feature-card {
-  border-radius: 1.25rem !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(229, 231, 235, 0.85) !important;
-  box-shadow: 0 4px 20px rgba(15, 76, 70, 0.04) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border-radius: 1.15rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid var(--ts-card-border) !important;
+  box-shadow: 0 2px 10px rgba(22, 50, 79, 0.04) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 
   &:hover {
     transform: translateY(-4px) !important;
-    border-color: rgba(255, 122, 47, 0.25) !important;
-    box-shadow: 0 16px 36px rgba(15, 76, 70, 0.08), 0 4px 12px rgba(255, 122, 47, 0.06) !important;
+    border-color: rgba(15, 157, 145, 0.3) !important;
+    box-shadow: 0 14px 32px rgba(22, 50, 79, 0.08) !important;
   }
 }
 
-// Dark Frosted Glass Card & Newsletter (Secondary Teal #0F4C46 theme)
+// Dark Deep Navy Card & Newsletter (Navy #16324F theme)
 .ts-glass-dark-card,
 .card.bg-dark,
 .card.text-bg-dark,
 .ts-newsletter-card {
-  background: linear-gradient(135deg, rgba(10, 54, 50, 0.96), rgba(15, 76, 70, 0.92)) !important;
-  backdrop-filter: blur(28px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 20px 50px rgba(10, 54, 50, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  background: linear-gradient(135deg, #16324F 0%, #0F2338 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 40px rgba(15, 35, 56, 0.25) !important;
   color: #ffffff !important;
-  border-radius: 1.5rem !important;
+  border-radius: 1.25rem !important;
 
   h1, h2, h3, h4, h5, h6 {
     color: #ffffff !important;
   }
 
   p, span, small {
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 0.88) !important;
   }
 
   .text-white-50 {
-    color: rgba(255, 255, 255, 0.75) !important;
+    color: rgba(255, 255, 255, 0.72) !important;
   }
 
   .ts-eyebrow {
-    color: #FF9454 !important;
+    color: #16B8AB !important;
     text-transform: uppercase;
     font-size: 0.75rem;
     font-weight: 700;
@@ -126,52 +140,93 @@ body,
   }
 }
 
-// Global Primary Buttons adapting to Primary Orange (#FF7A2F)
+// Global Primary Buttons (Secondary Teal #0F9D91 Action)
 .btn-primary,
-.btn-accent {
-  background: linear-gradient(135deg, var(--ts-primary), var(--ts-primary-dark)) !important;
-  border-color: var(--ts-primary) !important;
+.btn-teal {
+  background: var(--ts-teal) !important;
+  border-color: var(--ts-teal) !important;
   color: #fff !important;
-  box-shadow: 0 4px 16px rgba(var(--ts-primary-rgb), 0.32) !important;
-  transition: all 0.22s ease !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(15, 157, 145, 0.25) !important;
+  transition: all 0.2s ease !important;
 
   &:hover,
   &:focus {
-    background: linear-gradient(135deg, var(--ts-primary-light), var(--ts-primary)) !important;
-    border-color: var(--ts-primary) !important;
-    box-shadow: 0 8px 24px rgba(var(--ts-primary-rgb), 0.45) !important;
+    background: var(--ts-teal-dark) !important;
+    border-color: var(--ts-teal-dark) !important;
+    box-shadow: 0 6px 20px rgba(15, 157, 145, 0.35) !important;
     transform: translateY(-2px);
     color: #fff !important;
   }
 }
 
-// Global Secondary Buttons adapting to Secondary Teal (#0F4C46)
-.btn-secondary {
-  background: var(--ts-secondary) !important;
-  border-color: var(--ts-secondary) !important;
+// Accent Coral Button (#FF795D)
+.btn-accent,
+.btn-coral {
+  background: var(--ts-coral) !important;
+  border-color: var(--ts-coral) !important;
   color: #fff !important;
-  box-shadow: 0 4px 16px rgba(var(--ts-secondary-rgb), 0.25) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(255, 121, 93, 0.28) !important;
+  transition: all 0.2s ease !important;
 
   &:hover,
   &:focus {
-    background: var(--ts-secondary-light) !important;
-    border-color: var(--ts-secondary-light) !important;
+    background: var(--ts-coral-dark) !important;
+    border-color: var(--ts-coral-dark) !important;
+    box-shadow: 0 6px 20px rgba(255, 121, 93, 0.4) !important;
+    transform: translateY(-2px);
     color: #fff !important;
-    box-shadow: 0 6px 20px rgba(var(--ts-secondary-rgb), 0.35) !important;
   }
 }
 
-.btn-outline-secondary {
-  border-color: var(--ts-secondary) !important;
-  color: var(--ts-secondary) !important;
-  background: transparent !important;
+// Global Secondary Buttons (Primary Navy #16324F Structure)
+.btn-secondary,
+.btn-navy {
+  background: var(--ts-navy) !important;
+  border-color: var(--ts-navy) !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(22, 50, 79, 0.2) !important;
 
   &:hover,
   &:focus {
-    background: var(--ts-secondary) !important;
-    border-color: var(--ts-secondary) !important;
+    background: var(--ts-navy-dark) !important;
+    border-color: var(--ts-navy-dark) !important;
     color: #fff !important;
-    box-shadow: 0 4px 16px rgba(var(--ts-secondary-rgb), 0.25) !important;
+    box-shadow: 0 6px 20px rgba(22, 50, 79, 0.3) !important;
+  }
+}
+
+.btn-outline-primary,
+.btn-outline-teal {
+  border-color: var(--ts-teal) !important;
+  color: var(--ts-teal) !important;
+  background: transparent !important;
+  font-weight: 600;
+
+  &:hover,
+  &:focus {
+    background: var(--ts-teal) !important;
+    border-color: var(--ts-teal) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(15, 157, 145, 0.25) !important;
+  }
+}
+
+.btn-outline-secondary,
+.btn-outline-navy {
+  border-color: var(--ts-navy) !important;
+  color: var(--ts-navy) !important;
+  background: transparent !important;
+  font-weight: 600;
+
+  &:hover,
+  &:focus {
+    background: var(--ts-navy) !important;
+    border-color: var(--ts-navy) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(22, 50, 79, 0.2) !important;
   }
 }
 
@@ -219,16 +274,15 @@ body,
 }
 
 .ts-nav-pill-group {
-  background: rgba(255, 247, 237, 0.85);
-  backdrop-filter: blur(12px);
+  background: #F8FAFC;
   padding: 0.25rem 0.4rem;
   border-radius: 50rem;
-  border: 1px solid rgba(229, 231, 235, 0.85);
+  border: 1px solid #E2E8F0;
   gap: 0.15rem;
 }
 
 .ts-nav-pill {
-  color: #6B7280 !important;
+  color: #64748B !important;
   font-weight: 600 !important;
   font-size: 0.88rem !important;
   padding: 0.45rem 0.85rem !important;
@@ -236,72 +290,67 @@ body,
   transition: all 0.2s ease !important;
 
   &:hover {
-    color: #0F4C46 !important;
-    background: rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 2px 8px rgba(15, 76, 70, 0.08);
+    color: #0F9D91 !important;
+    background: rgba(15, 157, 145, 0.08) !important;
   }
 
   &.active {
     color: #fff !important;
-    background: linear-gradient(135deg, #FF7A2F, #E05D15) !important;
-    box-shadow: 0 4px 12px rgba(255, 122, 47, 0.35);
+    background: #0F9D91 !important;
+    box-shadow: 0 4px 12px rgba(15, 157, 145, 0.3);
   }
 }
 
 // User Profile Pill in Header
 .ts-user-pill-btn {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(229, 231, 235, 0.85);
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
   border-radius: 50rem;
   padding: 0.3rem 0.85rem 0.3rem 0.35rem;
-  color: #1F2937;
-  backdrop-filter: blur(10px);
+  color: #172B3A;
   transition: all 0.2s ease;
 
   &:hover,
   &:focus {
     background: #fff;
-    border-color: #FF7A2F;
-    box-shadow: 0 4px 16px rgba(255, 122, 47, 0.2);
+    border-color: #0F9D91;
+    box-shadow: 0 4px 14px rgba(15, 157, 145, 0.18);
   }
 
   .ts-user-avatar-mini {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF7A2F, #0F4C46);
+    background: linear-gradient(135deg, #16324F, #0F9D91);
     color: #fff;
     font-weight: 700;
     font-size: 0.85rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(255, 122, 47, 0.25);
   }
 }
 
-// Dropdowns with Glassmorphism
+// Dropdowns with Clean Surfaces
 .ts-glass-dropdown {
-  background: rgba(255, 255, 255, 0.94) !important;
-  backdrop-filter: blur(20px) saturate(200%);
-  -webkit-backdrop-filter: blur(20px) saturate(200%);
-  border: 1px solid rgba(229, 231, 235, 0.8) !important;
-  box-shadow: 0 16px 40px rgba(15, 76, 70, 0.1), 0 2px 6px rgba(15, 76, 70, 0.04) !important;
-  border-radius: 1rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 12px 32px rgba(22, 50, 79, 0.08) !important;
+  border-radius: 0.85rem !important;
   padding: 0.5rem !important;
   margin-top: 0.5rem !important;
 
   .dropdown-item {
-    border-radius: 0.6rem;
+    border-radius: 0.5rem;
     padding: 0.55rem 0.85rem;
     font-weight: 500;
-    color: #1F2937;
+    color: #172B3A;
     transition: all 0.18s ease;
 
     &:hover,
     &:focus {
-      background: rgba(255, 122, 47, 0.08);
-      color: #FF7A2F;
+      background: rgba(15, 157, 145, 0.08);
+      color: #0F9D91;
       transform: translateX(3px);
     }
 
@@ -329,8 +378,8 @@ body,
 
   &:hover {
     background: #fff;
-    border-color: #FF7A2F;
-    box-shadow: 0 4px 12px rgba(255, 122, 47, 0.15);
+    border-color: #0F9D91;
+    box-shadow: 0 4px 12px rgba(15, 157, 145, 0.15);
   }
 
   .hamburger-box {
@@ -345,7 +394,7 @@ body,
   .hamburger-inner::after {
     width: 22px;
     height: 2px;
-    background-color: #1F2937;
+    background-color: #172B3A;
     border-radius: 4px;
     position: absolute;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
@@ -371,12 +420,12 @@ body,
   }
 
   &.is-active {
-    background: rgba(255, 122, 47, 0.1);
-    border-color: #FF7A2F;
+    background: rgba(15, 157, 145, 0.1);
+    border-color: #0F9D91;
 
     .hamburger-inner {
       transform: rotate(45deg);
-      background-color: #FF7A2F;
+      background-color: #0F9D91;
 
       &::before {
         top: 0;
@@ -386,19 +435,19 @@ body,
       &::after {
         bottom: 0;
         transform: rotate(-90deg);
-        background-color: #FF7A2F;
+        background-color: #0F9D91;
       }
     }
   }
 }
 
-// 5. Mobile Glass Drawer & Backdrop (White Glass Effect) ---------------------
+// 5. Mobile Clean Drawer & Backdrop ----------------------------------------
 .ts-glass-drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 76, 70, 0.4);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(22, 50, 79, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1040;
   opacity: 0;
   visibility: hidden;
@@ -416,11 +465,9 @@ body,
   right: 0;
   bottom: 0;
   width: min(340px, 86vw);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(30px) saturate(190%);
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
-  border-left: 1px solid rgba(229, 231, 235, 0.9);
-  box-shadow: -10px 0 40px rgba(15, 76, 70, 0.12);
+  background: #FFFFFF;
+  border-left: 1px solid #E2E8F0;
+  box-shadow: -8px 0 32px rgba(22, 50, 79, 0.1);
   z-index: 1045;
   display: flex;
   flex-direction: column;
@@ -434,27 +481,27 @@ body,
   }
 
   .ts-drawer-user-card {
-    background: rgba(255, 247, 237, 0.85);
-    border: 1px solid rgba(229, 231, 235, 0.8);
-    backdrop-filter: blur(12px);
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 0.85rem;
 
     .ts-user-avatar-large {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #FF7A2F, #0F4C46);
+      background: linear-gradient(135deg, #16324F, #0F9D91);
       color: #fff;
       font-weight: 800;
       font-size: 1.2rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(255, 122, 47, 0.3);
+      box-shadow: 0 4px 10px rgba(15, 157, 145, 0.25);
     }
   }
 
   .ts-drawer-link {
-    color: #1F2937;
+    color: #172B3A;
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.2s ease;
@@ -463,22 +510,22 @@ body,
       width: 32px;
       height: 32px;
       border-radius: 0.5rem;
-      background: rgba(255, 224, 204, 0.5);
+      background: rgba(15, 157, 145, 0.08);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 1rem;
-      color: #FF7A2F;
+      color: #0F9D91;
       transition: all 0.2s ease;
     }
 
     &:hover,
     &.is-active {
-      background: rgba(255, 122, 47, 0.08);
-      color: #FF7A2F;
+      background: rgba(15, 157, 145, 0.08);
+      color: #0F9D91;
 
       .ts-drawer-icon {
-        background: #FF7A2F;
+        background: #0F9D91;
         color: #fff;
       }
     }
@@ -516,67 +563,65 @@ body,
     gap: 0.45rem;
 
     .ts-breadcrumb-link {
-      color: #6B7280;
+      color: #64748B;
       font-weight: 500;
       text-decoration: none;
       transition: color 0.15s ease;
 
       &:hover {
-        color: #FF7A2F;
+        color: #0F9D91;
       }
     }
 
     .ts-breadcrumb-sep {
-      color: #9CA3AF;
+      color: #94A3B8;
       font-size: 0.7rem;
     }
 
     .ts-breadcrumb-current {
-      color: #1F2937;
+      color: #172B3A;
       font-weight: 700;
     }
 
     &.active .ts-breadcrumb-current {
-      background: rgba(255, 122, 47, 0.12);
-      color: #FF7A2F;
+      background: rgba(15, 157, 145, 0.1);
+      color: #0F9D91;
       padding: 0.15rem 0.55rem;
       border-radius: 50rem;
     }
   }
 }
 
-// 7. Buttons with Glass and Gradient Glow -----------------------------------
+// 7. Buttons with Glass and Clean Accents ----------------------------------
 .btn-glass {
-  background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 122, 47, 0.3) !important;
-  color: #FF7A2F !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #172B3A !important;
   font-weight: 600;
   border-radius: 0.75rem;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #fff !important;
-    border-color: #FF7A2F !important;
-    color: #FF7A2F !important;
-    box-shadow: 0 6px 18px rgba(255, 122, 47, 0.16);
+    background: #F8FAFC !important;
+    border-color: #0F9D91 !important;
+    color: #0F9D91 !important;
+    box-shadow: 0 4px 14px rgba(15, 157, 145, 0.14);
     transform: translateY(-1px);
   }
 }
 
 .btn-gradient-glow {
-  background: linear-gradient(135deg, #FF7A2F 0%, #E05D15 100%) !important;
+  background: var(--ts-teal) !important;
   border: none !important;
   color: #fff !important;
   font-weight: 700;
   border-radius: 0.75rem;
-  box-shadow: 0 6px 20px rgba(255, 122, 47, 0.32);
-  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(15, 157, 145, 0.28);
+  transition: all 0.22s ease;
 
   &:hover {
-    background: linear-gradient(135deg, #FF9454 0%, #FF7A2F 100%) !important;
-    box-shadow: 0 8px 26px rgba(255, 122, 47, 0.45);
+    background: var(--ts-teal-dark) !important;
+    box-shadow: 0 8px 24px rgba(15, 157, 145, 0.38);
     transform: translateY(-2px);
     color: #fff !important;
   }
@@ -696,19 +741,19 @@ body,
 
         i {
           transform: scale(1.15);
-          color: #FF7A2F;
+          color: #0F9D91;
         }
       }
 
       &.is-active {
-        background: linear-gradient(135deg, rgba(255, 122, 47, 0.4), rgba(224, 93, 21, 0.35));
-        border: 1px solid rgba(255, 122, 47, 0.6);
+        background: rgba(15, 157, 145, 0.18);
+        border: 1px solid rgba(15, 157, 145, 0.45);
         color: #fff;
         font-weight: 700;
-        box-shadow: 0 4px 14px rgba(255, 122, 47, 0.25);
+        box-shadow: 0 4px 14px rgba(15, 157, 145, 0.2);
 
         i {
-          color: #FF9454;
+          color: #16B8AB;
         }
       }
     }
@@ -727,12 +772,10 @@ body,
   padding: 0 !important;
   margin: 0 !important;
   border-radius: 0.75rem !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(229, 231, 235, 0.85) !important;
-  box-shadow: 0 2px 8px rgba(15, 76, 70, 0.05) !important;
-  color: #1F2937 !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 2px 8px rgba(22, 50, 79, 0.05) !important;
+  color: #172B3A !important;
   cursor: pointer !important;
   line-height: 1 !important;
   text-align: center !important;
@@ -744,9 +787,9 @@ body,
   &:hover,
   &:focus {
     background: #ffffff !important;
-    border-color: #FF7A2F !important;
-    color: #FF7A2F !important;
-    box-shadow: 0 4px 14px rgba(255, 122, 47, 0.2) !important;
+    border-color: #0F9D91 !important;
+    color: #0F9D91 !important;
+    box-shadow: 0 4px 14px rgba(15, 157, 145, 0.18) !important;
   }
 
   &:active {
@@ -777,12 +820,10 @@ body,
   }
 }
 
-// Glass Top Bar in Admin
+// Top Bar in Admin
 .ts-glass-admin-bar {
-  background: rgba(255, 255, 255, 0.88) !important;
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.8) !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
   padding: 0.85rem 1.5rem;
   display: flex;
   align-items: center;
@@ -791,7 +832,7 @@ body,
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 16px rgba(15, 76, 70, 0.03);
+  box-shadow: 0 2px 10px rgba(22, 50, 79, 0.03);
 
   @media (max-width: 991.98px) {
     padding: 0.75rem 1rem !important;
@@ -806,7 +847,7 @@ body,
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF7A2F, #0F4C46);
+    background: linear-gradient(135deg, #16324F, #0F9D91);
     color: #fff;
     font-weight: 700;
     font-size: 0.85rem;
@@ -816,7 +857,7 @@ body,
   }
 }
 
-// Glass Tables
+// Clean Tables
 .table-responsive {
   border-radius: 1rem;
   overflow: hidden;
@@ -825,11 +866,10 @@ body,
     margin-bottom: 0;
 
     thead.table-light tr th {
-      background: rgba(255, 247, 237, 0.9) !important;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      background: #F8FAFC !important;
+      border-bottom: 1px solid #E2E8F0;
       font-weight: 700;
-      color: #1F2937;
+      color: #172B3A;
       font-size: 0.78rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -841,29 +881,27 @@ body,
 
       td {
         padding: 0.85rem 1rem;
-        border-bottom: 1px solid rgba(229, 231, 235, 0.7);
-        color: #1F2937;
+        border-bottom: 1px solid #E2E8F0;
+        color: #172B3A;
       }
 
       &:hover {
-        background: rgba(255, 122, 47, 0.04) !important;
+        background: rgba(15, 157, 145, 0.04) !important;
       }
     }
   }
 }
 
-// Glass Alerts
+// Clean Alerts
 .ts-glass-alert {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #FFFFFF !important;
   border-radius: 0.85rem !important;
   border-width: 1px !important;
-  box-shadow: 0 6px 18px rgba(15, 76, 70, 0.05);
+  box-shadow: 0 4px 14px rgba(22, 50, 79, 0.04);
 
   &.alert-success {
-    border-color: rgba(22, 163, 74, 0.3) !important;
-    color: #16A34A !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+    color: #10B981 !important;
   }
 
   &.alert-danger {
@@ -872,21 +910,20 @@ body,
   }
 }
 
-// Form Controls with Glass look
+// Form Controls
 .form-control,
 .form-select {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(229, 231, 235, 0.9) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
   border-radius: 0.75rem !important;
   padding: 0.65rem 0.95rem !important;
-  color: #1F2937 !important;
+  color: #172B3A !important;
   transition: all 0.2s ease !important;
 
   &:focus {
     background: #fff !important;
-    border-color: #FF7A2F !important;
-    box-shadow: 0 0 0 0.25rem rgba(255, 122, 47, 0.2) !important;
+    border-color: #0F9D91 !important;
+    box-shadow: 0 0 0 0.2rem rgba(15, 157, 145, 0.2) !important;
   }
 }
 
@@ -1025,22 +1062,22 @@ body,
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 
     &:hover {
-      color: #FF7A2F;
+      color: #0F9D91;
       transform: translateY(-2px) scale(1.08);
-      background: rgba(255, 122, 47, 0.08);
+      background: rgba(15, 157, 145, 0.08);
     }
 
     &.is-active {
       color: #fff !important;
-      background: linear-gradient(135deg, #FF7A2F, #E05D15) !important;
-      box-shadow: 0 4px 14px rgba(255, 122, 47, 0.4);
+      background: #0F9D91 !important;
+      box-shadow: 0 4px 14px rgba(15, 157, 145, 0.35);
     }
 
     .ts-dock-avatar {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #FF7A2F, #0F4C46);
+      background: linear-gradient(135deg, #16324F, #0F9D91);
       color: #fff;
       font-weight: 700;
       font-size: 0.8rem;
@@ -1058,14 +1095,14 @@ body,
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #FF7A2F;
-      box-shadow: 0 0 6px #FF7A2F;
+      background: #FF795D;
+      box-shadow: 0 0 6px rgba(255, 121, 93, 0.5);
     }
   }
 }
 
 // ---------------------------------------------------------------------------
-// 10. Apple Mobile Capsule Header (White Glass Effect)
+// 10. Mobile Capsule Header
 // ---------------------------------------------------------------------------
 .ts-apple-mobile-capsule {
   display: flex;
@@ -1075,21 +1112,18 @@ body,
   max-width: 520px;
   margin: 0 auto;
   padding: 0.35rem 0.65rem;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(229, 231, 235, 0.9);
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
   border-radius: 50rem;
-  box-shadow: 0 8px 30px rgba(15, 76, 70, 0.08), 0 1px 3px rgba(15, 76, 70, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.95);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(22, 50, 79, 0.06);
+  transition: all 0.25s ease;
 
   .ts-capsule-brand {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Manrope', 'Inter', sans-serif;
     font-weight: 800;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.01em;
     font-size: 1rem;
-    color: #1F2937;
-    text-transform: uppercase;
+    color: #16324F;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -1109,9 +1143,9 @@ body,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 247, 237, 0.85);
-    border: 1px solid rgba(229, 231, 235, 0.85);
-    color: #1F2937;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    color: #172B3A;
     font-size: 1.15rem;
     cursor: pointer;
     text-decoration: none;
@@ -1122,16 +1156,16 @@ body,
     &:hover,
     &:focus,
     &.is-active {
-      background: rgba(255, 122, 47, 0.12);
-      color: #FF7A2F;
-      border-color: rgba(255, 122, 47, 0.35);
+      background: rgba(15, 157, 145, 0.08);
+      color: #0F9D91;
+      border-color: #0F9D91;
     }
 
     .ts-capsule-badge {
       position: absolute;
       top: -2px;
       right: -2px;
-      background: #EF4444;
+      background: #FF795D;
       color: #fff;
       font-size: 0.65rem;
       font-weight: 700;
@@ -1151,8 +1185,8 @@ body,
 .ts-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 76, 70, 0.5);
-  backdrop-filter: blur(14px);
+  background: rgba(22, 50, 79, 0.5);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 1060;
   opacity: 1;

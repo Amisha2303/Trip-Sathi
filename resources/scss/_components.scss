@@ -10,14 +10,30 @@
   justify-content: center;
   gap: 0.45rem;
 
+  &.btn-teal,
   &.btn-primary {
-    @include button-variant($ts-brand, $ts-brand-dark, #fff, #fff,
-      $ts-brand, $ts-brand-dark, $ts-brand-dark, $ts-brand-dark);
+    @include button-variant($ts-teal, $ts-teal-dark, #fff, #fff,
+      $ts-teal, $ts-teal-dark, $ts-teal-dark, $ts-teal-dark);
   }
 
+  &.btn-navy,
+  &.btn-secondary {
+    @include button-variant($ts-navy, $ts-navy-dark, #fff, #fff,
+      $ts-navy, $ts-navy-dark, $ts-navy-dark, $ts-navy-dark);
+  }
+
+  &.btn-coral,
   &.btn-accent {
-    @include button-variant($ts-accent, $ts-accent-dark, #fff, #fff,
-      $ts-accent, $ts-accent-dark, $ts-accent-dark, $ts-accent-dark);
+    @include button-variant($ts-coral, $ts-coral-dark, #fff, #fff,
+      $ts-coral, $ts-coral-dark, $ts-coral-dark, $ts-coral-dark);
+  }
+
+  &.btn-outline-teal {
+    @include button-outline-variant($ts-teal, #fff, $ts-teal-dark, $ts-teal);
+  }
+
+  &.btn-outline-navy {
+    @include button-outline-variant($ts-navy, #fff, $ts-navy-dark, $ts-navy);
   }
 
   &.btn-soft {

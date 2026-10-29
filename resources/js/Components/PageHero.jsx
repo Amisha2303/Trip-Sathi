@@ -8,7 +8,7 @@ export default function PageHero({
     image,
     stats = [],
     crumbs = [],
-    accent = '#FF7A2F',
+    accent = '#16B8AB',
 }) {
     const heroStyle = image ? { '--ts-hero-img': `url('${image}')` } : {};
 
@@ -36,7 +36,7 @@ export default function PageHero({
 
                 {eyebrow && <span className="ts-eyebrow" style={{ color: accent }}>{eyebrow}</span>}
 
-                <h1 className="ts-hero-title">{title}</h1>
+                <h1 className="ts-hero-title text-white">{title}</h1>
 
                 {lede && <p className="ts-hero-lede">{lede}</p>}
 
