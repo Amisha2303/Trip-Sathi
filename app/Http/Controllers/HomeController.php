@@ -22,9 +22,9 @@ class HomeController extends Controller
     public function index(): Response
     {
         try {
-            $destinations = Destination::where('is_active', true)->where('is_featured', true)->orderByDesc('popularity')->take(12)->get();
+            $destinations = Destination::where('is_active', true)->where('is_featured', true)->take(6)->get();
             if ($destinations->isEmpty()) {
-                $destinations = Destination::where('is_active', true)->orderByDesc('popularity')->take(12)->get();
+                $destinations = Destination::where('is_active', true)->take(6)->get();
             }
             $hotels = Hotel::where('is_active', true)->with('destination')->take(4)->get();
             if ($hotels->isEmpty()) {

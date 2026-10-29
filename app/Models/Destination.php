@@ -126,47 +126,7 @@ class Destination extends BaseModel
 
     public function getImageUrlAttribute(): string
     {
-        $raw = $this->attributes['main_image'] ?? null;
-        $nameLower = strtolower(trim((string) ($this->name ?? '')));
-        $slugLower = strtolower(trim((string) ($this->slug ?? '')));
-
-        // Map known destinations to authentic local photography assets
-        $verifiedMap = [
-            'kashmir' => 'photos/destination-kashmir.jpg',
-            'ladakh' => 'photos/destination-ladakh.jpg',
-            'kerala' => 'photos/destination-kerala.jpg',
-            'goa' => 'photos/destination-goa.jpg',
-            'jaipur' => 'photos/destination-jaipur.jpg',
-            'rajasthan' => 'photos/destination-jaipur.jpg',
-            'meghalaya' => 'photos/destination-meghalaya.jpg',
-            'sikkim' => 'photos/destination-sikkim.jpg',
-            'andaman' => 'photos/destination-andaman.jpg',
-            'andaman-islands' => 'photos/destination-andaman.jpg',
-            'mumbai' => 'photos/destination-mumbai.jpg',
-            'maharashtra' => 'photos/destination-mumbai.jpg',
-            'ahmedabad' => 'photos/destination-ahmedabad.jpg',
-            'gujarat' => 'photos/destination-ahmedabad.jpg',
-            'delhi' => 'photos/destination-delhi.jpg',
-            'udaipur' => 'photos/destination-udaipur.jpg',
-            'varanasi' => 'photos/destination-varanasi.jpg',
-            'somnath' => 'photos/destination-somnath.jpg',
-            'dwarka' => 'photos/destination-dwarka.jpg',
-            'bhavnagar' => 'photos/destination-bhavnagar.jpg',
-            'kedarnath' => 'photos/destination-kedarnath.jpg',
-        ];
-
-        foreach ($verifiedMap as $key => $asset) {
-            if ($nameLower === $key || $slugLower === $key || str_contains($slugLower, $key) || str_contains($nameLower, $key)) {
-                return asset($asset);
-            }
-        }
-
-        // Avoid laptop or unverified placeholder photos
-        if ($raw && (str_contains($raw, '534447677768') || str_contains($raw, 'laptop') || str_contains($raw, 'office'))) {
-            return asset('photos/destination-ahmedabad.jpg');
-        }
-
-        return self::imageUrl($raw, 'images/destination-placeholder.svg');
+        return self::imageUrl($this->attributes['main_image'] ?? null, 'images/destination-placeholder.svg');
     }
 
     /** "Ahmedabad, Gujarat, India" — used on cards and page titles. */
