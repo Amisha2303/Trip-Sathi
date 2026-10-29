@@ -90,9 +90,13 @@
                                             <tr>
                                                 <!-- Brand Icon -->
                                                 <td style="vertical-align:middle;padding-right:12px;">
-                                                    <div style="background-color:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:10px;width:38px;height:38px;text-align:center;line-height:38px;font-size:20px;color:#ffffff;display:inline-block;">
-                                                        ✈️
-                                                    </div>
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="38" height="38" style="width:38px;height:38px;border-collapse:separate;background-color:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:10px;margin:0;">
+                                                        <tr>
+                                                            <td align="center" valign="middle" style="width:38px;height:38px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:20px;line-height:1;color:#ffffff;mso-line-height-rule:exactly;">
+                                                                ✈️
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                                 <!-- Brand Name & Tagline -->
                                                 <td style="vertical-align:middle;">

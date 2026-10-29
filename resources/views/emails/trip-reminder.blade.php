@@ -8,9 +8,13 @@
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
         <tr>
             <td width="48" valign="top" style="padding-right:14px;">
-                <div style="background-color:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;width:44px;height:44px;text-align:center;line-height:44px;font-size:22px;">
-                    🌄
-                </div>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="44" height="44" style="width:44px;height:44px;border-collapse:separate;background-color:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;margin:0;">
+                    <tr>
+                        <td align="center" valign="middle" style="width:44px;height:44px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:22px;line-height:1;mso-line-height-rule:exactly;">
+                            🌄
+                        </td>
+                    </tr>
+                </table>
             </td>
             <td valign="middle">
                 <h1 style="margin:0;font-size:22px;font-weight:800;color:#0b6e75;line-height:1.25;">
