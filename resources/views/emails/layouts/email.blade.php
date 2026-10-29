@@ -38,10 +38,19 @@
             -ms-interpolation-mode: bicubic;
             border: 0;
             height: auto;
-            line-height: 100%;
             outline: none;
             text-decoration: none;
-            display: block;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .banner-img, .full-width-img {
+            display: block !important;
+        }
+        /* Preserve centering for Gmail emoji replacement images and icon badges */
+        img.CToWUd, .icon-box img, td[align="center"] img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            margin: 0 auto !important;
         }
         a {
             text-decoration: none;
@@ -92,8 +101,8 @@
                                                 <td style="vertical-align:middle;padding-right:12px;">
                                                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="38" height="38" style="width:38px;height:38px;border-collapse:separate;background-color:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:10px;margin:0;">
                                                         <tr>
-                                                            <td align="center" valign="middle" style="width:38px;height:38px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:20px;line-height:1;color:#ffffff;mso-line-height-rule:exactly;">
-                                                                ✈️
+                                                            <td align="center" valign="middle" style="width:38px;height:38px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:20px;line-height:38px;color:#ffffff;mso-line-height-rule:exactly;">
+                                                                <center style="text-align:center;margin:0 auto;line-height:38px;">✈️</center>
                                                             </td>
                                                         </tr>
                                                     </table>

@@ -10,8 +10,8 @@
             <td width="48" valign="top" style="padding-right:14px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="44" height="44" style="width:44px;height:44px;border-collapse:separate;background-color:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;margin:0;">
                     <tr>
-                        <td align="center" valign="middle" style="width:44px;height:44px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:22px;line-height:1;mso-line-height-rule:exactly;">
-                            🔑
+                        <td align="center" valign="middle" style="width:44px;height:44px;text-align:center;vertical-align:middle;padding:0;margin:0;font-size:22px;line-height:44px;mso-line-height-rule:exactly;">
+                            <center style="text-align:center;margin:0 auto;line-height:44px;">🔑</center>
                         </td>
                     </tr>
                 </table>
