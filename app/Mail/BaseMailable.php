@@ -25,10 +25,13 @@ use Throwable;
  *  - writes an EmailLog row (sent / failed) the admin can inspect
  *  - resolves the from address and site name from settings, not hardcoded
  */
-abstract class BaseMailable extends Mailable implements ShouldQueue
+abstract class BaseMailable extends Mailable
 {
     use Queueable;
     use SerializesModels;
+
+    /** Discard queued job if serialized model was deleted. */
+    public bool $deleteWhenMissingModels = true;
 
     /** Number of queue attempts before the job is abandoned. */
     public int $tries = 3;
@@ -44,7 +47,21 @@ abstract class BaseMailable extends Mailable implements ShouldQueue
 
     public function __construct()
     {
-        $this->onQueue('mail');
+    }
+
+    /**
+     * Intercept send to automatically write EmailLog on success or failure.
+     */
+    public function send($mailer)
+    {
+        try {
+            $result = parent::send($mailer);
+            $this->logSuccess();
+            return $result;
+        } catch (Throwable $e) {
+            $this->logFailure($e);
+            throw $e;
+        }
     }
 
     public function envelope(): Envelope
@@ -79,6 +96,7 @@ abstract class BaseMailable extends Mailable implements ShouldQueue
     protected function viewData(): array
     {
         $settings = app(SettingsService::class);
+        $appUrl = rtrim((string) config('app.url', 'https://the-trip-sathi.vercel.app'), '/');
 
         return array_merge([
             'siteName' => $settings->siteName(),
@@ -86,6 +104,12 @@ abstract class BaseMailable extends Mailable implements ShouldQueue
             'supportEmail' => $settings->supportEmail(),
             'supportPhone' => $settings->string('contact_phone'),
             'year' => now()->year,
+            'appUrl' => $appUrl,
+            'homeUrl' => $appUrl,
+            'destinationsUrl' => $this->urlFor('destinations.index'),
+            'hotelsUrl' => $this->urlFor('hotels.index'),
+            'darshanUrl' => $this->urlFor('darshan.index'),
+            'tripsUrl' => $this->urlFor('trips.index'),
         ], $this->payload());
     }
 
@@ -100,18 +124,38 @@ abstract class BaseMailable extends Mailable implements ShouldQueue
     }
 
     /**
-     * Build a URL, falling back to a page that always exists when the
-     * preferred route is not registered in this deployment.
+     * Build an absolute URL forced to the production domain (https://the-trip-sathi.vercel.app).
      */
     protected function urlFor(string $name, mixed $parameters = [], string $fallback = 'home'): string
     {
-        return Route::has($name) ? route($name, $parameters) : route($fallback);
+        $base = rtrim((string) config('app.url', 'https://the-trip-sathi.vercel.app'), '/');
+
+        $path = Route::has($name)
+            ? route($name, $parameters, false)
+            : (Route::has($fallback) ? route($fallback, [], false) : '/');
+
+        return $base . (str_starts_with($path, '/') ? $path : '/' . $path);
+    }
+
+    /**
+     * Ensure any relative or absolute URL is rooted on the production frontend domain.
+     */
+    public static function toFrontendUrl(string $url): string
+    {
+        $base = rtrim((string) config('app.url', 'https://the-trip-sathi.vercel.app'), '/');
+
+        $parsed = parse_url($url);
+        $path = $parsed['path'] ?? '/';
+        $query = isset($parsed['query']) ? '?' . $parsed['query'] : '';
+        $fragment = isset($parsed['fragment']) ? '#' . $parsed['fragment'] : '';
+
+        return $base . (str_starts_with($path, '/') ? $path : '/' . $path) . $query . $fragment;
     }
 
     protected function fromAddress(): Address
     {
         return new Address(
-            config('mail.from.address', 'no-reply@tripsathi.invalid'),
+            config('mail.from.address', 'noreply.tripsathi@gmail.com'),
             config('mail.from.name', app(SettingsService::class)->siteName()),
         );
     }
@@ -136,12 +180,20 @@ abstract class BaseMailable extends Mailable implements ShouldQueue
             $recipients = [];
 
             foreach ($this->to ?? [] as $to) {
-                $recipients[] = ['address' => $to instanceof \Symfony\Component\Mime\Address ? $to->getAddress() : (string) $to];
+                if ($to instanceof \Symfony\Component\Mime\Address) {
+                    $recipients[] = ['address' => $to->getAddress()];
+                } elseif (is_array($to)) {
+                    $recipients[] = ['address' => $to['address'] ?? ($to['email'] ?? json_encode($to))];
+                } elseif (is_object($to) && isset($to->email)) {
+                    $recipients[] = ['address' => (string) $to->email];
+                } else {
+                    $recipients[] = ['address' => (string) $to];
+                }
             }
 
             EmailLog::create([
                 'mailable' => static::class,
-                'subject' => $this->mailSubject,
+                'subject' => $this->mailSubject ?: ($this->subject ?? 'Trip Sathi Notification'),
                 'to' => $recipients,
                 'status' => $status,
                 'error' => $error === null ? null : mb_substr($error, 0, 2000),

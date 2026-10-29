@@ -33,6 +33,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        if ($user && $request->hasSession()) {
+            $sessionEmail = $request->session()->get('auth_user_email');
+            if ($sessionEmail && strtolower($user->email) !== strtolower($sessionEmail)) {
+                $user = null;
+            }
+        }
 
         return [
             ...parent::share($request),

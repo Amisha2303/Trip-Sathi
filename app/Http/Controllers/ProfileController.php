@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Mail\PasswordChangedMail;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
@@ -57,6 +60,14 @@ class ProfileController extends Controller
         $user->password = $request->string('new_password')->toString();
         $user->password_changed_at = now();
         $user->save();
+
+        if ($user->email) {
+            try {
+                Mail::to($user->email)->send(new PasswordChangedMail($user));
+            } catch (\Throwable $e) {
+                Log::warning('Password changed email could not be sent: ' . $e->getMessage());
+            }
+        }
 
         return Redirect::route('profile.edit')->with('success', 'Password updated successfully.');
     }

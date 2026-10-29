@@ -25,7 +25,7 @@ class WelcomeMail extends BaseMailable
         return [
             'user' => $this->user,
             'firstName' => $this->firstName(),
-            'exploreUrl' => route('destinations.index'),
+            'exploreUrl' => $this->urlFor('destinations.index', [], 'home'),
         ];
     }
 

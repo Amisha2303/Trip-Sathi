@@ -42,14 +42,16 @@ class RegisterController extends Controller
         Auth::login($user);
 
         $request->session()->regenerate();
+        $request->session()->put('auth_user_email', $user->email);
+        $request->session()->put('auth_user_id', $user->id);
+        $request->session()->put('auth_user_snapshot', $user->only(['id', 'name', 'email', 'phone', 'is_active', 'is_admin']));
 
         event(new Registered($user));
 
-        // Queued: registration must not wait on an SMTP round trip.
         try {
-            Mail::to($user)->queue(new WelcomeMail($user));
+            Mail::to($user)->send(new WelcomeMail($user));
         } catch (\Throwable $e) {
-            report($e);
+            \Illuminate\Support\Facades\Log::warning('Welcome email could not be sent: ' . $e->getMessage());
         }
 
         return redirect()

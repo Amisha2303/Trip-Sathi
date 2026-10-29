@@ -8,6 +8,7 @@ use App\Enums\BookingStatus;
 use App\Enums\BookingType;
 use App\Enums\PaymentStatus;
 use App\Exceptions\BookingException;
+use App\Mail\AdminBookingNotificationMail;
 use App\Mail\BookingConfirmedMail;
 use App\Mail\BookingCreatedMail;
 use App\Models\Adventure;
@@ -580,8 +581,17 @@ class BookingService
         $booking->load(['user', 'items', 'destination']);
 
         // Outside the transaction: mail must never hold the booking lock.
-        Mail::to($booking->customer_email)->queue(new BookingCreatedMail($booking));
+        Mail::to($booking->customer_email)->send(new BookingCreatedMail($booking));
         User::notifyAdmins(AdminNewBookingNotification::class, $booking);
+
+        try {
+            $adminNotification = new AdminBookingNotificationMail($booking);
+            foreach ($adminNotification->recipients() as $adminRecipient) {
+                Mail::to($adminRecipient)->send(new AdminBookingNotificationMail($booking));
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Admin booking notification email failed: ' . $e->getMessage());
+        }
 
         return $booking;
     }

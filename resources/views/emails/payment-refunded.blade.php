@@ -1,31 +1,69 @@
 @extends('emails.layouts.email')
 
-@section('title', 'Refund processed · ' . $booking->booking_number)
+@section('title', 'Refund Processed · ' . $booking->booking_number)
+@section('badge', 'Refund Processed')
 
 @section('body')
-    <h1 style="margin:0 0 12px;font-size:22px;line-height:1.35;">Your refund is on its way</h1>
+    <!-- Header -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+        <tr>
+            <td width="48" valign="top" style="padding-right:14px;">
+                <div style="background-color:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;width:44px;height:44px;text-align:center;line-height:44px;font-size:22px;">
+                    💰
+                </div>
+            </td>
+            <td valign="middle">
+                <h1 style="margin:0;font-size:22px;font-weight:800;color:#0b6e75;line-height:1.25;">
+                    Your Refund is on the Way
+                </h1>
+                <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+                    Booking {{ $booking->booking_number }}
+                </p>
+            </td>
+        </tr>
+    </table>
 
-    <p style="margin:0 0 12px;font-size:15px;line-height:1.6;">
-        We processed a refund for booking <strong>{{ $booking->booking_number }}</strong>.
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#334155;">
+        We have initiated a refund for booking <strong>{{ $booking->booking_number }}</strong>.
+        The amount has been released from our merchant account to your original payment method.
     </p>
 
     @if ($refund)
-        <p style="margin:0 0 16px;font-size:14px;background-color:#eef7f2;border-radius:8px;padding:12px 14px;">
-            <strong>&#8377;{{ number_format((float) $refund->amount / 100, 2) }}</strong>
-            @if ($refund->reference)
-                &middot; reference {{ $refund->reference }}
-            @endif
-            @if ($refund->processed_at)
-                &middot; {{ $refund->processed_at->format('d M Y, h:i A') }}
-            @endif
-        </p>
+    <!-- Refund Summary Card -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="background-color:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;margin:18px 0 20px;">
+        <tr>
+            <td style="padding:14px 18px;font-size:13px;color:#166534;">
+                <span style="color:#15803d;display:inline-block;width:140px;font-weight:600;">Refunded Amount:</span>
+                <strong style="font-size:18px;color:#047857;">&#8377;{{ number_format((float) $refund->amount / 100, 2) }}</strong>
+            </td>
+        </tr>
+        @if ($refund->reference)
+        <tr>
+            <td style="padding:14px 18px;border-top:1px solid #dcfce7;font-size:13px;color:#166534;">
+                <span style="color:#15803d;display:inline-block;width:140px;font-weight:600;">Bank Reference:</span>
+                <strong style="color:#065f46;font-family:monospace;">{{ $refund->reference }}</strong>
+            </td>
+        </tr>
+        @endif
+        @if ($refund->processed_at)
+        <tr>
+            <td style="padding:14px 18px;border-top:1px solid #dcfce7;font-size:13px;color:#166534;">
+                <span style="color:#15803d;display:inline-block;width:140px;font-weight:600;">Processed Time:</span>
+                <span style="color:#166534;">{{ $refund->processed_at->format('d M Y, h:i A') }}</span>
+            </td>
+        </tr>
+        @endif
+    </table>
     @endif
 
+    <!-- Booking Summary Card -->
     @include('emails.partials.booking-summary')
 
-    <p style="margin:0 0 16px;font-size:13px;color:#5f7275;">
-        Banks usually post the amount within 5&ndash;7 working days.
-    </p>
+    <div style="background-color:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin:16px 0 20px;font-size:13px;color:#64748b;line-height:1.5;">
+        ℹ️ <strong>Note on bank timelines:</strong> Depending on your issuing bank, the refunded funds usually reflect in your account or statement within <strong>3 to 5 business days</strong>.
+    </div>
 
-    @include('emails.partials.button', ['url' => $bookingUrl, 'label' => 'View booking'])
+    <!-- CTA Button -->
+    @include('emails.partials.button', ['url' => $bookingUrl, 'label' => 'View Booking in Dashboard', 'color' => 'teal'])
 @endsection

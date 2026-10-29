@@ -80,6 +80,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            // When running SQLite or serverless environments, assign high timestamp ID to prevent
+            // ID collisions across independent ephemeral container clones.
+            if (! $user->id && config('database.default') === 'sqlite') {
+                $user->id = (int) (time() % 1000000000 * 100 + mt_rand(10, 99));
+            }
+        });
+    }
+
     /**
      * Default display + notification preferences for every account.
      * Keys here are the full contract — the preferences form is generated
@@ -382,8 +393,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendPasswordResetNotification($token): void
     {
-        \Illuminate\Support\Facades\Mail::to($this)
-            ->queue(new \App\Mail\PasswordResetMail($this, $token));
+        try {
+            \Illuminate\Support\Facades\Mail::to($this)
+                ->send(new \App\Mail\PasswordResetMail($this, $token));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Password reset email could not be sent: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -391,8 +406,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification(): void
     {
-        \Illuminate\Support\Facades\Mail::to($this)
-            ->queue(new \App\Mail\EmailVerificationMail($this));
+        try {
+            \Illuminate\Support\Facades\Mail::to($this)
+                ->send(new \App\Mail\EmailVerificationMail($this));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Email verification could not be sent: ' . $e->getMessage());
+        }
     }
 
     /**

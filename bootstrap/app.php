@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         $middleware->web(append: [
+            \App\Http\Middleware\VerifySessionUserIntegrity::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
 

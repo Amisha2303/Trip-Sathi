@@ -25,7 +25,7 @@ class PasswordResetMail extends BaseMailable
     {
         return [
             'user' => $this->user,
-            'resetUrl' => route('password.reset', $this->token),
+            'resetUrl' => $this->urlFor('password.reset', ['token' => $this->token, 'email' => $this->user->email]),
             'expiresIn' => (int) config('auth.passwords.users.expire', 60),
         ];
     }

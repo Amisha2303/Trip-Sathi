@@ -6,11 +6,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ContactReplyRequest;
+use App\Mail\ContactReplyMail;
 use App\Models\ContactMessage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
@@ -75,9 +78,18 @@ class ContactMessageController extends Controller
 
     public function reply(ContactReplyRequest $request, ContactMessage $message): RedirectResponse
     {
-        $message->replyTo($request->string('reply')->toString(), $request->user()?->id);
+        $replyText = $request->string('reply')->toString();
+        $message->replyTo($replyText, $request->user()?->id);
 
-        return redirect()->route('admin.contact-messages.show', $message)->with('success', 'Reply recorded.');
+        if ($message->email) {
+            try {
+                Mail::to($message->email)->send(new ContactReplyMail($message, $replyText));
+            } catch (\Throwable $e) {
+                Log::warning('Contact reply email could not be sent: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->route('admin.contact-messages.show', $message)->with('success', 'Reply recorded and email sent to customer.');
     }
 
     public function destroy(ContactMessage $message): RedirectResponse

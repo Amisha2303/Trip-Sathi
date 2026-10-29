@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Mail\TripCreatedMail;
 use App\Models\Destination;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class TripController extends Controller
 {
@@ -86,6 +89,14 @@ class TripController extends Controller
             'budget' => $data['budget'] ?? null,
             'is_public' => $request->boolean('is_public'),
         ]);
+
+        if ($request->user()?->email) {
+            try {
+                Mail::to($request->user()->email)->send(new TripCreatedMail($trip, $request->user()));
+            } catch (\Throwable $e) {
+                Log::warning('Trip created email could not be sent: ' . $e->getMessage());
+            }
+        }
 
         return redirect()
             ->route('trips.index', ['scope' => 'mine'])

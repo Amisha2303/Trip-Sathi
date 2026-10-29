@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Mail\LoginAlertMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class LoginController extends Controller
@@ -43,6 +46,22 @@ class LoginController extends Controller
         }
 
         $request->session()->regenerate();
+        $request->session()->put('auth_user_email', $user->email);
+        $request->session()->put('auth_user_id', $user->id);
+        $request->session()->put('auth_user_snapshot', $user->only(['id', 'name', 'email', 'phone', 'is_active', 'is_admin']));
+
+        if ($user && $user->email) {
+            try {
+                $deviceInfo = [
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent() ?? 'Web Browser',
+                    'time' => now()->format('d M Y, h:i A T'),
+                ];
+                Mail::to($user->email)->send(new LoginAlertMail($user, $deviceInfo));
+            } catch (\Throwable $e) {
+                Log::warning('Login alert email could not be sent: ' . $e->getMessage());
+            }
+        }
 
         return $this->intendedResponse($request);
     }

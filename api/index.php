@@ -38,6 +38,11 @@ if (file_exists($sqliteSource)) {
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 putenv('APP_STORAGE=/tmp/storage');
 
+if (empty($_ENV['QUEUE_CONNECTION'])) {
+    $_ENV['QUEUE_CONNECTION'] = 'sync';
+    putenv('QUEUE_CONNECTION=sync');
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 
 /** @var \Illuminate\Foundation\Application $app */

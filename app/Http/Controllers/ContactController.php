@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactConfirmationMail;
+use App\Mail\ContactMessageNotificationMail;
 use App\Models\ContactMessage;
 use App\Services\SettingsService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -42,7 +46,7 @@ class ContactController extends Controller
             'message' => ['required', 'string', 'min:10', 'max:3000'],
         ]);
 
-        ContactMessage::create([
+        $contact = ContactMessage::create([
             ...$data,
             'user_id' => $request->user()?->id,
             'ip_address' => $request->ip(),
@@ -50,8 +54,22 @@ class ContactController extends Controller
             'is_read' => false,
         ]);
 
-        // Admin notification mail is intentionally not sent here: the support
-        // inbox row is the source of truth and the admin panel surfaces it.
+        // Send confirmation email to customer
+        try {
+            Mail::to($contact->email)->send(new ContactConfirmationMail($contact));
+        } catch (\Throwable $e) {
+            Log::warning('Contact confirmation email could not be sent: ' . $e->getMessage());
+        }
+
+        // Send alert email to admin support team
+        try {
+            $adminMail = new ContactMessageNotificationMail($contact);
+            foreach ($adminMail->recipients() as $recipient) {
+                Mail::to($recipient)->send(new ContactMessageNotificationMail($contact));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Admin contact notification email could not be sent: ' . $e->getMessage());
+        }
 
         return redirect()
             ->route('contact')

@@ -24,7 +24,7 @@ class EmailVerificationMail extends BaseMailable
     {
         return [
             'user' => $this->user,
-            'verificationUrl' => $this->user->getEmailVerificationUrl(),
+            'verificationUrl' => self::toFrontendUrl($this->user->getEmailVerificationUrl()),
         ];
     }
 }

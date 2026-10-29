@@ -6,11 +6,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Mail\PasswordChangedMail;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -52,6 +55,14 @@ class NewPasswordController extends Controller
         }
 
         Auth::login($user);
+
+        if ($user->email) {
+            try {
+                Mail::to($user->email)->send(new PasswordChangedMail($user));
+            } catch (\Throwable $e) {
+                Log::warning('Password changed email could not be sent: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('login')->with(
             'success',

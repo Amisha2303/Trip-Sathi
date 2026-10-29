@@ -1,19 +1,40 @@
 @extends('emails.layouts.email')
 
-@section('title', 'New booking · ' . $booking->booking_number)
+@section('title', 'Admin Alert: New Booking ' . $booking->booking_number)
+@section('badge', 'New Booking Alert')
 
 @section('body')
-    <h1 style="margin:0 0 12px;font-size:22px;line-height:1.35;">New booking on {{ $siteName }}</h1>
+    <!-- Header -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+        <tr>
+            <td width="48" valign="top" style="padding-right:14px;">
+                <div style="background-color:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;width:44px;height:44px;text-align:center;line-height:44px;font-size:22px;">
+                    🛎️
+                </div>
+            </td>
+            <td valign="middle">
+                <h1 style="margin:0;font-size:22px;font-weight:800;color:#0b6e75;line-height:1.25;">
+                    New Customer Booking!
+                </h1>
+                <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+                    A customer just booked {{ $booking->booking_number }} on {{ $siteName }}.
+                </p>
+            </td>
+        </tr>
+    </table>
 
-    <p style="margin:0 0 16px;font-size:15px;line-height:1.6;">
-        A traveller just placed booking <strong>{{ $booking->booking_number }}</strong>.
-    </p>
+    <!-- Customer Contact Pill -->
+    <div style="background-color:#f1f5f9;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#334155;">
+        <strong>Customer:</strong> {{ $booking->customer_name ?: ($booking->user?->name ?? 'Guest') }}<br>
+        <strong>Email:</strong> <a href="mailto:{{ $booking->customer_email }}" style="color:#0b6e75;">{{ $booking->customer_email }}</a>
+        @if ($booking->customer_phone)
+            &middot; <strong>Phone:</strong> <a href="tel:{{ $booking->customer_phone }}" style="color:#0b6e75;">{{ $booking->customer_phone }}</a>
+        @endif
+    </div>
 
+    <!-- Booking Summary Card -->
     @include('emails.partials.booking-summary')
 
-    <p style="margin:0 0 16px;font-size:13px;color:#5f7275;">
-        Customer: {{ $booking->customer_email }}{{ $booking->customer_phone ? ' · ' . $booking->customer_phone : '' }}
-    </p>
-
-    @include('emails.partials.button', ['url' => $adminUrl, 'label' => 'Open in admin'])
+    <!-- Admin CTA Button -->
+    @include('emails.partials.button', ['url' => $adminUrl, 'label' => 'Open Booking in Admin Panel', 'color' => 'primary'])
 @endsection

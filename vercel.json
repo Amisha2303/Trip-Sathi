@@ -8,7 +8,7 @@
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.8.0",
-      "maxDuration": 15,
+      "maxDuration": 30,
       "memory": 1024
     }
   },
@@ -60,7 +60,11 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.php"
+      "dest": "/api/index.php",
+      "headers": {
+        "cache-control": "no-store, no-cache, must-revalidate, max-age=0, private",
+        "pragma": "no-cache"
+      }
     }
   ],
   "env": {
@@ -76,6 +80,16 @@
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
     "CACHE_STORE": "array",
     "SESSION_DRIVER": "cookie",
-    "LOG_CHANNEL": "stderr"
+    "SESSION_SECURE_COOKIE": "true",
+    "LOG_CHANNEL": "stderr",
+    "QUEUE_CONNECTION": "sync",
+    "MAIL_MAILER": "smtp",
+    "MAIL_HOST": "smtp.gmail.com",
+    "MAIL_PORT": "587",
+    "MAIL_USERNAME": "jignesh.rathod.magecomp@gmail.com",
+    "MAIL_PASSWORD": "nsmaxlnbzkbtvpjc",
+    "MAIL_ENCRYPTION": "tls",
+    "MAIL_FROM_ADDRESS": "noreply.tripsathi@gmail.com",
+    "MAIL_FROM_NAME": "Trip Sathi"
   }
 }

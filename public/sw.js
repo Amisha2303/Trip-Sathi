@@ -1,7 +1,6 @@
 // Trip Sathi PWA Service Worker
-const CACHE_NAME = 'trip-sathi-v1';
+const CACHE_NAME = 'trip-sathi-v2';
 const STATIC_ASSETS = [
-  '/',
   '/manifest.json',
   '/favicon.png',
   '/images/logo.png',
@@ -34,16 +33,27 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Only handle GET requests from the same origin or static CDN assets
+  // Only handle GET requests
   if (request.method !== 'GET') {
     return;
   }
 
-  // Bypass cache for admin routes, auth, payment callbacks, and POSTs
+  // Strictly bypass cache for all navigation, pages, auth, admin, and dynamic endpoints
   if (
+    request.mode === 'navigate' ||
+    request.headers.get('accept')?.includes('text/html') ||
+    request.headers.get('x-inertia') ||
+    url.pathname === '/' ||
     url.pathname.startsWith('/admin') ||
     url.pathname.startsWith('/api') ||
+    url.pathname.startsWith('/login') ||
+    url.pathname.startsWith('/register') ||
+    url.pathname.startsWith('/dashboard') ||
+    url.pathname.startsWith('/profile') ||
     url.pathname.startsWith('/logout') ||
+    url.pathname.startsWith('/trips') ||
+    url.pathname.startsWith('/bookings') ||
+    url.pathname.startsWith('/wishlist') ||
     url.pathname.includes('/pay') ||
     url.pathname.includes('/callback')
   ) {
@@ -79,22 +89,5 @@ self.addEventListener('fetch', (event) => {
         });
       })
     );
-    return;
   }
-
-  // Network-first for HTML pages with fallback to cache
-  event.respondWith(
-    fetch(request)
-      .then((networkResponse) => {
-        return networkResponse;
-      })
-      .catch(() => {
-        return caches.match(request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          return caches.match('/');
-        });
-      })
-  );
 });

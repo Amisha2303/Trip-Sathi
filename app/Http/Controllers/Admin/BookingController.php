@@ -9,6 +9,8 @@ use App\Enums\BookingType;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BookingUpdateRequest;
+use App\Mail\BookingCancelledMail;
+use App\Mail\BookingConfirmedMail;
 use App\Models\Booking;
 use App\Services\Payment\PaymentService;
 use Inertia\Inertia;
@@ -16,6 +18,8 @@ use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -100,6 +104,21 @@ class BookingController extends Controller
                 'confirmed_at' => $status === BookingStatus::Confirmed ? ($booking->confirmed_at ?? now()) : $booking->confirmed_at,
                 'completed_at' => $status === BookingStatus::Completed ? ($booking->completed_at ?? now()) : $booking->completed_at,
             ])->save();
+        }
+
+        // Notify customer on cancellation or confirmation
+        if ($status !== $previousStatus && $booking->customer_email) {
+            try {
+                if ($status === BookingStatus::Cancelled) {
+                    Mail::to($booking->customer_email)->send(
+                        new BookingCancelledMail($booking, $request->string('cancellation_reason')->toString() ?: $booking->cancellation_reason)
+                    );
+                } elseif ($status === BookingStatus::Confirmed) {
+                    Mail::to($booking->customer_email)->send(new BookingConfirmedMail($booking));
+                }
+            } catch (\Throwable $e) {
+                Log::warning('Booking status change email could not be sent: ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('admin.bookings.show', $booking)->with('success', 'Booking updated.');
