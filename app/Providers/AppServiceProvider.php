@@ -131,6 +131,9 @@ class AppServiceProvider extends ServiceProvider
             Config::set('mail.from.address', 'no-reply@tripsathi.invalid');
         }
 
+        $canonicalUrl = 'https://the-trip-sathi.vercel.app';
+        Config::set('app.url', $canonicalUrl);
+        URL::forceRootUrl($canonicalUrl);
         URL::forceScheme('https');
 
         \Illuminate\Support\Facades\Vite::useHotFile('/tmp/nonexistent-vite-hot');

@@ -14,13 +14,13 @@ use Illuminate\View\View;
 class EmailVerificationController extends Controller
 {
     /** Landing page after a successful verification. */
-    private const VERIFIED_REDIRECT = '/dashboard';
+    private const VERIFIED_REDIRECT = 'https://the-trip-sathi.vercel.app/dashboard';
 
     public function notice(Request $request): \Inertia\Response|RedirectResponse
     {
         // A signed-in user who is already verified never sees this screen.
         if ($request->user()?->hasVerifiedEmail()) {
-            return redirect()->intended(self::VERIFIED_REDIRECT);
+            return redirect()->away(self::VERIFIED_REDIRECT);
         }
 
         return \Inertia\Inertia::render('Auth/VerifyEmail', [
@@ -32,15 +32,20 @@ class EmailVerificationController extends Controller
     public function verify(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(self::VERIFIED_REDIRECT);
+            return redirect()->away(self::VERIFIED_REDIRECT);
         }
 
         $request->user()->markEmailAsVerified();
 
         event(new Verified($request->user()));
 
+        $intended = session()->pull('url.intended');
+        $redirectUrl = (is_string($intended) && ! str_contains($intended, 'orpin'))
+            ? $intended
+            : self::VERIFIED_REDIRECT;
+
         return redirect()
-            ->intended(self::VERIFIED_REDIRECT)
+            ->away($redirectUrl)
             ->with('success', 'Your email address has been verified.');
     }
 

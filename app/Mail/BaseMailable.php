@@ -129,6 +129,9 @@ abstract class BaseMailable extends Mailable
     protected function urlFor(string $name, mixed $parameters = [], string $fallback = 'home'): string
     {
         $base = rtrim((string) config('app.url', 'https://the-trip-sathi.vercel.app'), '/');
+        if (empty($base) || str_contains($base, 'orpin')) {
+            $base = 'https://the-trip-sathi.vercel.app';
+        }
 
         $path = Route::has($name)
             ? route($name, $parameters, false)
@@ -143,6 +146,9 @@ abstract class BaseMailable extends Mailable
     public static function toFrontendUrl(string $url): string
     {
         $base = rtrim((string) config('app.url', 'https://the-trip-sathi.vercel.app'), '/');
+        if (empty($base) || str_contains($base, 'orpin')) {
+            $base = 'https://the-trip-sathi.vercel.app';
+        }
 
         $parsed = parse_url($url);
         $path = $parsed['path'] ?? '/';

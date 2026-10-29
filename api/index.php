@@ -38,6 +38,11 @@ if (file_exists($sqliteSource)) {
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 putenv('APP_STORAGE=/tmp/storage');
 
+if (empty($_ENV['APP_URL']) || str_contains((string) ($_ENV['APP_URL'] ?? ''), 'orpin')) {
+    $_ENV['APP_URL'] = 'https://the-trip-sathi.vercel.app';
+    putenv('APP_URL=https://the-trip-sathi.vercel.app');
+}
+
 if (empty($_ENV['QUEUE_CONNECTION'])) {
     $_ENV['QUEUE_CONNECTION'] = 'sync';
     putenv('QUEUE_CONNECTION=sync');
