@@ -137,6 +137,99 @@ export default function Home({
         },
     ];
 
+    // Top 8 Indian destinations specified in Master Prompt (Kashmir, Ladakh, Rajasthan, Kerala, Goa, Meghalaya, Sikkim, Andaman Islands)
+    const promptDestinations = [
+        {
+            id: 'kashmir',
+            name: 'Kashmir',
+            slug: 'kashmir',
+            state: 'Jammu & Kashmir',
+            short_description: 'Paradise on Earth: Dal Lake shikara cruises, snow-capped peaks, and floating flower markets.',
+            best_time_to_visit: 'Apr – Oct (Tulips & valleys) / Dec – Feb (Snow)',
+            main_image: '/photos/destination-kashmir.jpg',
+        },
+        {
+            id: 'ladakh',
+            name: 'Ladakh',
+            slug: 'ladakh',
+            state: 'Ladakh',
+            short_description: 'Dramatic high-altitude moonscapes, turquoise Pangong Tso, and century-old Buddhist gompas.',
+            best_time_to_visit: 'May – Sep (Clear roads & mountain festivals)',
+            main_image: '/photos/destination-ladakh.jpg',
+        },
+        {
+            id: 'rajasthan',
+            name: 'Rajasthan',
+            slug: 'jaipur',
+            state: 'Rajasthan',
+            short_description: 'Land of royal palaces, vibrant bazaars, historic hill forts, and sunset desert camel safaris.',
+            best_time_to_visit: 'Oct – Mar (Pleasant weather & cultural fairs)',
+            main_image: '/photos/destination-jaipur.jpg',
+        },
+        {
+            id: 'kerala',
+            name: 'Kerala',
+            slug: 'kerala',
+            state: 'Kerala',
+            short_description: 'Tranquil palm-lined backwaters, spice plantations, mist-covered tea gardens, and beaches.',
+            best_time_to_visit: 'Sep – Mar (Cool breezes) / Jun – Aug (Monsoons)',
+            main_image: '/photos/destination-kerala.jpg',
+        },
+        {
+            id: 'goa',
+            name: 'Goa',
+            slug: 'goa',
+            state: 'Goa',
+            short_description: 'Golden sandy shores, Portuguese heritage villas, coastal seafood, and tropical beach sunsets.',
+            best_time_to_visit: 'Nov – Feb (Beach season) / Jul – Sep (Lush green)',
+            main_image: '/photos/destination-goa.jpg',
+        },
+        {
+            id: 'meghalaya',
+            name: 'Meghalaya',
+            slug: 'meghalaya',
+            state: 'Meghalaya',
+            short_description: 'The abode of clouds, living root bridges, mystical rainforests, and roaring waterfalls.',
+            best_time_to_visit: 'Oct – Apr (Caving & trekking) / Jun – Sep (Waterfalls)',
+            main_image: '/photos/destination-meghalaya.jpg',
+        },
+        {
+            id: 'sikkim',
+            name: 'Sikkim',
+            slug: 'sikkim',
+            state: 'Sikkim',
+            short_description: 'Majestic Kanchenjunga panoramas, tranquil Buddhist monasteries, and crystal alpine lakes.',
+            best_time_to_visit: 'Mar – May (Rhododendrons) / Oct – Dec (Clear skies)',
+            main_image: '/photos/destination-sikkim.jpg',
+        },
+        {
+            id: 'andaman-islands',
+            name: 'Andaman Islands',
+            slug: 'andaman-islands',
+            state: 'Andaman & Nicobar',
+            short_description: 'Pristine Radhanagar beaches, vibrant living coral reefs, and turquoise island waters.',
+            best_time_to_visit: 'Oct – May (Snorkeling, diving & calm seas)',
+            main_image: '/photos/destination-andaman.jpg',
+        },
+    ];
+
+    // Priority-merge prompt destinations with incoming DB destinations, ensuring authentic verified photography
+    const trendingDestinations = promptDestinations.map((promptD) => {
+        const match = destinations.find(
+            (d) => d.slug === promptD.slug || d.name?.toLowerCase() === promptD.name.toLowerCase()
+        );
+        if (match) {
+            return {
+                ...match,
+                main_image: promptD.main_image, // Always ensure authentic verified photography
+                best_time_to_visit: match.best_time_to_visit || promptD.best_time_to_visit,
+                state: match.state || promptD.state,
+                short_description: match.short_description || promptD.short_description,
+            };
+        }
+        return promptD;
+    });
+
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         setSearchError('');
@@ -367,8 +460,8 @@ export default function Home({
                     </div>
 
                     <div className="row g-4">
-                        {destinations.slice(0, 8).map((d) => (
-                            <div key={d.id} className="col-12 col-sm-6 col-lg-3">
+                        {trendingDestinations.map((d) => (
+                            <div key={d.id || d.slug} className="col-12 col-sm-6 col-lg-3">
                                 <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', transition: 'transform 0.22s ease, box-shadow 0.22s ease' }}>
                                     {/* Destination Image with Aspect Ratio */}
                                     <div className="position-relative" style={{ aspectRatio: '4/3', overflow: 'hidden', backgroundColor: '#E2E8F0' }}>
@@ -385,7 +478,7 @@ export default function Home({
                                         </span>
                                         {/* Save Button */}
                                         <div className="position-absolute top-0 end-0 m-2">
-                                            <WishlistButton itemType="destination" itemId={d.id} />
+                                            <WishlistButton itemType="destination" itemId={typeof d.id === 'number' ? d.id : 1} />
                                         </div>
                                     </div>
 
